@@ -57,7 +57,7 @@ class ArtificialAgent:
 
             if resource == 'high':
                 if DEBUG == True:
-                    print(f"Old Tree has: {meters}m \t Artificial Performance is: {self.performance}% \t Artificial Structure Has: {self.resourcesThisYear['high']}m")
+                    ""
 
     def GrowOld(self):
         self.age += 1

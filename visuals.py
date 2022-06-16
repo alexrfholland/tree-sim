@@ -1,4 +1,5 @@
-from yearlyOutput import *
+import yearlyOutput as yrLog
+from settings.setting import *
 
 import csv
 import os
@@ -45,170 +46,307 @@ from matplotlib.colorbar import Colorbar # For dealing with Colorbars the proper
 import seaborn as sns
 import pandas as pd
 
-
-figXDraw = list()
-figYDraw = list()
-figZDraw = list()
-figHigh = list()
-figCol = list()
-figTitle = list()
-
-figResource = {}
-
-figProsX = list()
-figProsY = list()
-
-fig2HistTree = list()
-fig2HistProsthetic = list()
-fig2YearsHist = list()
-
-fig3ResPerAgent = list()
-fig3ColsPerAgent = list()
-fig3YrssPerAgent = list()
-
-fig3ResPerTree = list()
-fig3ResPerTree.append(40)
-
-fig3ResPerProsthetic = list()
-fig3ResPerProsthetic.append(40)
-
-fig3YrssPerTree = list()
-fig3YrssPerTree.append(100)
-
-fig3YrssPerProsthetic = list()
-fig3YrssPerProsthetic.append(100)
-
-fig4TreeLocXThisYear = list()
-fig4TreeLocYThisYear = list()
-
-figBTitle = list()
-
-
-rivX = list()
-rivY = list()
-
-
-def MakeVisuals():
+class VisualOut:
     
-    figXDraw.clear()
-    figYDraw.clear()
-    figZDraw.clear()
-    figProsX.clear()
-    figProsY.clear()
+    fig = plt.figure(figsize=(16, 9))
+ 
 
-    figHigh.clear()
-    figCol.clear()
-    figTitle.clear()
-    figBTitle.clear()
-    sizeMultiplier = 3
+    figXDraw = list()
+    figYDraw = list()
+    figZDraw = list()
+    figHigh = list()
+    figCol = list()
+    figTitle = list()
+
+    figResource = {}
+
+    figProsX = list()
+    figProsY = list()
+
+    fig2HistTree = list()
+    fig2HistProsthetic = list()
+    fig2YearsHist = list()
+
+    fig3ResPerAgent = list()
+    fig3ColsPerAgent = list()
+    fig3YrssPerAgent = list()
+
+    fig3ResPerTree = list()
+    fig3ResPerTree.append(40)
+
+    fig3ResPerProsthetic = list()
+    fig3ResPerProsthetic.append(40)
+
+    fig3YrssPerTree = list()
+    fig3YrssPerTree.append(100)
+
+    fig3YrssPerProsthetic = list()
+    fig3YrssPerProsthetic.append(100)
+
+    fig4TreeLocXThisYear = list()
+    fig4TreeLocYThisYear = list()
+
+    figBTitle = list()
 
 
-    xT = []
-    yT = []
-    zT = []
-    resourceT = []
-    colT = []
+    rivX = list()
+    rivY = list()
 
+    def __init__(self):
+        plt.ion()  # enable interactivity
+    
+    def Make_FigA(self):
+        self.fig.suptitle(self.figTitle[-1], fontsize=16)
 
-    dbh = []
-    high = []
+        # Create 4x4 Grid
+        gs = self.fig.add_gridspec(nrows=3, ncols=2, height_ratios=[1,1,1], width_ratios=[1,1], wspace = 0.1, hspace = 0.3)
 
-    xP = []
-    yP = []
-    resourceP = []
-    colP = []
+        # Create Three Axes Objects
+        axMap = self.fig.add_subplot(gs[:, 0])
+        ax2 = self.fig.add_subplot(gs[0, 1])
+        ax3 = self.fig.add_subplot(gs[1, 1])
+        ax4 = self.fig.add_subplot(gs[2, 1])
 
-    figResource.clear()
-    fig4TreeLocXThisYear.clear()
-    fig4TreeLocYThisYear.clear()
+        #HEATMAP HIGH + ARTIFICIAL
+        heatmap1, xedges1, yedges1 = np.histogram2d(self.figXDraw, self.figYDraw,  bins=200, weights= self.figHigh, density = False)
+        extent1 = [xedges1[0], xedges1[-1], yedges1[0], yedges1[-1]]
+        #print(extent1)
+        #extent1 = [-654.465282154,  2103.81760729, -1301.10671195, 1457.176178]
+            
+        #circles on prosthetics
+        axMap.scatter(self.figProsX, self.figProsY, s = 100, c = 'none', edgecolors='white', alpha=.25)
 
-    for resourceN in RESOURCES:
-        figResource.update({resourceN : []})
-
-    for tree in trees:
+        #river
+        axMap.plot(self.rivX, self.rivY, linewidth = 0.5, c = '#753183')
+        #axMap.scatter(rivX, rivY, s = 15, c = '#753183')
         
-        if tree.isAlive:
-            xT.append(tree.point[0])
-            yT.append(tree.point[1])
-            zT.append(tree.point[2])
+        #heatmap
+        im = axMap.imshow(heatmap1.T, extent=extent1, origin='lower', cmap = 'viridis', vmin = 0, vmax = RESOURCECAPS[FOCUSRESOURCE])  
 
-            resourceT.append(tree.resourcesThisYear[FOCUSRESOURCE] * sizeMultiplier + 0.001)
-            colT.append('blue')
+        # Define the limits, labels, ticks as required
+        axMap.set_xlim([-654.465282154,  2103.81760729])
+        axMap.set_ylim([-1301.10671195, 1457.176178])
+        axMap.set_xlabel(r' ') # Force this empty !
+        #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
+        axMap.set_xticklabels([]) # Force this empty
 
-            fig3ResPerAgent.append(tree.resourcesThisYear[FOCUSRESOURCE])
-            fig3ColsPerAgent.append('blue')
-            fig3YrssPerAgent.append(year)
+        axMap.set_ylabel(r' ') # Force this empty !
+        #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
+        axMap.set_yticklabels([]) # Force this empty !
 
-            fig3ResPerTree.append(tree.resourcesThisYear[FOCUSRESOURCE])
-            fig3YrssPerTree.append(year)
+        axMap.set_title('High with Prosthetics')
 
-            for resourceN in RESOURCES:
-                figResource[resourceN].append(tree.resourcesThisYear[resourceN])
-
-            fig4TreeLocXThisYear.append(tree.point[0])
-            fig4TreeLocYThisYear.append(tree.point[1])
-
-            #self.exportTree['high'].append(tree.resourcesThisYear['high'])
-            #self.exportTree['year'].append(tree.age)
-
-    for prosthetic in self.artificials:
-        if prosthetic.isAlive:    
-            xP.append(prosthetic.point[0])
-            yP.append(prosthetic.point[1])
-            colP.append('red')
-            resourceP.append(prosthetic.resources['high'] * sizeMultiplier)
-            #high.append[tree.resources["high"]]"""
-
-            figProsX.append(prosthetic.point[0])
-            figProsY.append(prosthetic.point[1])
-
-            fig3ResPerAgent.append(prosthetic.resources[FOCUSRESOURCE])
-            fig3ColsPerAgent.append('red')
-            fig3YrssPerAgent.append(year)
-
-            fig3ResPerProsthetic.append(prosthetic.resources[FOCUSRESOURCE])
-            fig3YrssPerProsthetic.append(year)
-
-            #self.exportPros['high'].append(prosthetic.resources['high'])
-            #self.exportPros['year'].append(self.year)
+        axMap.set_facecolor('#440154')
+        
+        #TOTAL RESOURCES
+        pal = sns.color_palette("Set1")
+        ax2.stackplot(self.fig2YearsHist, self.fig2HistTree, self.fig2HistProsthetic, labels = ['x', 'y'])
+        ax2.set_title('Cumulative High Resources')
 
 
-    """for i in range(len(xT)):
-        print(f"TX {i}\t{xT[i]}")
-        print(f"TY {i}\t{yT[i]}")
-        print(f"PX {i}\t{xP[i]}")
-        print(f"PY {i}\t{yP[i]}")"""
-    
-
-    figXDraw.extend(xT)
-    figYDraw.extend(yT)  # or any arbitrary update to your figure's data
-    figZDraw.extend(zT)
-    figHigh.extend(resourceT)
-    figCol.extend(colT)
-
-    figXDraw.extend(xP)
-    figYDraw.extend(yP)  # or any arbitrary update to your figure's data
-    #zDraw.extend(zP)
-    figHigh.extend(resourceP)
-    figCol.extend(colP)
-
-    fig2HistTree.append(sum(resourceT))
-    fig2HistProsthetic.append(sum(resourceP))
-
-    
-    treesAlive = "{:,}".format(noTreesAliveThisYear)
-    prostheticsAlive = "{:,}".format(noArt)
+        #HEATMAP: DISTRIBUTION OF HIGH RESOURCES PER TREE
+        heatmap, xedges, yedges = np.histogram2d(self.fig3YrssPerTree ,self.fig3ResPerTree, bins=200, density = False, weights = self.fig3ResPerTree)
+        extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+        #extentB = [0, 250, 0, 40]
+        im = ax3.imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = 20)  
+        ax3.set_title('Distribution of High Resources Per Natural Trees')
 
 
-    txt = f"Year: {year} {treesAlive} trees {noArt} Prosthetics Avrg DBH: {averageDBH}cm Max DBH: {maxDBH}cm Avrg Perf: {averageArtPerf}%  Max Perf: {maxArtPerf}%"
-    
-    txt = f"Year: {year}       Trees: {treesAlive}        Prosthetics: {prostheticsAlive}        Max DBH: {maxDBH}cm       Average Tree:  {averageDBH}cm         Max Perf: {maxArtPerf}%"
+        #HEATMAP: DISTRIBUTION OF HIGH RESOURCES PER PROSTHETIC
+        heatmap, xedges, yedges = np.histogram2d(self.fig3YrssPerProsthetic ,self.fig3ResPerProsthetic, bins=200, density = False, weights = self.fig3ResPerProsthetic)
+        extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+        #extentC = [0, 250, 0, 40]
+        #extent = [0, 250, 0, 30]
+        im = ax4.imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = 20)
+        ax4.set_title('Distribution of High Resources Per Prosthetics')
 
-    figTitle.append(txt)
-
-    txtB = f"Year: {year}          Trees: {treesAlive}"
-    figBTitle.append(txtB)
+        plt.tight_layout()
 
 
-    #drawnow(Make_FigA)
-    #drawnow(Make_FigB)
+    def Make_FigB(self):
+        # Create 4x4 Grid
+
+        self.fig.suptitle(self.figBTitle[-1], fontsize=16)
+        
+        colbarWidth = 0.025
+        spaceWidth = 0.1
+        gs = self.fig.add_gridspec(nrows=2, ncols=8, height_ratios=[1, 1], width_ratios=[1, colbarWidth, spaceWidth, 1, colbarWidth, spaceWidth, 1, colbarWidth], wspace = 0.2, hspace = 0.2)
+
+        axes = {}
+        axes.update({'total' : self.fig.add_subplot(gs[0, 0])})
+        axes.update({'lateral' : self.fig.add_subplot(gs[0, 3])})
+        axes.update({'dead' : self.fig.add_subplot(gs[0, 6])})
+        axes.update({'low' : self.fig.add_subplot(gs[1, 0])})
+        axes.update({'medium' : self.fig.add_subplot(gs[1, 3])})
+        axes.update({'high' : self.fig.add_subplot(gs[1, 6])})
+
+        bars = {}
+        bars.update({'total' : plt.subplot(gs[0,1])})
+        bars.update({'lateral' : plt.subplot(gs[0,4])})
+        bars.update({'dead' : plt.subplot(gs[0,7])})
+        bars.update({'low' : plt.subplot(gs[1,1])})
+        bars.update({'medium' : plt.subplot(gs[1,4])})
+        bars.update({'high' : plt.subplot(gs[1,7])})
+
+        
+        for name in RESOURCES:
+            heatmap, xedges, yedges = np.histogram2d(self.fig4TreeLocXThisYear, self.fig4TreeLocYThisYear,  bins=200, weights= self.figResource[name], density = False)
+            extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+            #extent = [-1000, 2000, -1000, 2000]
+
+            im = axes[name].imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = RESOURCECAPS[name])
+            
+            # Define the limits, labels, ticks as required
+            #axes[name].set_xlim([-1000,2000])
+            #axes[name].set_ylim([-1000,2000])
+            axes[name].set_xlabel(r' ') # Force this empty !
+            #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
+            axes[name].set_xticklabels([]) # Force this empty
+
+            axes[name].set_ylabel(r' ') # Force this empty !
+            #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
+            axes[name].set_yticklabels([]) # Force this empty !
+
+
+            axes[name].set_title(name)
+
+            axes[name].plot(self.rivX, self.rivY, linewidth = 0.4, c = '#753183')
+            axes[name].set_xlim([-654.465282154,  2103.81760729])
+            axes[name].set_ylim([-1301.10671195, 1457.176178])
+            axes[name].set_facecolor('#440154')
+
+
+            cbax = bars[name]
+            cb = Colorbar(ax = cbax, mappable = im, orientation = 'vertical', ticklocation = 'right')
+        
+
+        plt.tight_layout()
+        
+    def Update(self):
+
+        #####
+
+
+        self.figXDraw.clear()
+        self.figYDraw.clear()
+        self.figZDraw.clear()
+        self.figProsX.clear()
+        self.figProsY.clear()
+
+        self.figHigh.clear()
+        self.figCol.clear()
+        self.figTitle.clear()
+        self.figBTitle.clear()
+        sizeMultiplier = 3
+
+
+        xT = []
+        yT = []
+        zT = []
+        resourceT = []
+        colT = []
+
+
+        dbh = []
+        high = []
+
+        xP = []
+        yP = []
+        resourceP = []
+        colP = []
+
+        self.figResource.clear()
+        self.fig4TreeLocXThisYear.clear()
+        self.fig4TreeLocYThisYear.clear()
+
+        #####
+
+        for resourceN in RESOURCES:
+            self.figResource.update({resourceN : []})
+
+        for tree in yrLog.trees:
+            
+            if tree.isAlive:
+                xT.append(tree.point[0])
+                yT.append(tree.point[1])
+                zT.append(tree.point[2])
+
+                resourceT.append(tree.resourcesThisYear[FOCUSRESOURCE] * sizeMultiplier + 0.001)
+                colT.append('blue')
+
+                self.fig3ResPerAgent.append(tree.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ColsPerAgent.append('blue')
+                self.fig3YrssPerAgent.append(yrLog.year)
+
+                self.fig3ResPerTree.append(tree.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3YrssPerTree.append(yrLog.year)
+
+                for resourceN in RESOURCES:
+                    self.figResource[resourceN].append(tree.resourcesThisYear[resourceN])
+
+                self.fig4TreeLocXThisYear.append(tree.point[0])
+                self.fig4TreeLocYThisYear.append(tree.point[1])
+
+                #self.exportTree['high'].append(tree.resourcesThisYear['high'])
+                #self.exportTree['year'].append(tree.age)
+
+        for prosthetic in yrLog.artificials:
+            if prosthetic.isAlive:    
+                xP.append(prosthetic.point[0])
+                yP.append(prosthetic.point[1])
+                colP.append('red')
+                resourceP.append(prosthetic.resourcesThisYear['high'] * sizeMultiplier)
+                #high.append[tree.resources["high"]]"""
+
+                self.figProsX.append(prosthetic.point[0])
+                self.figProsY.append(prosthetic.point[1])
+
+                self.fig3ResPerAgent.append(prosthetic.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ColsPerAgent.append('red')
+                self.fig3YrssPerAgent.append(yrLog.year)
+
+                self.fig3ResPerProsthetic.append(prosthetic.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3YrssPerProsthetic.append(yrLog.year)
+
+                #self.exportPros['high'].append(prosthetic.resources['high'])
+                #self.exportPros['year'].append(self.year)
+
+
+        """for i in range(len(xT)):
+            print(f"TX {i}\t{xT[i]}")
+            print(f"TY {i}\t{yT[i]}")
+            print(f"PX {i}\t{xP[i]}")
+            print(f"PY {i}\t{yP[i]}")"""
+        
+
+        self.figXDraw.extend(xT)
+        self.figYDraw.extend(yT)  # or any arbitrary update to your figure's data
+        self.figZDraw.extend(zT)
+        self.figHigh.extend(resourceT)
+        self.figCol.extend(colT)
+
+        self.figXDraw.extend(xP)
+        self.figYDraw.extend(yP)  # or any arbitrary update to your figure's data
+        #zDraw.extend(zP)
+        self.figHigh.extend(resourceP)
+        self.figCol.extend(colP)
+
+        self.fig2HistTree.append(sum(resourceT))
+        self.fig2HistProsthetic.append(sum(resourceP))
+
+        
+        treesAlive = "{:,}".format(yrLog.noTreesAliveThisYear)
+        prostheticsAlive = "{:,}".format(yrLog.noArtificialsAliveThisYear)
+        
+        txt = f"Year: {yrLog.year}       Trees: {treesAlive}        Prosthetics: {prostheticsAlive}        Max DBH: {yrLog.maxDBH}cm       Average Tree:  {yrLog.averageDBH}cm         Max Perf: {yrLog.maxArtPerf}%"
+
+        self.figTitle.append(txt)
+
+        txtB = f"Year: {yrLog.year}          Trees: {treesAlive}"
+        self.figBTitle.append(txtB)
+
+
+        
+        drawnow(self.Make_FigB)
+        #drawnow(Make_FigB)
+

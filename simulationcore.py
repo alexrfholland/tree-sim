@@ -84,6 +84,8 @@ class Model:
 
     treeResources = {}
     artResources = {}
+
+    vis = VisualOut()
     
     @Timer(name = "Finished running model in {:.2f} seconds")
     def __init__(self):
@@ -266,6 +268,7 @@ class Model:
         yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage)
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
         TextOut()
+        self.vis.Update()
 
         
     def Recruit(self):
