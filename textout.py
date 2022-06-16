@@ -1,5 +1,6 @@
 import yearlyOutput as yrLog
 from settings.setting import *
+
 from tabulate import tabulate
 import termplotlib as tpl
 

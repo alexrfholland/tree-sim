@@ -1,9 +1,14 @@
-from agentartificial import *
-from agenttree import *
-from settings.setting import *
+from optparse import Values
+from agentartificial import ArtificialAgent
+from agenttree import TreeAgent
+import settings.setting as set
+import settings.resourcecurves as curves
+
+#from settings.setting import set
+import settings.scenarios as scenarios
 import yearlyOutput as yearLog
-from visuals import *
-from textout import *
+from visuals import VisualOut
+from textout import TextOut
 
 from turtle import width
 from tabulate import tabulate
@@ -45,15 +50,19 @@ import seaborn as sns
 import pandas as pd
 
 class Model:
+
+    
+    noTreesAtKeyLifeStages = {}
+    
     trees: List[TreeAgent] = []
     artificials: List[ArtificialAgent] = []
 
-    size = AREA
-    density = (DENSITYHIGH + DENSITYLOW)/2
+    size = set.AREA
+    density = (set.DENSITYHIGH + set.DENSITYLOW)/2
 
     year = 0
-    timeperiod = TIMEPERIOD
-    recruitmentInterval = INTERVAL
+    timeperiod = set.TIMEPERIOD
+    recruitmentInterval = set.INTERVAL
     recruitmentChance = 0.2
 
     resourceCurves = {}
@@ -67,12 +76,11 @@ class Model:
 
     resourcesSortedByDBH = {}
 
-    
 
-    artPerf = ARTPERFMIN
+    artPerf = set.ARTPERFMIN
 
-    recruitMessage = UPDATEMESSAGE
-    builtMesssage = UPDATEMESSAGE
+    recruitMessage = set.UPDATEMESSAGE
+    builtMesssage = set.UPDATEMESSAGE
 
     exportTree = {'year' : [], 'high' : []}
     exportPros = {'year' : [], 'high' : []}
@@ -95,12 +103,15 @@ class Model:
         #rivY.extend(self.geo.riverPts[:,1])
 
 
-        for name in RESOURCES:
+        for name in set.RESOURCES:
             self.artResources.update({name : []}) 
 
         for i in range (round(self.size * self.density)):
             tree = TreeAgent()
             self.trees.append(tree)
+
+        if set.existingTrees:
+            self.GetExtraTrees()
         
         for j in range(self.timeperiod):
             self.Cycle()
@@ -131,12 +142,15 @@ class Model:
         isRecruit = False
         isBuilt = False
 
+       
 
-        if MODELRECRUIT and self.year != 0 and self.year % INTERVAL == 0:
+
+        if set.modelRecruit and self.year != 0 and self.year % set.INTERVAL == 0:
             isRecruit = True
             self.recruitMessage = self.Recruit()
 
-        if self.year % ARTINTERVAL == 0:
+
+        if set.modelProsthetics and self.year % set.ARTINTERVAL == 0:
             isBuilt = True
             self.builtMesssage = self.Build()
 
@@ -145,7 +159,7 @@ class Model:
         for agent in self.trees:
             if agent.isAlive:
                 grow = agent.NextYear()
-                if MODELDEATH:
+                if set.MODELDEATH:
                     death = agent.ChanceDeath()
                 #print(f'Grow Rate: {grow} \t Death Rate: {death}')
 
@@ -163,7 +177,7 @@ class Model:
         treesPerDBH = {}
         #initialise dic
 
-        dbhSpan = range(TREESTARTDBH,MAXDBH)
+        dbhSpan = range(set.TREESTARTDBH,set.MAXDBH+1)
 
         for cnt in dbhSpan:
             DBHdist.update({cnt : 0})
@@ -171,13 +185,13 @@ class Model:
 
         for tree in self.trees:
             if tree.isAlive:
-                DBHdist[tree.dbh] += 1
+                DBHdist[tree.dbh] += 1         
                 self.treesAliveThisYear += 1
                 treesPerDBH[tree.dbh].append(tree)
                 yrDBHS.append(tree.dbh)
 
         #go through each resource
-        for resource in RESOURCES:
+        for resource in set.RESOURCES:
 
             resourceMetersAcrossDBH = {}
             metersPerArtificial = []
@@ -200,15 +214,15 @@ class Model:
 
                 constrictor = 200
 
-                if dbh > CONSTRICTORDBHLOW:
+                if dbh > set.CONSTRICTORDBHLOW:
                     constrictor = self.GetConstrictor2(dbh)
 
                 #print(f'dbh: {key}, constrictor: {constrictor}')
 
-                pred = DPREDICTIONS[resource]
-                low = DLOWS[resource]
-                up = DUPS[resource]
-                standard = DSTANDARDS[resource]
+                pred =curves.DPREDICTIONS[resource]
+                low = curves.DLOWS[resource]
+                up = curves.DUPS[resource]
+                standard = curves.DSTANDARDS[resource]
                 
                 #generate a probability density functition  at this DBH for this resource
                 
@@ -234,7 +248,7 @@ class Model:
                 for i in range(len(uncappedResouceMetersAtThisDBH)):
                     j = float(uncappedResouceMetersAtThisDBH[i])
                     
-                    if j < RESOURCEBELOW:
+                    if j < set.RESOURCEBELOW:
                         j = 0
    
                     
@@ -269,10 +283,13 @@ class Model:
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
         TextOut()
         self.vis.Update()
+    
+        if self.year % set.INTERVAL == 00:
+            self.noTreesAtKeyLifeStages.update({self.trees[0].dbh : self.treesAliveThisYear})
 
         
     def Recruit(self):
-        recruitment = round(random.uniform(2, 3) * AREA)
+        recruitment = round(random.uniform(2, 3) * set.AREA)
 
         for z in range (recruitment):
             tree = TreeAgent()
@@ -282,20 +299,36 @@ class Model:
 
     
     def Build(self):
-        self.artPerf += ARTIMPROVE
-        if self.artPerf >= ARTPERFMAX:
-            self.artPerf = ARTPERFMAX
+        self.artPerf += set.ARTIMPROVE
+        if self.artPerf >= set.ARTPERFMAX:
+            self.artPerf = set.ARTPERFMAX
 
-        for a in range(ARTNUMBER):
+        for a in range(set.ARTNUMBER):
             artificial = ArtificialAgent(self.artPerf)
             self.artificials.append(artificial)
 
         percent = "{:.2f}".format(self.artPerf)
-        return (f"Last built Year: {self.year}, {ARTNUMBER} prosthetics @{percent}")
+        return (f"Last built Year: {self.year}, {set.ARTNUMBER} prosthetics @{percent}")
 
+    def GetExtraTrees(self):
+        
+        treeNos = [2032, 1668, 1389, 1120, 917, 773, 642, 526]
+        treeDBHs = [30, 44, 56, 70, 83, 96, 109, 121]
+
+        for i in range(len(treeNos)):
+            for j in range(treeNos[i]):
+                tree = TreeAgent()
+                tree.dbh = (treeDBHs[i])
+                tree.exactDbh = (treeDBHs[i])
+                
+                self.trees.append(tree)
+
+        
+        
+    
     def GetConstrictor2(self, dbh):
         
-        minDBH = CONSTRICTORDBHLOW 
+        minDBH = set.CONSTRICTORDBHLOW 
         maxDBH = 120 
         minConstrictor = 1
         maxConstrictor = 10

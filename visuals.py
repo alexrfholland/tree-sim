@@ -1,5 +1,7 @@
 import yearlyOutput as yrLog
-from settings.setting import *
+#from settings.setting import *
+import settings.geometry as geo
+import settings.setting as set
 
 import csv
 import os
@@ -89,11 +91,20 @@ class VisualOut:
     figBTitle = list()
 
 
-    rivX = list()
-    rivY = list()
+    
 
     def __init__(self):
         plt.ion()  # enable interactivity
+        
+        riverPts = geo.GeoGetRiverPoint()
+        print(riverPts)
+        self.rivX = riverPts[:, 0]
+        self.rivY = riverPts[:, 1]
+
+        print(self.rivX)
+        print(self.rivY)
+        
+
     
     def Make_FigA(self):
         self.fig.suptitle(self.figTitle[-1], fontsize=16)
@@ -118,10 +129,11 @@ class VisualOut:
 
         #river
         axMap.plot(self.rivX, self.rivY, linewidth = 0.5, c = '#753183')
+        #print(self.rivX)
         #axMap.scatter(rivX, rivY, s = 15, c = '#753183')
         
         #heatmap
-        im = axMap.imshow(heatmap1.T, extent=extent1, origin='lower', cmap = 'viridis', vmin = 0, vmax = RESOURCECAPS[FOCUSRESOURCE])  
+        im = axMap.imshow(heatmap1.T, extent=extent1, origin='lower', cmap = 'viridis', vmin = 0, vmax = set.RESOURCECAPS[set.FOCUSRESOURCE])  
 
         # Define the limits, labels, ticks as required
         axMap.set_xlim([-654.465282154,  2103.81760729])
@@ -134,12 +146,13 @@ class VisualOut:
         #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
         axMap.set_yticklabels([]) # Force this empty !
 
-        axMap.set_title('High with Prosthetics')
+        axMap.set_title(set.scenario)
 
         axMap.set_facecolor('#440154')
         
         #TOTAL RESOURCES
-        pal = sns.color_palette("Set1")
+        #pal = sns.color_palette("Set1")
+        
         ax2.stackplot(self.fig2YearsHist, self.fig2HistTree, self.fig2HistProsthetic, labels = ['x', 'y'])
         ax2.set_title('Cumulative High Resources')
 
@@ -189,12 +202,12 @@ class VisualOut:
         bars.update({'high' : plt.subplot(gs[1,7])})
 
         
-        for name in RESOURCES:
+        for name in set.RESOURCES:
             heatmap, xedges, yedges = np.histogram2d(self.fig4TreeLocXThisYear, self.fig4TreeLocYThisYear,  bins=200, weights= self.figResource[name], density = False)
             extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
             #extent = [-1000, 2000, -1000, 2000]
 
-            im = axes[name].imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = RESOURCECAPS[name])
+            im = axes[name].imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = set.RESOURCECAPS[name])
             
             # Define the limits, labels, ticks as required
             #axes[name].set_xlim([-1000,2000])
@@ -237,7 +250,6 @@ class VisualOut:
         self.figCol.clear()
         self.figTitle.clear()
         self.figBTitle.clear()
-        sizeMultiplier = 3
 
 
         xT = []
@@ -255,13 +267,15 @@ class VisualOut:
         resourceP = []
         colP = []
 
+        self.fig2YearsHist.append(yrLog.year)
+
         self.figResource.clear()
         self.fig4TreeLocXThisYear.clear()
         self.fig4TreeLocYThisYear.clear()
 
         #####
 
-        for resourceN in RESOURCES:
+        for resourceN in set.RESOURCES:
             self.figResource.update({resourceN : []})
 
         for tree in yrLog.trees:
@@ -271,17 +285,17 @@ class VisualOut:
                 yT.append(tree.point[1])
                 zT.append(tree.point[2])
 
-                resourceT.append(tree.resourcesThisYear[FOCUSRESOURCE] * sizeMultiplier + 0.001)
+                resourceT.append(tree.resourcesThisYear[set.FOCUSRESOURCE])
                 colT.append('blue')
 
-                self.fig3ResPerAgent.append(tree.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ResPerAgent.append(tree.resourcesThisYear[set.FOCUSRESOURCE])
                 self.fig3ColsPerAgent.append('blue')
                 self.fig3YrssPerAgent.append(yrLog.year)
 
-                self.fig3ResPerTree.append(tree.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ResPerTree.append(tree.resourcesThisYear[set.FOCUSRESOURCE])
                 self.fig3YrssPerTree.append(yrLog.year)
 
-                for resourceN in RESOURCES:
+                for resourceN in set.RESOURCES:
                     self.figResource[resourceN].append(tree.resourcesThisYear[resourceN])
 
                 self.fig4TreeLocXThisYear.append(tree.point[0])
@@ -295,17 +309,17 @@ class VisualOut:
                 xP.append(prosthetic.point[0])
                 yP.append(prosthetic.point[1])
                 colP.append('red')
-                resourceP.append(prosthetic.resourcesThisYear['high'] * sizeMultiplier)
+                resourceP.append(prosthetic.resourcesThisYear['high'])
                 #high.append[tree.resources["high"]]"""
 
                 self.figProsX.append(prosthetic.point[0])
                 self.figProsY.append(prosthetic.point[1])
 
-                self.fig3ResPerAgent.append(prosthetic.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ResPerAgent.append(prosthetic.resourcesThisYear[set.FOCUSRESOURCE])
                 self.fig3ColsPerAgent.append('red')
                 self.fig3YrssPerAgent.append(yrLog.year)
 
-                self.fig3ResPerProsthetic.append(prosthetic.resourcesThisYear[FOCUSRESOURCE])
+                self.fig3ResPerProsthetic.append(prosthetic.resourcesThisYear[set.FOCUSRESOURCE])
                 self.fig3YrssPerProsthetic.append(yrLog.year)
 
                 #self.exportPros['high'].append(prosthetic.resources['high'])
@@ -347,6 +361,6 @@ class VisualOut:
 
 
         
-        drawnow(self.Make_FigB)
-        #drawnow(Make_FigB)
+        drawnow(self.Make_FigA)
+        #drawnow(self.Make_FigB)
 

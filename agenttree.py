@@ -11,17 +11,17 @@ seed(1)
 
 import pandas as pd
 
-from settings.setting import *
+import settings.setting as settings
 from settings.resourcecurves import *
 from settings.geometry import *
 
 class TreeAgent:
 
     age = 0.0
-    exactDbh = TREESTARTDBH
+    exactDbh = settings.TREESTARTDBH
     dbh = int(round(exactDbh))
     isAlive = True
-    lifespan = randint(TREELIFESPAN[0],TREELIFESPAN[1])
+    lifespan = randint(settings.TREELIFESPAN[0], settings.TREELIFESPAN[1])
 
     resources = {}
     resourcesThisYear = {}
@@ -32,14 +32,14 @@ class TreeAgent:
         self.resourcesThisYear = {}
         self.point = self.SetPoint()
        
-        for name in RESOURCES:
+        for name in settings.RESOURCES:
 
             self.resources.update({name : []})
         
     
     def NextYear(self):
-            if self.dbh > 145:
-                self.dbh = 145
+            if self.dbh >= settings.MAXDBH:
+                self.dbh = settings.MAXDBH
                 grow = 0
             else: 
                 grow = self.GrowRate()
@@ -51,19 +51,26 @@ class TreeAgent:
         
 
     def ChanceDeath(self):
-        deathChance = random.uniform(DEATHLOW, DEATHHIGH)
+        deathChance = random.uniform(settings.deathLow, settings.deathHigh)
 
+        #print(settings.deathHigh)
+            
         value = random.uniform(0, 1)
+
         if value <= deathChance:
             self.isAlive = False
+        #print(f'tree alive is {self.isAlive} as value is {value}, death chance is {deathChance}')
+
 
         if self.age > self.lifespan:
             self.isAlive = False
 
+
+
         return deathChance
 
     def GrowRate(self):       
-        growRate = randint(TREEGROWRATE[0], TREEGROWRATE[1]) / 100
+        growRate = randint(settings.TREEGROWRATE[0], settings.TREEGROWRATE[1]) / 100
         return 1 * (1 / growRate)
 
     """def SetPoint(self):

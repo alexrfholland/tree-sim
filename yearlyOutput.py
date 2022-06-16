@@ -127,5 +127,6 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     averageDBH = round(sum(yrDBHS)/len(yrDBHS))
     maxDBH = max(yrDBHS)
 
-    averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
-    maxArtPerf = "{:.2f}".format(max(yrArtPerf))
+    if noArtificialsAliveThisYear > 0:
+        averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
+        maxArtPerf = "{:.2f}".format(max(yrArtPerf))
