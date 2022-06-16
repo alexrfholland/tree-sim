@@ -25,6 +25,7 @@ FOCUSRESOURCE = 'high'
 
 
 TREESTARTDBH = 30
+MAXDBH = 145
 TREELIFESPAN = [400,600]
 
 # slope of age vs diameter is 1.97 - 2.71 - Gibbons (2009)
@@ -34,7 +35,7 @@ TREEGROWRATE = [197, 271]
 # mortality rate of 0.006 to 0.024 per year - Gibbons (2009)
 DEATHLOW = .006
 DEATHHIGH = .024
-MAXDBH = 145
+
 
 #recruitment stats from Gibbons (2009)
 RECRUITMULTIPLIER = 2

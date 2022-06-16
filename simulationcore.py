@@ -1,8 +1,9 @@
 from agentartificial import *
 from agenttree import *
 from settings.setting import *
-from yearlyOutput import *
+import yearlyOutput as yearLog
 from visuals import *
+from textout import *
 
 from turtle import width
 from tabulate import tabulate
@@ -27,6 +28,9 @@ from random import randint
 # seed random number generator
 seed(1)
 
+from typing import List
+from typing import Dict
+
 from drawnow import drawnow
 import matplotlib.pyplot as plt
 
@@ -41,6 +45,9 @@ import seaborn as sns
 import pandas as pd
 
 class Model:
+    trees: List[TreeAgent] = []
+    artificials: List[ArtificialAgent] = []
+
     size = AREA
     density = (DENSITYHIGH + DENSITYLOW)/2
 
@@ -60,8 +67,7 @@ class Model:
 
     resourcesSortedByDBH = {}
 
-    trees = []
-    artificials = []
+    
 
     artPerf = ARTPERFMIN
 
@@ -101,6 +107,12 @@ class Model:
     @Timer(name = "Year in {:.2f} seconds")
     def Cycle(self):
 
+        #global trees
+        #global artificials
+
+        
+        #yrAliveArt : List[ArtificialAgent] = []
+        
         #fig2YearsHist.append(self.year)
 
         yrResourcesAcrossDBHs = {}
@@ -112,7 +124,7 @@ class Model:
 
         #list of DBHS for the year
         yrDBHS = []
-        yrArtPerf = []
+        #yrArtPerf = []
 
         isRecruit = False
         isBuilt = False
@@ -138,6 +150,9 @@ class Model:
         for artAgent in self.artificials:
             artAgent.GrowOld()
             self.artificials
+
+            #yrArtPerf.append(artAgent.performance)
+            #yrAliveArt.append(artAgent)
 
         ##calculate number of trees at each DBH level
         ##create list of trees per DBH
@@ -165,15 +180,11 @@ class Model:
             resourceMetersAcrossDBH = {}
             metersPerArtificial = []
 
-            yrAliveArt = []
 
             for artAgent in self.artificials:
                 
                 if artAgent.isAlive:
-                    metersPerArtificial.append(artAgent.resources[resource])
-                    yrArtPerf.append(artAgent.performance)
-                    yrAliveArt.append(artAgent)
-            
+                    metersPerArtificial.append(artAgent.resourcesThisYear[resource])
                 
             yrArtResources.update({resource : metersPerArtificial})
 
@@ -252,7 +263,9 @@ class Model:
 
         #print(f"Year: {self.year} \t Trees Alive: {self.treesAliveThisYear} \t Total: {sum(yrResources['total'])}")
 
-        YrOutputLog(self.treesAliveThisYear, yrAliveArt, yrDBHS, yrTreeResources, yrArtPerf, yrArtResources, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage, self.year)
+        yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage)
+        #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
+        TextOut()
 
         
     def Recruit(self):

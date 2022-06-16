@@ -11,7 +11,6 @@ from settings.geometry import *
 class ArtificialAgent:
     performance = 0
     lifespan = ARTLIFE
-    resources = {}
     resourcesThisYear = {}
     age = 0
     constrictor = 1
@@ -22,7 +21,7 @@ class ArtificialAgent:
         
         self.performance = perf
         self.point = self.SetPoint()
-        self.resources = {}
+        self.resourcesThisYear = {}
 
         for resource in RESOURCES:
                   
@@ -54,11 +53,11 @@ class ArtificialAgent:
             if meters < 0:
                 meters = 0
 
-            self.resources.update({resource : meters * self.performance})
+            self.resourcesThisYear.update({resource : meters * self.performance})
 
             if resource == 'high':
                 if DEBUG == True:
-                    print(f"Old Tree has: {meters}m \t Artificial Performance is: {self.performance}% \t Artificial Structure Has: {self.resources['high']}m")
+                    print(f"Old Tree has: {meters}m \t Artificial Performance is: {self.performance}% \t Artificial Structure Has: {self.resourcesThisYear['high']}m")
 
     def GrowOld(self):
         self.age += 1

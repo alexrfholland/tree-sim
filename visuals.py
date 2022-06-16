@@ -1,3 +1,5 @@
+from yearlyOutput import *
+
 import csv
 import os
 from turtle import width
@@ -123,27 +125,22 @@ def MakeVisuals():
     for resourceN in RESOURCES:
         figResource.update({resourceN : []})
 
-    for tree in self.trees:
+    for tree in trees:
         
         if tree.isAlive:
             xT.append(tree.point[0])
             yT.append(tree.point[1])
             zT.append(tree.point[2])
-            #sizeT.append((tree.dbh * tree.dbh) * sizeMultiplier)
-            #sizeT.append((tree.dbh * tree.dbh) * sizeMultiplier)
-            #print(tree.resources["high"])
+
             resourceT.append(tree.resourcesThisYear[FOCUSRESOURCE] * sizeMultiplier + 0.001)
             colT.append('blue')
-            #print(tree.resourcesThisYear['total'])
-            #print(tree.resources["high"][-1])
-            #sizeT.append[tree.resources["high"][-1]]
 
             fig3ResPerAgent.append(tree.resourcesThisYear[FOCUSRESOURCE])
             fig3ColsPerAgent.append('blue')
-            fig3YrssPerAgent.append(self.year)
+            fig3YrssPerAgent.append(year)
 
             fig3ResPerTree.append(tree.resourcesThisYear[FOCUSRESOURCE])
-            fig3YrssPerTree.append(self.year)
+            fig3YrssPerTree.append(year)
 
             for resourceN in RESOURCES:
                 figResource[resourceN].append(tree.resourcesThisYear[resourceN])
@@ -151,8 +148,8 @@ def MakeVisuals():
             fig4TreeLocXThisYear.append(tree.point[0])
             fig4TreeLocYThisYear.append(tree.point[1])
 
-            self.exportTree['high'].append(tree.resourcesThisYear['high'])
-            self.exportTree['year'].append(tree.age)
+            #self.exportTree['high'].append(tree.resourcesThisYear['high'])
+            #self.exportTree['year'].append(tree.age)
 
     for prosthetic in self.artificials:
         if prosthetic.isAlive:    
@@ -167,13 +164,13 @@ def MakeVisuals():
 
             fig3ResPerAgent.append(prosthetic.resources[FOCUSRESOURCE])
             fig3ColsPerAgent.append('red')
-            fig3YrssPerAgent.append(self.year)
+            fig3YrssPerAgent.append(year)
 
             fig3ResPerProsthetic.append(prosthetic.resources[FOCUSRESOURCE])
-            fig3YrssPerProsthetic.append(self.year)
+            fig3YrssPerProsthetic.append(year)
 
-            self.exportPros['high'].append(prosthetic.resources['high'])
-            self.exportPros['year'].append(self.year)
+            #self.exportPros['high'].append(prosthetic.resources['high'])
+            #self.exportPros['year'].append(self.year)
 
 
     """for i in range(len(xT)):
@@ -199,19 +196,19 @@ def MakeVisuals():
     fig2HistProsthetic.append(sum(resourceP))
 
     
-    treesAlive = "{:,}".format(self.treesAliveThisYear)
+    treesAlive = "{:,}".format(noTreesAliveThisYear)
     prostheticsAlive = "{:,}".format(noArt)
 
 
-    txt = f"Year: {self.year} {treesAlive} trees {noArt} Prosthetics Avrg DBH: {averageDBH}cm Max DBH: {maxDBH}cm Avrg Perf: {averageArtPerf}%  Max Perf: {maxArtPerf}%"
+    txt = f"Year: {year} {treesAlive} trees {noArt} Prosthetics Avrg DBH: {averageDBH}cm Max DBH: {maxDBH}cm Avrg Perf: {averageArtPerf}%  Max Perf: {maxArtPerf}%"
     
-    txt = f"Year: {self.year}       Trees: {treesAlive}        Prosthetics: {prostheticsAlive}        Max DBH: {maxDBH}cm       Average Tree:  {averageDBH}cm         Max Perf: {maxArtPerf}%"
+    txt = f"Year: {year}       Trees: {treesAlive}        Prosthetics: {prostheticsAlive}        Max DBH: {maxDBH}cm       Average Tree:  {averageDBH}cm         Max Perf: {maxArtPerf}%"
 
     figTitle.append(txt)
 
-    txtB = f"Year: {self.year}          Trees: {treesAlive}"
+    txtB = f"Year: {year}          Trees: {treesAlive}"
     figBTitle.append(txtB)
 
 
-    drawnow(Make_FigA)
+    #drawnow(Make_FigA)
     #drawnow(Make_FigB)
