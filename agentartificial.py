@@ -1,36 +1,16 @@
-import csv
-import os
-
-import settings as settings
-
-import numpy as np
-from pyparsing import dblSlashComment
-from scipy import rand
-from scipy.interpolate import interp1d
 from scipy.sparse.construct import random
 import scipy.stats as stats
-from enum import Enum
-import random
-from scipy.stats import truncnorm
 
-import itertools
 
-from codetiming import Timer
 
-# generate random integer values
-from random import seed
-from random import randint
-
-# seed random number generator
-seed(1)
-
-import pandas as pd
-
+from settings.setting import *
+from settings.resourcecurves import *
+from settings.geometry import *
 
 
 class ArtificialAgent:
     performance = 0
-    lifespan = settings.ARTLIFE
+    lifespan = ARTLIFE
     resources = {}
     resourcesThisYear = {}
     age = 0
@@ -38,13 +18,13 @@ class ArtificialAgent:
     isAlive = True
 
 
-    def __init__(self, perf, geo):
+    def __init__(self, perf):
         
         self.performance = perf
-        self.point = self.SetPoint(geo)
+        self.point = self.SetPoint()
         self.resources = {}
 
-        for resource in settings.RESOURCES:
+        for resource in RESOURCES:
                   
             dbh = 100
 
@@ -77,7 +57,8 @@ class ArtificialAgent:
             self.resources.update({resource : meters * self.performance})
 
             if resource == 'high':
-                print(f"Old Tree has: {meters}m \t Artificial Performance is: {self.performance}% \t Artificial Structure Has: {self.resources['high']}m")
+                if DEBUG == True:
+                    print(f"Old Tree has: {meters}m \t Artificial Performance is: {self.performance}% \t Artificial Structure Has: {self.resources['high']}m")
 
     def GrowOld(self):
         self.age += 1
@@ -85,12 +66,9 @@ class ArtificialAgent:
         if self.age > self.lifespan:
             self.isAlive = False
 
-    def SetPoint(self, geo):
-        """x = random.uniform(BOUNDS[0], BOUNDS[1])
-        y = random.uniform(BOUNDS[0], BOUNDS[1])
-        z = random.uniform(50, 100)
+    def SetPoint(self):
 
-        return [x,y,z]"""
-
-        _point = geo.GetPoint()
+        _point = GeoGetPoint()
         return _point
+
+
