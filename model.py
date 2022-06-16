@@ -1,28 +1,21 @@
 from agentartificial import *
 from agenttree import *
 from settings.setting import *
+from yearlyOutput import *
+from visuals import *
 
-import csv
-import os
 from turtle import width
 from tabulate import tabulate
 
 import termplotlib as tpl
-import plotext as tplt
 
-from signal import Sigmasks
-from this import d, s
 import numpy as np
 from pyparsing import dblSlashComment
 from scipy import rand
-from scipy.interpolate import interp1d
 from scipy.sparse.construct import random
 import scipy.stats as stats
-from enum import Enum
 import random
-from scipy.stats import truncnorm
 
-import json
 import itertools
 
 from codetiming import Timer
@@ -56,9 +49,6 @@ class Model:
     recruitmentInterval = INTERVAL
     recruitmentChance = 0.2
 
-
-
-
     resourceCurves = {}
     totalResources = {}
     previousDotsX = []
@@ -88,10 +78,6 @@ class Model:
 
     treeResources = {}
     artResources = {}
-
-
-    
-
     
     @Timer(name = "Finished running model in {:.2f} seconds")
     def __init__(self):
@@ -160,9 +146,8 @@ class Model:
         treesPerDBH = {}
         #initialise dic
 
-        dbhSpan = range(30,MAXDBH)
+        dbhSpan = range(TREESTARTDBH,MAXDBH)
 
-        
         for cnt in dbhSpan:
             DBHdist.update({cnt : 0})
             treesPerDBH.update({cnt : []})
@@ -180,12 +165,6 @@ class Model:
             resourceMetersAcrossDBH = {}
             metersPerArtificial = []
 
-
-            col = 'red'
-            xplot = []
-            yplot = []
-
-
             yrAliveArt = []
 
             for artAgent in self.artificials:
@@ -202,7 +181,6 @@ class Model:
             #find resource list for trees of this DBH
             for key, value in DBHdist.items():
                  
-                
                 resourceMetersAtThisDBH = []
 
                 dbh = key
@@ -225,8 +203,6 @@ class Model:
                 pLow = low(dbh)
                 pUpper = up(dbh)
 
-
-
                 pSD = standard(dbh)/constrictor
 
                 ##
@@ -239,7 +215,6 @@ class Model:
                 #get how many trees there are and generate lengths via probbility density function
                 noOfTrees = value
                 uncappedResouceMetersAtThisDBH = distributionFunction.rvs(noOfTrees)
-
 
                 #engine
                 #truncate function so min lengths are 0
@@ -254,49 +229,7 @@ class Model:
 
                     treesPerDBH[dbh][i].resources[resource].append(j)
                     treesPerDBH[dbh][i].resourcesThisYear.update({resource : float(j)})
-                    
-                    if resource == 'high':
-                        
-                        """print(j)
-                        print(treesPerDBH[dbh][i].resourcesThisYear['high'])
-                        print(f'dbh: {dbh}')
-                        print(f'tree per dbh: {len(treesPerDBH[dbh])}')
-                        print(f'resources in loop: {len(uncappedResouceMetersAtThisDBH)}')
-                        print(f'iteration: {i})')
-                        print(f'xPos: {treesPerDBH[dbh][i].point[0]}')
-
-                        if i > 0:
-                            print(f'previous: {treesPerDBH[dbh][i-1].resourcesThisYear["high"]}')
-                            print(f'previous xPos: {treesPerDBH[dbh][i-1].point[0]}')
-
-                        print("")"""
-
-
-
-                    #select tree agent and put resource there
-                    #print(f'Year: {self.year} \t DBH: {dbh}  \t Trees Alive: {self.treesAliveThisYear} \t Resource: {resource} \t Amount: {j}m')
-
                 
-                if resource == 'high':
-        
-                    test = []
-                    dist = range(len(treesPerDBH[dbh]))
-                    
-                    for z in dist:                       
-                        test.append(treesPerDBH[dbh][z].resourcesThisYear['high'])
-
-                        """print(f'dbh: {dbh}')
-                        print("resources")
-                        print(f'z is {z}')
-                        print(f"resources are: {treesPerDBH[dbh][z].resourcesThisYear['high']}")
-                        print(f"resources in list are: {test[-1]}")"""
-
-                    if len(treesPerDBH[dbh]) > 0:
-                        """print(f'dbh: {dbh}')
-                        print(f'tree per dbh: {len(treesPerDBH[dbh])}')
-                        print(f'resources in loop: {len(uncappedResouceMetersAtThisDBH)}')
-                        #print(f'{resource} and {test}')"""
-
 
                 if len(resourceMetersAtThisDBH) > 0:
                     resourceMetersAcrossDBH.update({int(dbh) : resourceMetersAtThisDBH})
@@ -307,8 +240,6 @@ class Model:
               
                 yrTreeResources.update({resource : flattendResources})
                 
-
-
         #add to main tracking dictionarie:
         self.resourcesSortedByDBH.update({self.year : yrResourcesAcrossDBHs})
         
@@ -316,83 +247,14 @@ class Model:
         self.artResources.update({int(self.year) : yrArtResources})
 
 
-
-
         self.snapTotalAlive.update({self.year : self.treesAliveThisYear})
 
 
         #print(f"Year: {self.year} \t Trees Alive: {self.treesAliveThisYear} \t Total: {sum(yrResources['total'])}")
 
+        YrOutputLog(self.treesAliveThisYear, yrAliveArt, yrDBHS, yrTreeResources, yrArtPerf, yrArtResources, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage, self.year)
+
         
-        no = int(self.treesAliveThisYear)
-        noArt = int(len(yrAliveArt))
-
-        row1 = []
-        row2 = []
-        row2a = []
-        row3 = []
-        row4 = []
-
-        if no > 0:
-            averageDBH = round(sum(yrDBHS)/len(yrDBHS))
-            maxDBH = max(yrDBHS)
-            row1 = ['Natural Trees', f'{self.treesAliveThisYear} trees']
-            row2 = ['Per Tree', f'Avrg DBH: {averageDBH}cm']
-            row2a = ['Max', f'Max DBH: {maxDBH}cm']
-
-            for name in RESOURCES:
-                
-                met0 = round(sum(yrTreeResources[name]))
-                met1= "{:,}".format(met0)
-                met2 = "{:,}".format(round(met0/no))
-
-                maxRes = max(yrTreeResources[name])
-                #if name == 'high':
-                    #print(f'Year: {self.year} \t totalHigh: {met0} \t maxHigh: {maxRes}m \t meanHigh: {met2}m')
-
-                row1.append(f"{met1}m")
-                row2.append(f"{met2}m/tree")
-                row2a.append(f'{maxRes}m')
-
-        if noArt > 0:
-            averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/noArt)
-            maxArtPerf = "{:.2f}".format(max(yrArtPerf))
-
-            row3 = ['Prosthetic Structures ', f'{noArt} structures' ]
-            row4 = ['Per Artificial', f'Avrg Perf: {averageArtPerf}%, Max Perf: {maxArtPerf}%']
-
-            for name in RESOURCES:
-        
-                artMet0 = round(sum(yrArtResources[name]))
-                artMet1= "{:,}".format(artMet0)
-                artMet2 = "{:,}".format(round(artMet0/noArt))
-
-                row3.append(f"{artMet1}m")
-                row4.append(f"{artMet2}m/structure")
-
-        row5 = ["-------------------------------------------"]
-        
-        row6 = [self.recruitMessage]
-        row7 = [self.builtMesssage]
-
-        heads = [f"Year: {self.year}", 'Habitat Structures']
-        heads.extend(RESOURCES)
-        if isRecruit:
-            row6 = [UPDATEMESSAGE]
-        if isBuilt:
-            row7 = [UPDATEMESSAGE]
-
-        print(tabulate([row1, row2, row2a, row3, row4, row5, row6, row7],headers = heads))
-        print('')
-                
-
-        sample = yrDBHS
-        sample.extend([0,145])
-        counts, bin_edges = np.histogram(sample, bins=75)
-        fig = tpl.figure()
-        fig.hist(counts, dbhSpan, grid=[15, 25], force_ascii=False)
-        fig.show()
-
     def Recruit(self):
         recruitment = round(random.uniform(2, 3) * AREA)
 
