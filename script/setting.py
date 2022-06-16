@@ -1,3 +1,4 @@
+TEST = 1
 JSONOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/'
 
 RESOURCES = ["dead","lateral","total","low","medium","high"]
