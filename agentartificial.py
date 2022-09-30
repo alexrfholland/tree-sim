@@ -7,21 +7,28 @@ from settings.setting import *
 from settings.resourcecurves import *
 from settings.geometry import *
 
+import uuid
 
 class ArtificialAgent:
-    performance = 0
-    lifespan = ARTLIFE
-    resourcesThisYear = {}
-    age = 0
-    constrictor = 1
-    isAlive = True
+    
 
 
     def __init__(self, perf):
         
+        self.performance = 0
+        self.lifespan = ARTLIFE
+        self.resourcesThisYear = {}
+        self.age = 0
+        self.constrictor = 1
+        self.isAlive = True
+
+        self.hResources = {}
+        self.hAge = {}
+        self.hPerf = {}
         self.performance = perf
         self.point = self.SetPoint()
         self.resourcesThisYear = {}
+        self.num = uuid.uuid1().hex
 
         for resource in RESOURCES:
                   

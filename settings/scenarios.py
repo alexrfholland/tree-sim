@@ -13,20 +13,20 @@ def UpdateForScenarios():
     settings.modelProsthetics = False
     settings.existingTrees = True
     settings.deathHigh = 0.010
-    settings.deathLow = 0.003
+    settings.deathLow = 0.003"""
 
     #30: 2032, 44: 1668, 56: 1389, 70: 1120, 83: 917, 96: 773, 109: 642, 121: 526
 
     #EXISTING
-    settings.scenario = "Business-As-Usual"
+    """settings.scenario = "Business-As-Usual"
     settings.modelRecruit = False
     settings.modelProsthetics = False
     settings.existingTrees = False
-    settings.deathHigh = 0.035
+    settings.deathHigh = 0.035"""
 
 
     #REPLANTING
-    settings.scenario = "Continuous Replanting"
+    """settings.scenario = "Continuous Replanting"
     settings.modelRecruit = True
     settings.modelProsthetics = False
     settings.existingTrees = False"""

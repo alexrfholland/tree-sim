@@ -5,6 +5,8 @@ import random
 from random import seed
 from random import randint
 
+import uuid
+
 # seed random number generator
 seed(1)
 
@@ -17,19 +19,26 @@ from settings.geometry import *
 
 class TreeAgent:
 
-    age = 0.0
-    exactDbh = settings.TREESTARTDBH
-    dbh = int(round(exactDbh))
-    isAlive = True
-    lifespan = randint(settings.TREELIFESPAN[0], settings.TREELIFESPAN[1])
-
-    resources = {}
-    resourcesThisYear = {}
-
+  
     def __init__(self):
+
+        self.yearborn = -1
+        self.yeardeath = -1
+
+        self.age = 0.0
+        self.exactDbh = settings.TREESTARTDBH
+        self.dbh = int(round(self.exactDbh))
+        self.isAlive = True
+        self.lifespan = randint(settings.TREELIFESPAN[0], settings.TREELIFESPAN[1])
 
         self.resources = {}
         self.resourcesThisYear = {}
+
+        self.hResources = {}
+        self.hAge = {}
+        self.hPerf = {}
+        self.num = uuid.uuid1().hex
+        self.resources = {}
         self.point = self.SetPoint()
        
         for name in settings.RESOURCES:
@@ -50,7 +59,7 @@ class TreeAgent:
             return grow
         
 
-    def ChanceDeath(self):
+    def ChanceDeath(self, year):
         deathChance = random.uniform(settings.deathLow, settings.deathHigh)
 
         #print(settings.deathHigh)
@@ -59,11 +68,13 @@ class TreeAgent:
 
         if value <= deathChance:
             self.isAlive = False
+            self.yeardeath = year
         #print(f'tree alive is {self.isAlive} as value is {value}, death chance is {deathChance}')
 
 
         if self.age > self.lifespan:
             self.isAlive = False
+            self.yeardeath = year
 
 
 

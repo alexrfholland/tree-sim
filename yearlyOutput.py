@@ -20,6 +20,9 @@ from typing import Dict
 trees : List[TreeAgent]  = simu.trees
 artificials  : List[ArtificialAgent] = simu.artificials
 """
+
+
+
 year = 0
 trees: List[TreeAgent]  = []
 artificials: List[ArtificialAgent] = []
@@ -32,6 +35,7 @@ builtMesssage = ""
 
 yrTreeResources = {}
 yrArtResources = {}
+
 
 noTreesAliveThisYear = 0
 noArtificialsAliveThisYear = 0
@@ -52,6 +56,9 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     global year
     global trees
     global artificials
+
+    global logAllTrees
+    global logAllArtificials
     
     global yrTreeResources
     global yrArtResources
@@ -72,14 +79,28 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     global averageArtPerf
     global maxArtPerf
 
+
+
+    
+
+
+    
+
+
     ########### clear previous
 
     for name in RESOURCES:
         yrTreeResources.update({name: []})
         yrArtResources.update({name: []})
 
+
+    
+
+    
+
     yrDBHS.clear()
     yrArtPerf.clear()
+    
 
     noTreesAliveThisYear = 0
     noArtificialsAliveThisYear = 0
@@ -105,6 +126,7 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
 
             #print(f'{name}: {agent.resourcesThisYear[name]}')
 
+
             for name in RESOURCES:
                 yrTreeResources[name].append(agent.resourcesThisYear[name])
 
@@ -116,11 +138,10 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
             noArtificialsAliveThisYear += 1
             yrArtPerf.append(agent.performance)
 
+
+
             #print(f'artificial {name}: {agent.resourcesThisYear[name]}')
 
-
-            for name in RESOURCES:
-                yrArtResources[name].append(agent.resourcesThisYear[name])
 
     ############ cal other stats
     
@@ -130,3 +151,5 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     if noArtificialsAliveThisYear > 0:
         averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
         maxArtPerf = "{:.2f}".format(max(yrArtPerf))
+
+

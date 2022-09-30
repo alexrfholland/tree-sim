@@ -1,3 +1,9 @@
+from datetime import *
+import sys
+from tokenize import Name
+import math
+
+from matplotlib.axis import XAxis
 import yearlyOutput as yrLog
 #from settings.setting import *
 import settings.geometry as geo
@@ -47,10 +53,12 @@ from matplotlib.colorbar import Colorbar # For dealing with Colorbars the proper
 
 import seaborn as sns
 import pandas as pd
+from scipy.stats import kde
+
 
 class VisualOut:
     
-    fig = plt.figure(figsize=(16, 9))
+    fig = plt.figure(figsize= set.FIGURESIZE)
  
 
     figXDraw = list()
@@ -61,6 +69,7 @@ class VisualOut:
     figTitle = list()
 
     figResource = {}
+    figAll = {}
 
     figProsX = list()
     figProsY = list()
@@ -90,6 +99,13 @@ class VisualOut:
 
     figBTitle = list()
 
+    streamDicTree = {}
+    streamDicArt = {}
+    streamTreeDivision = 5
+    streamArtificialDivision = 2
+    streamMax = 40
+
+
 
     
 
@@ -97,12 +113,31 @@ class VisualOut:
         plt.ion()  # enable interactivity
         
         riverPts = geo.GeoGetRiverPoint()
-        print(riverPts)
+        #print(riverPts)
         self.rivX = riverPts[:, 0]
         self.rivY = riverPts[:, 1]
 
-        print(self.rivX)
-        print(self.rivY)
+        #print(self.rivX)
+        #print(self.rivY)
+
+        ##make timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        #print(timestamp)
+
+        self.outPath = set.VISUALOUT + f'{set.scenario} - {timestamp}/'
+        
+        if not os.path.isdir(self.outPath):
+            os.makedirs(self.outPath)
+
+        #initialise stream graph
+        for i in range(int(self.streamMax/self.streamTreeDivision)+1):
+            tree = i#f'{i}+a'
+            self.streamDicTree.update({tree : []})
+
+        for i in range(int(self.streamMax/self.streamArtificialDivision)+1):
+            art = i#f'{i}+t'
+            self.streamDicArt.update({art : []})
+
         
 
     
@@ -176,6 +211,34 @@ class VisualOut:
         plt.tight_layout()
 
 
+    def Make_FigC(self):
+        """heatmap, xedges, yedges = np.histogram2d(figXDraw, figYDraw,  bins=200, weights= figHigh, density = False)
+        extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]"""
+
+        set.modifier = 0.3
+        
+        #HEATMAP HIGH + ARTIFICIAL
+        heatmap1, xedges1, yedges1 = np.histogram2d(self.figXDraw, self.figYDraw,  bins=60, weights= self.figHigh, density = False)
+        extent1 = [xedges1[0], xedges1[-1], yedges1[0], yedges1[-1]]
+        
+        #circles on prosthetics
+        plt.scatter(self.figProsX, self.figProsY, s = 300, c = 'none', edgecolors='white', alpha=.25, linewidths = 1)
+
+        #river
+        plt.plot(self.rivX, self.rivY, linewidth = 2, c = '#753183')
+
+        #heatmap
+        im = plt.imshow(heatmap1.T, extent=extent1, origin='lower', cmap = 'viridis', vmin = 0, vmax = set.RESOURCECAPS[set.FOCUSRESOURCE])  
+
+        plt.xlim([-654.465282154,  2103.81760729])
+        plt.ylim([-1301.10671195, 1457.176178])
+
+        ax = plt.gca()
+        ax.axes.xaxis.set_visible(False)
+        ax.axes.yaxis.set_visible(False)
+        ax.axes.set_facecolor('#440154')
+
+    
     def Make_FigB(self):
         # Create 4x4 Grid
 
@@ -234,6 +297,111 @@ class VisualOut:
         
 
         plt.tight_layout()
+
+
+    ###not working
+    def Make_FigAgainSmoothMini(self):
+
+        name = 'high'
+        
+        # create data
+        x = self.figXDraw
+        y = self.figYDraw
+        
+        set.modifier = 0.3
+
+        #print(len(self.figXDraw))
+        #print(len(self.figAll['high']))
+
+        w = []
+
+
+        # Evaluate a gaussian kde on a regular grid of nbins x nbins over data extents
+        nbins=50
+
+        for val in self.figAll[name]:
+            if val <= 0:
+                val = .1
+                w.append(val)
+
+
+        #print(f"{name} is {w}")
+
+        
+        k = kde.gaussian_kde([x,y], weights = w)
+        
+
+        
+        #xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
+        xi, yi = np.mgrid[set.BOUNDS[0]:set.BOUNDS[1]:nbins*1j, set.BOUNDS[2]:set.BOUNDS[3]:nbins*1j]
+        zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+
+
+        # Make the plot
+        plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', vmin = 0, vmax = .000002)
+
+        # Change color palette
+        #plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap=plt.cm.Greens_r, vmin = 0, vmax = 20)
+        #plt.show()
+
+        #circles on prosthetics
+        plt.scatter(self.figProsX, self.figProsY, s = 300, c = 'black', edgecolors='white', alpha=.25, linewidths = 1)
+
+        #river
+        plt.plot(self.rivX, self.rivY, linewidth = 2, c = '#753183')
+
+        plt.xlim([-654.465282154,  2103.81760729])
+        plt.ylim([-1301.10671195, 1457.176178])
+
+    
+    def Make_FigB_Mini(self):
+
+        #set.modifier = 10
+
+        for name in set.RESOURCES:
+        
+            #print (f'{name} limit is {set.RESOURCECAPS[name]}')
+            heatmap1, xedges1, yedges1 = np.histogram2d(self.fig4TreeLocXThisYear, self.fig4TreeLocYThisYear,  bins=60, weights= self.figResource[name], density = False)
+            extent1 = [xedges1[0], xedges1[-1], yedges1[0], yedges1[-1]]
+            
+            #circles on prosthetics
+            plt.scatter(self.figProsX, self.figProsY, s = 300, c = 'none', edgecolors='white', alpha=.25, linewidths = 1)
+
+            #river
+            plt.plot(self.rivX, self.rivY, linewidth = 2, c = '#753183')
+
+            #heatmap
+            im = plt.imshow(heatmap1.T, extent=extent1, origin='lower', cmap = 'viridis', vmin = 0, vmax = set.RESOURCECAPS[name])  
+
+            plt.xlim([-654.465282154,  2103.81760729])
+            plt.ylim([-1301.10671195, 1457.176178])
+
+            ax = plt.gca()
+            ax.axes.xaxis.set_visible(False)
+            ax.axes.yaxis.set_visible(False)
+            ax.axes.set_facecolor('#440154')    
+
+            plt.savefig(self.outPath + f'{yrLog.year} - {name} - {set.scenario}.jpg', bbox_inches='tight')
+
+    def Make_Stream(self):
+
+        df = pd.DataFrame(self.streamDicTree)
+        
+        #print(df)
+
+        ax = plt.gca()
+        #fig, ax = plt.subplots(figsize=(10,5))
+
+
+        # Plot a stackplot - https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/stackplot_demo.html
+        ax.stackplot(df.index, df.T, baseline='wiggle', labels=df.columns)
+
+        # Move the legend off of the chart
+        ax.legend(loc=(1.04,0))
+
+
+            
+        
         
     def Update(self):
 
@@ -270,6 +438,7 @@ class VisualOut:
         self.fig2YearsHist.append(yrLog.year)
 
         self.figResource.clear()
+        self.figAll.clear()
         self.fig4TreeLocXThisYear.clear()
         self.fig4TreeLocYThisYear.clear()
 
@@ -277,7 +446,23 @@ class VisualOut:
 
         for resourceN in set.RESOURCES:
             self.figResource.update({resourceN : []})
+            self.figAll.update({resourceN : []})
 
+        #strean
+        
+        yrStreamTree = {}
+        yrStreamArt = {}
+
+        for i in range(int(self.streamMax/self.streamTreeDivision)+1):
+            tree = i#f'{i}+a'
+            yrStreamTree.update({tree : 0})
+        
+
+        for i in range(int(self.streamMax/self.streamArtificialDivision)+1):
+            art = i#f'{i}+t'
+            yrStreamArt.update({art : 0})
+        
+        
         for tree in yrLog.trees:
             
             if tree.isAlive:
@@ -297,12 +482,27 @@ class VisualOut:
 
                 for resourceN in set.RESOURCES:
                     self.figResource[resourceN].append(tree.resourcesThisYear[resourceN])
+                    self.figAll[resourceN].append(tree.resourcesThisYear[resourceN])
 
                 self.fig4TreeLocXThisYear.append(tree.point[0])
                 self.fig4TreeLocYThisYear.append(tree.point[1])
 
+                if(tree.resourcesThisYear['high'] > 0):
+                    #key = self.GetStreamKey(tree.resourcesThisYear['high'], 't')
+                    key = self.GetStreamKey(tree.resourcesThisYear['high'], 't')
+                    #print(yrStreamTree)
+                    yrStreamTree[key] += 1
+
+                
+
+
+
                 #self.exportTree['high'].append(tree.resourcesThisYear['high'])
                 #self.exportTree['year'].append(tree.age)
+
+                #stream
+
+
 
         for prosthetic in yrLog.artificials:
             if prosthetic.isAlive:    
@@ -322,8 +522,20 @@ class VisualOut:
                 self.fig3ResPerProsthetic.append(prosthetic.resourcesThisYear[set.FOCUSRESOURCE])
                 self.fig3YrssPerProsthetic.append(yrLog.year)
 
+                for resourceN in set.RESOURCES:
+                        self.figAll[resourceN].append(tree.resourcesThisYear[resourceN])
+
                 #self.exportPros['high'].append(prosthetic.resources['high'])
                 #self.exportPros['year'].append(self.year)
+
+                #stream
+
+                if prosthetic.resourcesThisYear['high'] >= 0:
+                    key = self.GetStreamKey(prosthetic.resourcesThisYear['high'], 'a')
+                    yrStreamArt[key] += 1
+                    #print("year")
+                    #print(yrStreamArt)
+
 
 
         """for i in range(len(xT)):
@@ -359,8 +571,51 @@ class VisualOut:
         txtB = f"Year: {yrLog.year}          Trees: {treesAlive}"
         self.figBTitle.append(txtB)
 
+        for key in yrStreamTree.keys():
+            #print(key)
+            self.streamDicTree[key].append(yrStreamTree[key])
+
+        for key in yrStreamArt.keys():
+            #print(key)
+            self.streamDicArt[key].append(yrStreamArt[key])
 
         
-        drawnow(self.Make_FigA)
+
+        #drawnow(self.Make_FigA)
         #drawnow(self.Make_FigB)
 
+        
+        
+        #drawnow(self.Make_FigAgainSmoothMini)
+
+        #drawnow(self.Make_Stream)
+
+        #drawnow(self.Make_FigB_Mini)
+
+        #drawnow(self.Make_FigC)
+
+
+        ##DRAWINGOUT - enable this to export images
+
+        #plt.savefig(self.outPath + f'{yrLog.year} - {set.scenario}.jpg', bbox_inches='tight', dpi = 150)
+        #print(f'saved fig {self.outPath}')
+        
+        if set.ISVISOUT: 
+            plt.savefig(self.outPath + f'{yrLog.year} - {set.scenario}.png', bbox_inches='tight', dpi = 150)
+            print(f'saved fig {self.outPath}')
+
+    def GetStreamKey(self, value, append):
+        
+        if(value > self.streamMax):
+            value = self.streamMax
+        val = math.floor(value/self.streamTreeDivision)
+
+        key = val#f'{val}+{append}'
+        return key
+        
+        """if(value > self.streamMax):
+            value = self.streamMax
+        val = int(value/self.streamDivision)
+
+        key = f'{val}+{append}'
+        return key"""

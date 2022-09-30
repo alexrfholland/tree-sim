@@ -1,4 +1,5 @@
 from optparse import Values
+from traceback import format_exc
 from agentartificial import ArtificialAgent
 from agenttree import TreeAgent
 import settings.setting as set
@@ -49,8 +50,14 @@ from matplotlib.colorbar import Colorbar # For dealing with Colorbars the proper
 import seaborn as sns
 import pandas as pd
 
+
 class Model:
 
+    logAllTrees = {}
+    logAllArtificials = {}
+
+    logAllTrees2 = []
+    logAllArtificials2 = []
     
     noTreesAtKeyLifeStages = {}
     
@@ -93,11 +100,14 @@ class Model:
     treeResources = {}
     artResources = {}
 
-    vis = VisualOut()
+    
     
     @Timer(name = "Finished running model in {:.2f} seconds")
     def __init__(self):
-        self.year = 0
+        self.year: int = 0
+
+        self.vis = VisualOut()
+        print(set.scenario)
 
         #rivX.extend(self.geo.riverPts[:,0])
         #rivY.extend(self.geo.riverPts[:,1])
@@ -108,6 +118,7 @@ class Model:
 
         for i in range (round(self.size * self.density)):
             tree = TreeAgent()
+            tree.yearborn = self.year
             self.trees.append(tree)
 
         if set.existingTrees:
@@ -160,12 +171,11 @@ class Model:
             if agent.isAlive:
                 grow = agent.NextYear()
                 if set.MODELDEATH:
-                    death = agent.ChanceDeath()
+                    death = agent.ChanceDeath(self.year)
                 #print(f'Grow Rate: {grow} \t Death Rate: {death}')
 
         for artAgent in self.artificials:
             artAgent.GrowOld()
-            self.artificials
 
             #yrArtPerf.append(artAgent.performance)
             #yrAliveArt.append(artAgent)
@@ -174,7 +184,7 @@ class Model:
         ##create list of trees per DBH
 
         DBHdist = {}
-        treesPerDBH = {}
+        treesPerDBH: Dict[int, List[TreeAgent]] = {}
         #initialise dic
 
         dbhSpan = range(set.TREESTARTDBH,set.MAXDBH+1)
@@ -206,8 +216,11 @@ class Model:
 
                 
             #find resource list for trees of this DBH
+            ##count = 0 ##VALUE FOR TESTING
+
             for key, value in DBHdist.items():
                  
+
                 resourceMetersAtThisDBH = []
 
                 dbh = key
@@ -245,6 +258,8 @@ class Model:
 
                 #engine
                 #truncate function so min lengths are 0
+                
+                ##countb = 0 ##VALUE FOR TESTING
                 for i in range(len(uncappedResouceMetersAtThisDBH)):
                     j = float(uncappedResouceMetersAtThisDBH[i])
                     
@@ -256,6 +271,23 @@ class Model:
 
                     treesPerDBH[dbh][i].resources[resource].append(j)
                     treesPerDBH[dbh][i].resourcesThisYear.update({resource : float(j)})
+
+                """ ##TESTING - we have established that the raw generator are generating unique values, and that resources and resourcesthisyear have unique values so far
+                    if resource == 'dead' and count == 0 and countb == 0 and len(uncappedResouceMetersAtThisDBH) > 0:
+                        print(f'year is {self.year}')
+                        print(f'raw j value for {resource} is {uncappedResouceMetersAtThisDBH[0]} and count is {count}')
+                        print(f'agent is {treesPerDBH[dbh][0]}')
+                        print(f'raw resources this year value for agent 0 at dbh:{dbh} is {treesPerDBH[dbh][0].resourcesThisYear[resource]}')
+                        print(f'history state of resources is {treesPerDBH[dbh][0].resources[resource]}')
+
+                        count = count + 1
+                        
+
+                    countb = countb + 1
+                    ##END TESTING"""
+
+
+
                 
 
                 if len(resourceMetersAtThisDBH) > 0:
@@ -266,6 +298,9 @@ class Model:
                 flattendResources = list(itertools.chain.from_iterable(list(resourceMetersAcrossDBH.values())))
               
                 yrTreeResources.update({resource : flattendResources})
+                
+                
+
                 
         #add to main tracking dictionarie:
         self.resourcesSortedByDBH.update({self.year : yrResourcesAcrossDBHs})
@@ -280,6 +315,12 @@ class Model:
         #print(f"Year: {self.year} \t Trees Alive: {self.treesAliveThisYear} \t Total: {sum(yrResources['total'])}")
 
         yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage)
+        self.AddHistoryStates()
+        res = 'dead'
+        print(f'{res} is {self.trees[0].resourcesThisYear[res]}') ##TEST this is matching the generated values
+        #self.GetJSONOut()
+        self.GetJSONOut2()
+
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
         TextOut()
         self.vis.Update()
@@ -293,6 +334,7 @@ class Model:
 
         for z in range (recruitment):
             tree = TreeAgent()
+            tree.yearborn = self.year
             self.trees.append(tree)
 
         return(f"Last recruit Year: {self.year}, {recruitment} trees")
@@ -347,3 +389,110 @@ class Model:
         #print(f'DBH: {dbh} \t Constrictor Value: {constrictorVal}')
 
         return constrictorVal
+
+    def GetStats(self):
+        finalresources = {'x' : [], 'y' : []}
+        for name in set.RESOURCES:
+            finalresources.update({name : []})
+        #print(finalresources)
+
+        tree: TreeAgent
+        for tree in self.trees:
+            if tree.isAlive:
+                finalresources['x'].append(tree.point[0])
+                finalresources['y'].append(tree.point[1])
+                for name in set.RESOURCES:
+                    finalresources[name].append(tree.resourcesThisYear[name])
+
+        #df = pd.DataFrame(finalresources)
+        #filePath = set.MakeFolderPath(set.CSVOUT, f'total resources stats - {set.scenario}')
+        #df.to_csv(filePath + f"{self.year} - {set.scenario}.csv")
+
+    def GetJSONOut(self):
+        yrT = {}
+        yrA = {}
+
+        for tree in self.trees:
+            if tree.isAlive:
+                #out = (tree.age, tree.dbh, tree.resourcesThisYear)
+                out = {'age' : tree.age, 'performance' : tree.dbh, 'resources' : tree.resourcesThisYear}
+                yrT.update({tree.num : out})
+
+        for art in self.artificials:
+            if art.isAlive:
+                #out = (art.age, art.performance ,art.resourcesThisYear)
+                out = {'age' : art.age, 'performance' : art.performance, 'resources' : art.resourcesThisYear}
+                yrA.update({art.num : out})
+
+        self.logAllTrees.update({self.year : yrT})
+        self.logAllArtificials.update({self.year : yrA})
+
+
+    def AddHistoryStates(self):
+         for tree in self.trees:
+                if tree.isAlive:
+                    tree.hPerf.update({self.year : tree.dbh})
+                    tree.hAge.update({self.year : tree.age})
+                    tree.hResources.update({self.year : tree.resourcesThisYear.copy()})
+                    
+            
+         for art in self.artificials:
+                if art.isAlive:
+                    art.hPerf.update({self.year : art.performance})
+                    art.hAge.update({self.year : art.age})
+                    art.hResources.update({self.year : art.resourcesThisYear.copy()})
+         """
+         ##TESTING
+         resource = 'dead'
+         print(self.trees[0])
+         print (f"raw {resource} resources are {self.trees[0].resourcesThisYear[resource]}")
+         for y in range(self.year):
+            print (f'hResources of {resource} are {self.trees[0].hResources[y][resource]}') #now it works! here
+"""
+
+
+    def GetJSONOut2(self):
+        
+        count = 0
+        for tree in self.trees:
+            out = {'age' : tree.hAge, 'performance' : tree.hPerf, 'resources' : tree.hResources}
+            if self.year in tree.hResources:
+                print(f'agent is {count}, year is {self.year} and ages are {out["resources"][self.year]}')
+            self.logAllTrees2.append(out)
+            count = count + 1
+
+        for art in self.artificials:
+            out = {'age' : art.hAge, 'performance' : art.hPerf, 'resources' : art.hResources}
+            self.logAllArtificials2.append(out)
+
+    def GetTreeDataFrame(self):    
+        dic = {}
+        res = 'dead'
+        print(f'agent {self.trees[0]}, dead is {self.trees[0].hResources}')    
+        for year in range(self.year):
+            row = []
+            for tree in self.trees:
+                aliveThisYear = False
+                cell = ({'age' : -1,
+                        'performance' : -1,
+                        'resources' : {'tree-dead': -1},
+                        'alive' : False
+                        })
+
+                if year < tree.yearborn or year >= tree.yeardeath:
+                    aliveThisYear = True
+                
+                if year in tree.hPerf:
+                    cell = ({'age' : tree.hAge[year],
+                        'performance' : tree.hPerf[year],
+                        'resources' : tree.hResources[year],
+                        'alive' : aliveThisYear
+                        })
+                row.append(cell)
+            dic.update({f'y{year}' : row})
+        
+
+        df = pd.DataFrame.from_dict(dic)
+        return df
+
+                        
