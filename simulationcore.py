@@ -468,11 +468,10 @@ class Model:
     def GetTreeDataFrame(self):    
         dic = {}
         res = 'dead'
-        print(f'agent {self.trees[0]}, dead is {self.trees[0].hResources}')    
         for year in range(self.year):
             row = []
             for tree in self.trees:
-                aliveThisYear = False
+                aliveThisYear = True
                 cell = ({'age' : -1,
                         'performance' : -1,
                         'resources' : {'tree-dead': -1},
@@ -480,7 +479,7 @@ class Model:
                         })
 
                 if year < tree.yearborn or year >= tree.yeardeath:
-                    aliveThisYear = True
+                    aliveThisYear = False
                 
                 if year in tree.hPerf:
                     cell = ({'age' : tree.hAge[year],

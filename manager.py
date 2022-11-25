@@ -30,21 +30,21 @@ timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 #filePath = f'{settings.CSVOUT}{timestamp} - {settings.scenario}'
 filePath = settings.WINDOWSOUT
 
-#df = simulation.GetTreeDataFrame()
+df = simulation.GetTreeDataFrame()
 #df.to_pickle(filePath + 'treeDF.pk1')
 #print(df)
 
 
-#df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
+df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
+print(f'saved {df}')
 
-
-with open(f'{filePath}trees.json', 'w') as file:
+"""with open(f'{filePath}trees.json', 'w') as file:
     json.dump(simulation.logAllTrees2, file, indent = 4)
 
 with open(f'{filePath}artificials.json', 'w') as file:
     json.dump(simulation.logAllArtificials2, file, indent = 4)
 
-
+"""
 
 
 
