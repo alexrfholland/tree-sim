@@ -2,11 +2,10 @@ from optparse import Values
 from traceback import format_exc
 from agentartificial import ArtificialAgent
 from agenttree import TreeAgent
-import settings.setting as set
-import settings.resourcecurves as curves
+import setting as set
+import resourcecurves as curves
 
 #from settings.setting import set
-import settings.scenarios as scenarios
 import yearlyOutput as yearLog
 from visuals import VisualOut
 from textout import TextOut
@@ -65,7 +64,7 @@ class Model:
     artificials: List[ArtificialAgent] = []
 
     size = set.AREA
-    density = (set.DENSITYHIGH + set.DENSITYLOW)/2
+    density = (set.DENSITYHIGH + set.DENSITYLOW)/2 * (1 - set.BUDGETSPLIT)
 
     year = 0
     timeperiod = set.TIMEPERIOD
@@ -176,6 +175,7 @@ class Model:
 
         for artAgent in self.artificials:
             artAgent.GrowOld()
+            #print(f'art resources are {artAgent.resourcesThisYear}')
 
             #yrArtPerf.append(artAgent.performance)
             #yrAliveArt.append(artAgent)
@@ -212,6 +212,7 @@ class Model:
                 if artAgent.isAlive:
                     metersPerArtificial.append(artAgent.resourcesThisYear[resource])
                 
+            #print(f'{resource} artificial is {metersPerArtificial}')
             yrArtResources.update({resource : metersPerArtificial})
 
                 
@@ -307,6 +308,7 @@ class Model:
         
         self.treeResources.update({int(self.year) : yrTreeResources})
         self.artResources.update({int(self.year) : yrArtResources})
+        #print(f'Yr {self.year} art resources are {self.artResources}')
 
 
         self.snapTotalAlive.update({self.year : self.treesAliveThisYear})
@@ -317,7 +319,7 @@ class Model:
         yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage)
         self.AddHistoryStates()
         res = 'dead'
-        print(f'{res} is {self.trees[0].resourcesThisYear[res]}') ##TEST this is matching the generated values
+        #print(f'{res} is {self.trees[0].resourcesThisYear[res]}') ##TEST this is matching the generated values
         #self.GetJSONOut()
         self.GetJSONOut2()
 
@@ -340,11 +342,23 @@ class Model:
         return(f"Last recruit Year: {self.year}, {recruitment} trees")
 
     
-    def Build(self):
+    def Learn(self):
+        if set.ARTIMPROVE > 0:
+            self.artPerf += set.ARTIMPROVE
+            if self.artPerf >= set.ARTPERFMAX:
+                self.artPerf = set.ARTPERFMAX
+        
+    def Adapt(self):
+        self.Learn()
         self.artPerf += set.ARTIMPROVE
         if self.artPerf >= set.ARTPERFMAX:
             self.artPerf = set.ARTPERFMAX
 
+        for artagent in self.artificials:
+            artagent.Upgrade(self.artPerf)
+    
+    def Build(self):
+        self.Learn()
         for a in range(set.ARTNUMBER):
             artificial = ArtificialAgent(self.artPerf)
             self.artificials.append(artificial)
@@ -457,7 +471,7 @@ class Model:
         for tree in self.trees:
             out = {'age' : tree.hAge, 'performance' : tree.hPerf, 'resources' : tree.hResources}
             if self.year in tree.hResources:
-                print(f'agent is {count}, year is {self.year} and ages are {out["resources"][self.year]}')
+               """ print(f'agent is {count}, year is {self.year} and ages are {out["resources"][self.year]}')"""
             self.logAllTrees2.append(out)
             count = count + 1
 

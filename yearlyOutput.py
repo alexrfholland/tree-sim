@@ -1,7 +1,7 @@
 
 from tabulate import tabulate
 import termplotlib as tpl
-from settings.setting import *
+from setting import *
 
 import numpy as np
 
@@ -13,15 +13,23 @@ import simulationcore as simu
 from typing import List
 from typing import Dict
 
+##exportStates
+globalYearlyTotals ={}
+perStructureTotals = {}
+resources = ['total', 'dead', 'high']
+
+for n in resources:
+        perStructureTotals.update({n : {
+            'year' : [],
+            'resources' : [],
+            'type' : [],
+        }})
+        globalYearlyTotals.update({n : {
+                'trees' : [], 
+                'artificial' : []
+            }})
 
 ############## From Year of Sim
-
-"""year = simu.year
-trees : List[TreeAgent]  = simu.trees
-artificials  : List[ArtificialAgent] = simu.artificials
-"""
-
-
 
 year = 0
 trees: List[TreeAgent]  = []
@@ -139,6 +147,10 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
             yrArtPerf.append(agent.performance)
 
 
+            for name in RESOURCES:
+                yrArtResources[name].append(agent.resourcesThisYear[name])
+
+
 
             #print(f'artificial {name}: {agent.resourcesThisYear[name]}')
 
@@ -151,5 +163,63 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     if noArtificialsAliveThisYear > 0:
         averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
         maxArtPerf = "{:.2f}".format(max(yrArtPerf))
+
+    ExportYrly()
+
+
+
+def ExportYrly():
+
+    resThisYear = {}
+
+    print(perStructureTotals['total']['resources'])
+
+
+    for n in resources:
+            resThisYear.update({ n : {
+                    'trees' : [], 
+                    'artificial' : []
+                    }})
+
+    for agent in artificials:   
+        if agent.isAlive:
+            for n in resources:
+                perStructureTotals[n]['year'] = year
+                perStructureTotals[n]['type'] = f'{scenario} - artificial'
+                perStructureTotals[n]['resources'] = agent.resourcesThisYear[n]
+
+                resThisYear[n]['artificial'].append(agent.resourcesThisYear[n])
+
+    print(trees)
+            
+    for agent in trees:
+        if agent.isAlive:
+            for n in resources:
+                perStructureTotals[n]['year'] = year
+                perStructureTotals[n]['type'] = f'{scenario} - trees'
+                print(n)
+                print(agent.resourcesThisYear)
+                print(agent.resourcesThisYear['total'])
+                perStructureTotals[n]['resources'] = agent.resourcesThisYear[n]
+
+                resThisYear[n]['trees'].append(agent.resourcesThisYear[n])
+
+    for n in resources:
+        globalYearlyTotals[n]['trees'].append(sum(resThisYear[n]['trees']))
+        globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
+
+def ExportYrLog():
+    filePath = f'{settings.SUSTAINABILITY}CSV/cumulative resources - high - {settings.scenario}.csv'
+    dfTotals = pd.DataFrame(globalYearlyTotals['high'])
+    dfTotals.to_csv(filePath)
+
+
+    """filePath = f'{settings.SUSTAINABILITY}CSV/per structure resources - {settings.scenario}.csv'
+    dfStructures = pd.DataFrame(perStructureTotals)
+    dfStructures.to_csv(filePath)
+    """
+
+
+            
 
 

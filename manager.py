@@ -1,17 +1,21 @@
 import pandas
-import settings.setting as settings
-import settings.scenarios as scenario
-scenario.UpdateForScenarios()
-import settings.resourcecurves as resources
-import settings.geometry as geo
+import setting as settings
+#import settings.scenes as scenario
+#scenario.UpdateForScenarios()
+import resourcecurves as resources
+import geometry as geo
 import simulationcore as sim
 import pandas as pd
 from datetime import *
+
+import yearlyOutput as yearLog
 
 import json
 
 print (f'death now is {settings.deathHigh}')
 print (f'allow prosthetics  is {settings.modelProsthetics}')
+print(f'art perf is {settings.ARTPERFMIN}')
+
 
 
 resources.GetResourceCurves()
@@ -34,6 +38,9 @@ df = simulation.GetTreeDataFrame()
 #df.to_pickle(filePath + 'treeDF.pk1')
 #print(df)
 
+#SUSTAINABILITY STUFF
+yearLog.ExportYrLog()
+
 
 df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
 print(f'saved {df}')
@@ -46,10 +53,9 @@ with open(f'{filePath}artificials.json', 'w') as file:
 
 """
 
-
-
 """filePath = settings.MakeFolderPath(settings.CSVOUT, f'total resources stats per year - {settings.scenario}')
-dfTree = pd.DataFrame(simulation.vis.streamDicTree)
+dfTree = pd.DataFrame(simulation.vis.streamDicTree)240
+
 dfArticial = pd.DataFrame(simulation.vis.streamDicArt)
 
 print('done')

@@ -6,8 +6,8 @@ import math
 from matplotlib.axis import XAxis
 import yearlyOutput as yrLog
 #from settings.setting import *
-import settings.geometry as geo
-import settings.setting as set
+import geometry as geo
+import setting as set
 
 import csv
 import os
@@ -199,9 +199,19 @@ class VisualOut:
         im = ax3.imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = 20)  
         ax3.set_title('Distribution of High Resources Per Natural Trees')
 
+        print(self.fig3ResPerProsthetic)
+
 
         #HEATMAP: DISTRIBUTION OF HIGH RESOURCES PER PROSTHETIC
-        heatmap, xedges, yedges = np.histogram2d(self.fig3YrssPerProsthetic ,self.fig3ResPerProsthetic, bins=200, density = False, weights = self.fig3ResPerProsthetic)
+        x = [0]
+        y = [0]
+
+        x.extend(self.fig3YrssPerProsthetic)
+        y.extend(self.fig3ResPerProsthetic)
+        
+        heatmap, xedges, yedges = np.histogram2d(x , y, bins=200, density = False, weights = y)
+
+        #heatmap, xedges, yedges = np.histogram2d(self.fig3YrssPerProsthetic ,self.fig3ResPerProsthetic, bins=200, density = False, weights = self.fig3ResPerProsthetic)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
         #extentC = [0, 250, 0, 40]
         #extent = [0, 250, 0, 30]
@@ -581,7 +591,7 @@ class VisualOut:
 
         
 
-        #drawnow(self.Make_FigA)
+        drawnow(self.Make_FigA)
         #drawnow(self.Make_FigB)
 
         

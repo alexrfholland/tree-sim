@@ -13,9 +13,9 @@ seed(1)
 
 import pandas as pd
 
-import settings.setting as settings
-from settings.resourcecurves import *
-from settings.geometry import *
+import setting as settings
+from resourcecurves import *
+from geometry import *
 
 class TreeAgent:
 

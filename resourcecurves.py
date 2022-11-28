@@ -5,7 +5,7 @@ import csv
 from scipy.interpolate import interp1d
 
 #import script.settings.setting as settings
-from settings.setting import *
+from setting import *
 
 
 DPREDICTIONS = {}
