@@ -61,7 +61,7 @@ class VisualOut:
     fig = plt.figure(figsize= set.FIGURESIZE)
  
 
-    figXDraw = list()
+    figXDraw = list()tt
     figYDraw = list()
     figZDraw = list()
     figHigh = list()
@@ -591,7 +591,7 @@ class VisualOut:
 
         
 
-        drawnow(self.Make_FigA)
+        #drawnow(self.Make_FigA)
         #drawnow(self.Make_FigB)
 
         

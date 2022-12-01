@@ -111,3 +111,12 @@ def MakeFolderPath(parentPath, otherInfo) -> str:
     if not os.path.isdir(path):
         os.makedirs(path)
     return path
+
+
+MAXRESOURCES = {
+    'total' : 2125,
+    'lateral' : 844,
+    'dead' : 351,
+    'low' : 1813,
+    'medium' : 130,
+    'high' : 59}

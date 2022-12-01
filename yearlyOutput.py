@@ -14,20 +14,26 @@ from typing import List
 from typing import Dict
 
 ##exportStates
-globalYearlyTotals ={}
 perStructureTotals = {}
 resources = ['total', 'dead', 'high']
 
 for n in resources:
         perStructureTotals.update({n : {
             'year' : [],
+            'id' : [],
             'resources' : [],
             'type' : [],
         }})
-        globalYearlyTotals.update({n : {
-                'trees' : [], 
-                'artificial' : []
-            }})
+globalYearlyTotals = {
+        'year' : [],
+        'resource' : [],
+        'trees' : [], 
+        'artificial' : [],
+        'm/tree' : [],
+        'm/artificial' : [],
+        'norm/tree' : [],
+        'norm/artificial' : []
+        }
 
 ############## From Year of Sim
 
@@ -172,9 +178,6 @@ def ExportYrly():
 
     resThisYear = {}
 
-    print(perStructureTotals['total']['resources'])
-
-
     for n in resources:
             resThisYear.update({ n : {
                     'trees' : [], 
@@ -184,40 +187,51 @@ def ExportYrly():
     for agent in artificials:   
         if agent.isAlive:
             for n in resources:
-                perStructureTotals[n]['year'] = year
-                perStructureTotals[n]['type'] = f'{scenario} - artificial'
-                perStructureTotals[n]['resources'] = agent.resourcesThisYear[n]
+                perStructureTotals[n]['year'].append(year)
+                perStructureTotals[n]['type'].append('artificial')
+                perStructureTotals[n]['id'].append(agent.num)
+                perStructureTotals[n]['resources'].append(agent.resourcesThisYear[n])
 
                 resThisYear[n]['artificial'].append(agent.resourcesThisYear[n])
 
-    print(trees)
             
     for agent in trees:
         if agent.isAlive:
             for n in resources:
-                perStructureTotals[n]['year'] = year
-                perStructureTotals[n]['type'] = f'{scenario} - trees'
-                print(n)
-                print(agent.resourcesThisYear)
-                print(agent.resourcesThisYear['total'])
-                perStructureTotals[n]['resources'] = agent.resourcesThisYear[n]
+                perStructureTotals[n]['year'].append(year)
+                perStructureTotals[n]['type'].append('trees')
+                perStructureTotals[n]['id'].append(agent.num)
+                perStructureTotals[n]['resources'].append(agent.resourcesThisYear[n])
 
                 resThisYear[n]['trees'].append(agent.resourcesThisYear[n])
 
     for n in resources:
-        globalYearlyTotals[n]['trees'].append(sum(resThisYear[n]['trees']))
-        globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
+        globalYearlyTotals['year'].append(year)
+        globalYearlyTotals['resource'].append(n)
+        globalYearlyTotals['artificial'].append(sum(resThisYear[n]['artificial']))
+        globalYearlyTotals['trees'].append(sum(resThisYear[n]['trees']))
+
+        mPerTree = sum(resThisYear[n]['trees'])/len(resThisYear[n]['trees'])
+        mPerArt = sum(resThisYear[n]['artificial'])/len(resThisYear[n]['artificial'])
+
+        globalYearlyTotals['m/tree'].append(mPerTree)
+        globalYearlyTotals['m/artificial'].append(mPerArt)
+
+        globalYearlyTotals['norm/tree'].append(mPerTree / settings.MAXRESOURCES[n])
+        globalYearlyTotals['norm/artificial'].append(mPerArt / settings.MAXRESOURCES[n])
+
+
+        #globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
 
 def ExportYrLog():
-    filePath = f'{settings.SUSTAINABILITY}CSV/cumulative resources - high - {settings.scenario}.csv'
-    dfTotals = pd.DataFrame(globalYearlyTotals['high'])
-    dfTotals.to_csv(filePath)
+    """    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/cumulative resources - {settings.scenario}.csv'
+    dfTotals = pd.DataFrame(globalYearlyTotals)
+    dfTotals.to_csv(filePath)"""
 
 
-    """filePath = f'{settings.SUSTAINABILITY}CSV/per structure resources - {settings.scenario}.csv'
-    dfStructures = pd.DataFrame(perStructureTotals)
+    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/per structure resources/{settings.scenario}.csv'
+    dfStructures = pd.DataFrame(perStructureTotals['high'])
     dfStructures.to_csv(filePath)
-    """
 
 
             
