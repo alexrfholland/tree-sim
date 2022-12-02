@@ -21,7 +21,7 @@ DEBUG = False
 
 ISVISOUT = False
 
-RESOURCES = ["dead","lateral","total","low","medium","high"]
+RESOURCES = ["dead","lateral","total","low","medium","high","carryDeadLat","carrySuit"]
 TIMEPERIOD = int(input('How many years?' )) #240
 SCENENAME = str(input('What Scenario?'))
 BUDGETSPLIT = float(input('Budget Split?' )) #240
