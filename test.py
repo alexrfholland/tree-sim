@@ -1,12 +1,8 @@
-import random
+import setting as settings
 
-ARTLIFE = 20
-ARTLIFEVARIATION = .2
+outputFilePath = settings.MakeFolderPath(settings.SUSTAINABILITY, f'model-outputs/{settings.scenario}-')
 
-for i in range(1,10):
-    max = round(ARTLIFE + (ARTLIFE * ARTLIFEVARIATION))
-    min = round(ARTLIFE - (ARTLIFE * ARTLIFEVARIATION))
-    lifespan = random.randint(min, max)
-    print(lifespan)
-print("#######")
-
+for i in range(0,10):
+    path = f'{outputFilePath}{i}.csv'
+    print(path)
+    

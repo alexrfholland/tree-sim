@@ -16,7 +16,6 @@ from typing import Dict
 ##exportStates
 perStructureTotals = {}
 resources = ['total', 'dead', 'high', 'carrySuit']
-
 for n in resources:
         perStructureTotals.update({n : {
             'year' : [],
@@ -24,6 +23,7 @@ for n in resources:
             'resources' : [],
             'type' : [],
         }})
+
 globalYearlyTotals = {
         'year' : [],
         'resource' : [],
@@ -62,6 +62,76 @@ maxDBH = 0
 averageArtPerf = 0
 maxArtPerf = 0
 
+def Reset():
+    global perStructureTotals
+    global globalYearlyTotals
+    
+    global year
+    global trees
+    global artificials
+    global isRecruit
+    global isBuilt
+    global recruitMessage
+    global builtMesssage
+
+    global yrTreeResources
+    global yrArtResources
+
+    global noTreesAliveThisYear
+    global noArtificialsAliveThisYear
+    
+    global yrDBHS
+    global yrArtPerf
+
+    global averageDBH
+    global maxDBH
+    global averageArtPerf
+    global maxArtPerf
+
+
+    perStructureTotals = {}
+    for n in resources:
+            perStructureTotals.update({n : {
+                'year' : [],
+                'id' : [],
+                'resources' : [],
+                'type' : [],
+            }})
+
+    globalYearlyTotals = {
+            'year' : [],
+            'resource' : [],
+            'trees' : [], 
+            'artificial' : [],
+            'm/tree' : [],
+            'm/artificial' : [],
+            'norm/tree' : [],
+            'norm/artificial' : []
+            }
+    
+    
+    year = 0
+    trees.clear()
+    artificials.clear()
+    isRecruit = False
+    isBuilt = False
+    recruitMessage = ""
+    builtMesssage = ""
+
+    yrTreeResources.clear()
+    yrArtResources.clear()
+
+    noTreesAliveThisYear = 0
+    noArtificialsAliveThisYear = 0
+
+    yrDBHS.clear()
+    yrArtPerf.clear()
+
+    averageDBH = 0
+    maxDBH = 0
+    averageArtPerf = 0
+    maxArtPerf = 0 
+
 
 def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recruitMessage, _builtMessage):
 
@@ -71,8 +141,8 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
     global trees
     global artificials
 
-    global logAllTrees
-    global logAllArtificials
+    #global logAllTrees
+    #global logAllArtificials
     
     global yrTreeResources
     global yrArtResources
@@ -231,17 +301,21 @@ def ExportYrly():
 
         #globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
 
-def ExportYrLog():
-    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/cumulative resources/cumulative resources - {settings.scenario}.csv'
+
+def ExportYrLog(filePath, modelRun):
     dfTotals = pd.DataFrame(globalYearlyTotals)
-    dfTotals.to_csv(filePath)
+    path = f'{filePath}{modelRun}.csv'
+    print(f'model runn {modelRun} ended, saving {len(dfTotals)} structures to {path}')
 
 
-    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/per structure resources/{settings.scenario}.csv'
+    dfTotals.to_csv(path)
+
+
+    """filePath = f'{settings.SUSTAINABILITY}Stats/CSV/per structure resources/{settings.scenario}.csv'
    #dfStructures = pd.DataFrame(perStructureTotals['high'])
     dfStructures = pd.DataFrame(perStructureTotals)
     dfStructures.to_csv(filePath)
-
+    """
 
             
 

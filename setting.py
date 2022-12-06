@@ -12,7 +12,7 @@ JSONOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/0
 #CSVOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Data/'
 
 
-SUSTAINABILITY  = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/'
+SUSTAINABILITY  = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/'
 VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Images'
 WINDOWSOUT = '/Users/alexholland/Documents/Windows Files/Sim Exports/'
 #FIGURESIZE = [5,5]
@@ -132,7 +132,7 @@ FILESDICT = {"dead":"dead-branch-loess", "lateral":"lateral-branch-loess", "tota
 RESOURCEGRAPH = ["dead","lateral","total","low","medium","high","carrySuit"]
 
 def MakeFolderPath(parentPath, otherInfo) -> str:
-    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
 
     path = parentPath + otherInfo + timestamp + '/'
     if not os.path.isdir(path):

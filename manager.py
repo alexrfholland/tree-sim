@@ -21,28 +21,33 @@ print(f'art perf is {settings.ARTPERFMIN}')
 resources.GetResourceCurves()
 geo.GetGeometry()
 
-simulation = sim.Model()
-simulation.GetStats()
+
+outputFilePath = settings.MakeFolderPath(settings.SUSTAINABILITY, f'model-outputs/{settings.scenario}-')
 
 
-print(f'{settings.scenario} SCENARIO done')
+for i in range(0,30):
 
-test = (1, 2, 3)
-
-timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-#filePath = f'{settings.CSVOUT}{timestamp} - {settings.SCENARIO}'
-filePath = settings.WINDOWSOUT
-
-df = simulation.GetTreeDataFrame()
-#df.to_pickle(filePath + 'treeDF.pk1')
-#print(df)
-
-#SUSTAINABILITY STUFF
-yearLog.ExportYrLog()
+    yearLog.Reset()
+    simulation = sim.Model()
+    #simulation.GetStats()
 
 
-df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
-print(f'saved {df}')
+    print(f'{settings.scenario} SCENARIO done')
+
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    #filePath = f'{settings.CSVOUT}{timestamp} - {settings.SCENARIO}'
+    filePath = settings.WINDOWSOUT
+
+    #df = simulation.GetTreeDataFrame()
+    #df.to_pickle(filePath + 'treeDF.pk1')
+    #print(df)
+
+    #SUSTAINABILITY STUFF
+    yearLog.ExportYrLog(outputFilePath, i)
+
+
+#df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
+#print(f'saved {df}')
 
 """with open(f'{filePath}trees.json', 'w') as file:
     json.dump(simulation.logAllTrees2, file, indent = 4)
