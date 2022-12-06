@@ -1,7 +1,7 @@
 import pandas
 import setting as settings
-#import settings.scenes as scenario
-#scenario.UpdateForScenarios()
+#import settings.scenes as SCENARIO
+#SCENARIO.UpdateForSCENARIOs()
 import resourcecurves as resources
 import geometry as geo
 import simulationcore as sim
@@ -24,14 +24,13 @@ geo.GetGeometry()
 simulation = sim.Model()
 simulation.GetStats()
 
-print(simulation.vis.streamDicTree)
 
-print(f'{settings.scenario} scenario done')
+print(f'{settings.scenario} SCENARIO done')
 
 test = (1, 2, 3)
 
 timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-#filePath = f'{settings.CSVOUT}{timestamp} - {settings.scenario}'
+#filePath = f'{settings.CSVOUT}{timestamp} - {settings.SCENARIO}'
 filePath = settings.WINDOWSOUT
 
 df = simulation.GetTreeDataFrame()
@@ -53,7 +52,7 @@ with open(f'{filePath}artificials.json', 'w') as file:
 
 """
 
-"""filePath = settings.MakeFolderPath(settings.CSVOUT, f'total resources stats per year - {settings.scenario}')
+"""filePath = settings.MakeFolderPath(settings.CSVOUT, f'total resources stats per year - {settings.SCENARIO}')
 dfTree = pd.DataFrame(simulation.vis.streamDicTree)240
 
 dfArticial = pd.DataFrame(simulation.vis.streamDicArt)
@@ -63,5 +62,5 @@ print(dfTree)
 print(dfArticial)
 
 
-dfTree.to_csv(filePath + f"tree total resources - {settings.scenario}.csv")
-dfArticial.to_csv(filePath + f"artificial total resources - {settings.scenario}.csv")"""
+dfTree.to_csv(filePath + f"tree total resources - {settings.SCENARIO}.csv")
+dfArticial.to_csv(filePath + f"artificial total resources - {settings.SCENARIO}.csv")"""

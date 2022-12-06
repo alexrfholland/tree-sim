@@ -1,5 +1,25 @@
+import pandas as pd
+
+artificialInfoPath = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/artificial-classes.csv"
+
+
 SCENARIOS = ['intact','existing','replanting','prosthetics']
 
+
+
+
+
+def GetArtificial(i):
+    df = pd.read_csv(artificialInfoPath)
+    dic = df.to_dict(orient='index')
+    row = dic[i]
+    row.update({"isRecruit" : True,
+                "isArtificials" : True,
+                "isExistingTrees" : False})
+    print(row)
+    return(row)
+
+    
 def UpdateForScenarios():
     #INTACT
     #death  figures from 'our proposal' in Table 1 of Gibbons et al., “The Future of Scattered Trees in Agricultural Landscapes.”
@@ -26,7 +46,7 @@ def UpdateForScenarios():
     settings.modelRecruit = True
     settings.modelProsthetics = False
     settings.existingTrees = False"""
-
+"""
    
 def SetScenarios(name):
 
@@ -180,7 +200,7 @@ def SetScenarios(name):
     print(scenario)
     return(scenes)
 
-
+"""
 
 
 

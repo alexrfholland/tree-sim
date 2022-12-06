@@ -8,14 +8,14 @@ import numpy as np
 from agenttree import *
 from agentartificial import *
 
-import simulationcore as simu
+import simulationcore as sim
 
 from typing import List
 from typing import Dict
 
 ##exportStates
 perStructureTotals = {}
-resources = ['total', 'dead', 'high']
+resources = ['total', 'dead', 'high', 'carrySuit']
 
 for n in resources:
         perStructureTotals.update({n : {
@@ -211,8 +211,16 @@ def ExportYrly():
         globalYearlyTotals['artificial'].append(sum(resThisYear[n]['artificial']))
         globalYearlyTotals['trees'].append(sum(resThisYear[n]['trees']))
 
-        mPerTree = sum(resThisYear[n]['trees'])/len(resThisYear[n]['trees'])
-        mPerArt = sum(resThisYear[n]['artificial'])/len(resThisYear[n]['artificial'])
+        
+        if len(resThisYear[n]['trees']) == 0:
+            mPerTree = 0
+        else:       
+            mPerTree = sum(resThisYear[n]['trees'])/len(resThisYear[n]['trees'])
+
+        if len(resThisYear[n]['artificial']) == 0:
+            mPerArt = 0
+        else:       
+            mPerArt = sum(resThisYear[n]['artificial'])/len(resThisYear[n]['artificial'])
 
         globalYearlyTotals['m/tree'].append(mPerTree)
         globalYearlyTotals['m/artificial'].append(mPerArt)
@@ -224,13 +232,14 @@ def ExportYrly():
         #globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
 
 def ExportYrLog():
-    """    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/cumulative resources - {settings.scenario}.csv'
+    filePath = f'{settings.SUSTAINABILITY}Stats/CSV/cumulative resources/cumulative resources - {settings.scenario}.csv'
     dfTotals = pd.DataFrame(globalYearlyTotals)
-    dfTotals.to_csv(filePath)"""
+    dfTotals.to_csv(filePath)
 
 
     filePath = f'{settings.SUSTAINABILITY}Stats/CSV/per structure resources/{settings.scenario}.csv'
-    dfStructures = pd.DataFrame(perStructureTotals['high'])
+   #dfStructures = pd.DataFrame(perStructureTotals['high'])
+    dfStructures = pd.DataFrame(perStructureTotals)
     dfStructures.to_csv(filePath)
 
 

@@ -35,11 +35,7 @@ import itertools
 from codetiming import Timer
 
 # generate random integer values
-from random import seed
 from random import randint
-
-# seed random number generator
-seed(1)
 
 from drawnow import drawnow
 import matplotlib.pyplot as plt
@@ -61,7 +57,7 @@ class VisualOut:
     fig = plt.figure(figsize= set.FIGURESIZE)
  
 
-    figXDraw = list()tt
+    figXDraw = list()
     figYDraw = list()
     figZDraw = list()
     figHigh = list()
@@ -199,7 +195,7 @@ class VisualOut:
         im = ax3.imshow(heatmap.T, extent=extent, origin='lower', cmap = 'viridis', vmin = 0, vmax = 20)  
         ax3.set_title('Distribution of High Resources Per Natural Trees')
 
-        print(self.fig3ResPerProsthetic)
+        #print(self.fig3ResPerProsthetic)
 
 
         #HEATMAP: DISTRIBUTION OF HIGH RESOURCES PER PROSTHETIC
@@ -309,6 +305,7 @@ class VisualOut:
         plt.tight_layout()
 
 
+    
     ###not working
     def Make_FigAgainSmoothMini(self):
 
@@ -533,10 +530,9 @@ class VisualOut:
                 self.fig3YrssPerProsthetic.append(yrLog.year)
 
                 for resourceN in set.RESOURCES:
-                        self.figAll[resourceN].append(tree.resourcesThisYear[resourceN])
+                    #self.figAll[resourceN].append(tree.resourcesThisYear[resourceN])
+                    self.figAll[resourceN].append(prosthetic.resourcesThisYear[resourceN])  ####NOTE this used to be tree and is used in the figb mini
 
-                #self.exportPros['high'].append(prosthetic.resources['high'])
-                #self.exportPros['year'].append(self.year)
 
                 #stream
 
@@ -591,8 +587,16 @@ class VisualOut:
 
         
 
-        #drawnow(self.Make_FigA)
-        #drawnow(self.Make_FigB)
+        no = set.VISCOUNT
+
+        if no == 1:
+            drawnow(self.Make_FigA)
+        if no ==2:
+            drawnow(self.Make_FigB)
+        if no ==3:
+            drawnow(self.Make_FigC)
+        
+
 
         
         

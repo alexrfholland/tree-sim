@@ -2,14 +2,9 @@ from scipy.sparse.construct import random
 import random
 
 # generate random integer values
-from random import seed
 from random import randint
 
 import uuid
-
-# seed random number generator
-seed(1)
-
 
 import pandas as pd
 

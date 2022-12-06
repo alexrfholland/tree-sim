@@ -7,7 +7,6 @@ import numpy as np
 
 # Set the random seed for data generation using numpy
 
-np.random.seed(1)
 
  
 

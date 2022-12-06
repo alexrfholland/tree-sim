@@ -2,6 +2,7 @@ from datetime import *
 import sys, os
 from tokenize import Name
 import scenes
+import random
 
 #find DRAWINGOUTPUT to see where to enable images
 
@@ -21,14 +22,15 @@ DEBUG = False
 
 ISVISOUT = False
 
-RESOURCES = ["dead","lateral","total","low","medium","high","carryDeadLat","carrySuit"]
+RESOURCES = ["dead","lateral","total","low","medium","high","carrySuit"]
 TIMEPERIOD = int(input('How many years?' )) #240
-SCENENAME = str(input('What Scenario?'))
+SCENENO = int(input('What Scenario?'))
 BUDGETSPLIT = float(input('Budget Split?' )) #240
+VISCOUNT = int(input('Visuals?' ))
 
 BUDGET = 554400 * BUDGETSPLIT
 
-scene = scenes.SetScenarios(SCENENAME)
+
 
 
 INTERVAL = 30
@@ -41,20 +43,18 @@ INITIALDBHMAX = 130
 INITAGEMIN = 200
 INITAGEMAX = 400
 
-scenario = scene['scenario']
 
-print(scene['isRecruit'])
 
-modelRecruit = scene['isRecruit']
-modelProsthetics = scene['isArtificials']
-existingTrees = scene['isExistingTrees']
 
 MODELDEATH = True
 
 
 modifier = 0.6
 #modifier = 1
-RESOURCECAPS = {'total' : 1500 * modifier, 'lateral' : 800 * modifier, 'dead' : 350 * modifier, 'high': 20 * modifier, 'medium' : 130 * modifier, 'low' : 1500 * modifier}
+RESOURCECAPS = {'total' : 1500 * modifier, 'lateral' : 800 * modifier, 'dead' : 350 * modifier, 'high': 20 * modifier, 'medium' : 130 * modifier, 'low' : 1500 * modifier, "carrySuit" : 1};
+
+
+
 FOCUSRESOURCE = 'high'
 
 
@@ -77,19 +77,46 @@ deathHigh = 0.010#.024
 #recruitment stats from Gibbons (2009)
 RECRUITMULTIPLIER = 2
 
-##artificial
-ARTNUMBER = round(BUDGET/scene['cost'])
-ARTINTERVAL = scene['serviceLife']
-ARTPERFMIN = scene['performance']
-ARTPERFMAX = scene['maxPerformance']
-ARTIMPROVE = scene['improveRate']
-ARTLENGTH = scene['length']
-ARTDEADLATERAL = scene['deadlateral']
 
-print(f'scene is {scene}')
+################################SCENARIO
 
-ARTLIFE = scene['serviceLife']
-ARTLIFEVARIATION = scene['lifeVariation']
+SCENE = scenes.GetArtificial(SCENENO)
+scenario = SCENE['id']
+print(f'scenario {scenario} loaded')
+
+#ARTIFICIALS
+ARTNUMBER = round(BUDGET/SCENE['cost'])
+ARTINTERVAL = SCENE['service life']
+ARTPERFMIN = SCENE['performance']
+ARTLIFE = SCENE['service life']
+ARTLIFEVARIATION = 0.2
+ARTSERVICELIFEVARIATION = 0.2
+
+ARTLENGTH = SCENE['totalLengths']
+ARTDEADLATERAL = SCENE['suitLengths']
+
+#CARRYING
+ARTUP = SCENE['sLow']
+ARTLOW = SCENE['sUp']
+ARTMEAN = SCENE['sMean']
+ARTSD = SCENE['sSD']
+
+#OTHER SCENE STUFF
+modelRecruit = SCENE['isRecruit']
+modelProsthetics = SCENE['isArtificials']
+existingTrees = SCENE['isExistingTrees']
+
+
+#not using
+ARTPERFMAX = 1
+ARTIMPROVE = 1
+
+
+
+
+
+
+
 
 UPDATEMESSAGE = '######### \t ######### \t ########'
 
@@ -100,9 +127,9 @@ RESOURCEBELOW = 0.5
 #folderPath 
 FOLDERPATH= "/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/data/resources/"
 #filesDict 
-FILESDICT = {"dead":"dead-branch-loess", "lateral":"lateral-branch-loess", "total":"total-branch-loess", "low":"low-branch-loess", "medium":"medium-branch-loess", "high":"high-branch-loess"}
+FILESDICT = {"dead":"dead-branch-loess", "lateral":"lateral-branch-loess", "total":"total-branch-loess", "low":"low-branch-loess", "medium":"medium-branch-loess", "high":"high-branch-loess", "carrySuit" : "carry-suit-loess"}
 #resourceGraph 
-RESOURCEGRAPH = ["dead","lateral","total","low","medium","high"]
+RESOURCEGRAPH = ["dead","lateral","total","low","medium","high","carrySuit"]
 
 def MakeFolderPath(parentPath, otherInfo) -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
@@ -119,4 +146,12 @@ MAXRESOURCES = {
     'dead' : 351,
     'low' : 1813,
     'medium' : 130,
-    'high' : 59}
+    'high' : 59,
+    'carrySuit' : 1}
+
+
+def GetVariation(mean, variation):
+        max = round(mean + (mean * variation))
+        min = round(mean - (mean * variation))
+        prediction = random.randint(min, max)
+        return prediction

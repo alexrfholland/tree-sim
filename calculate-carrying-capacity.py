@@ -11,8 +11,13 @@ import time
 treeFiles = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Input Data/fullBranchData.csv'
 snagFiles = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Input Data/snags/'
 
-out = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Outputs/units.csv'
+out = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/carrying/'
 
+imageOut = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Images/'
+
+
+measure = 'suitable'
+#measure = 'deadlat'
 
 
 
@@ -26,7 +31,8 @@ carrying = {
     'type' : [],
     'id' : [],
     'number-id' : [],
-    'suitLengths' : []}
+    'suitLengths' : [],
+    'totalLengths' : []}
 
 def GetCapacities(min, size, da):
 
@@ -36,8 +42,6 @@ def GetCapacities(min, size, da):
     suitPts: Dict[str, List[o3d.geometry.PointCloud]] = {}
     carryingVoxels: Dict[str, List[o3d.geometry.VoxelGrid]] = {}
     carryingCoords: Dict[str, List[np.ndarray]] = {}
-
-    suitLengths: Dict[str, List[float]] = {}
 
     treeDBH = []
 
@@ -59,10 +63,11 @@ def GetCapacities(min, size, da):
             #are we basing these off suitable branches or dead laterals?
 
 
-            #tempSuitableFrame = tempTreeFrame[tempTreeFrame['indEst'] >= min]
-
-            _tempSuitableFrame = tempTreeFrame[tempTreeFrame["Branch.angle"] <=20]
-            tempSuitableFrame = _tempSuitableFrame[_tempSuitableFrame["Branch.type"] == "dead"]
+            if(measure == 'suitable'):
+                tempSuitableFrame = tempTreeFrame[tempTreeFrame['indEst'] >= min]
+            else:
+                _tempSuitableFrame = tempTreeFrame[tempTreeFrame["Branch.angle"] <=20]
+                tempSuitableFrame = _tempSuitableFrame[_tempSuitableFrame["Branch.type"] == "dead"]
 
             #print(f'{len(tempTreeFrame)} regular branches and {len(tempSuitableFrame)} suitable branches')
 
@@ -125,22 +130,15 @@ def GetCapacities(min, size, da):
             coordsPerStructure: List[np.ndarray] = []
 
 
+            
+            colHeads = {'trees' : 'Branch.length', 'snags' : 'length'}
             for i in range(len(_frames[type])):
 
-                """#get suitable branch meters
-                if type == 'trees':
-                    datas = _suitFrames[type][i]
-                    if len(datas) > 0:
-                        print(suitmeters = datas.loc[:,"Branch.length"])
 
-                    suitLengths[type].append(suitmeters)
                 
-                if type == 'snags':
-                    datas = _suitFrames[type][i]
-                    suitmeters = datas[datas['length']].sum()
-                    suitLengths[type].append(suitmeters)"""
 
-                count = count + 1
+            
+
                 
                 #convert dataframes to arrays
                 branchArray = _frames[type][i][['x', 'y', 'z']].values
@@ -149,9 +147,22 @@ def GetCapacities(min, size, da):
                 #point cloud of all branches
                 branchPtCloud = o3d.geometry.PointCloud()
                 branchPtCloud.points = o3d.utility.Vector3dVector(branchArray)
+                """branchPtCloud.colors = o3d.utility.Vector3dVector(np.random.uniform(0, 1,
+                                                                        size=(len(_frames[type][i]), 3)))"""
+                
+                #col = 0.7
 
-                branchPtCloud.colors = o3d.utility.Vector3dVector(np.random.uniform(0, .1,
-                                                                        size=(len(_frames[type][i]), 3)))
+                col = np.array([0.7,0.7,0.7])
+
+                if type == "trees":
+                    col = np.array([0.9451,0.8980,0.4510])
+                
+                if type == "snags":
+                    col = np.array([0.7176,0.2824,0.4510])
+                
+                colSet = np.full((len(_frames[type][i]), 3), col)
+                branchPtCloud.colors = o3d.utility.Vector3dVector(colSet)
+          
 
                 ptsPerStructure.append(branchPtCloud)
 
@@ -176,12 +187,27 @@ def GetCapacities(min, size, da):
                 #add to database
                 
                 
+                #carrying capacity stats
                 da['carryUnits'].append(len(point_cloud_np))
                 da['samplingSize'].append(size)
                 da['type'].append(type)
                 da['id'].append(f'{type}-{i}')
                 da['number-id'].append(count)
-                da['suitLengths'].append(suitLengths[type][i])
+
+
+                #structure level stats (tree dbh, total meters and total suit meters)
+                count = count + 1
+
+                datas = _suitFrames[type][i]
+                suitmeters = datas.loc[:,colHeads[type]]
+                totalSuitMeters = sum(suitmeters)
+
+                datas = _frames[type][i]
+                meters = datas.loc[:,colHeads[type]]
+                totalMeters = sum(meters)
+                
+                da['suitLengths'].append(totalSuitMeters)
+                da['totalLengths'].append(totalMeters)
                 
                 if type == 'trees':
                     da['treeSize'].append(treeDBH[i])
@@ -220,12 +246,15 @@ def GetCapacities(min, size, da):
         for type in pts.keys():
             for i in range(len(pts[type])):
                 
-                #print(f'showing {type} {i} with carrying capacity of {len(carryingCoords[type][i])}')
+                print(f'{measure}: showing {type} {i} at resolution {size} with carrying capacity of {len(carryingCoords[type][i])}')
                 pcd = pts[type][i]
                 voxel_grid = carryingVoxels[type][i]
+                suits = suitPts[type][i]
+
         
                 #Visualize Point Cloud
                 vis.add_geometry(pcd)
+                vis.add_geometry(suits)
                 vis.add_geometry(voxel_grid)
 
 
@@ -238,23 +267,30 @@ def GetCapacities(min, size, da):
                 ctr = vis.get_view_control()
                 ctr.set_front([.5,.5,0])
                 ctr.set_up([0,0,1])
-                ctr.set_zoom(.75)
+                #ctr.set_zoom(.75)
                 
                 # Updates
                 """vis.update_geometry(pcd)"""
                 vis.poll_events()
                 vis.update_renderer()
 
-                #time.sleep(0.1)
+                time.sleep(.1)
                 vis.remove_geometry(pcd)
                 vis.remove_geometry(voxel_grid)
-                #vis.remove_geometry(octree)
+                vis.remove_geometry(suits)
+                
+
+                file = f'{imageOut}size-{size}-{type}-{i}.png'
+
+                vis.capture_screen_image(file)
+
 
     MakeVisuals()
 
-for i in range(2,21):
-    print(f'setting voxel size {i}')
-    GetCapacities(minSuit, i, carrying)
+for i in range(2,200):
+    voxSize = i/10
+    print(f'setting voxel size {voxSize}')
+    GetCapacities(minSuit, voxSize, carrying)
 
 d = pd.DataFrame.from_dict(carrying)
-d.to_csv(out)
+d.to_csv(f'{out} carrying capacity measures - {measure}.csv')

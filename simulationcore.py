@@ -27,11 +27,8 @@ import itertools
 from codetiming import Timer
 
 # generate random integer values
-from random import seed
 from random import randint
 
-# seed random number generator
-seed(1)
 
 from typing import List
 from typing import Dict
@@ -65,11 +62,10 @@ class Model:
 
     size = set.AREA
     density = (set.DENSITYHIGH + set.DENSITYLOW)/2 * (1 - set.BUDGETSPLIT)
+    startNoTrees = round(size * density)
 
     year = 0
     timeperiod = set.TIMEPERIOD
-    recruitmentInterval = set.INTERVAL
-    recruitmentChance = 0.2
 
     resourceCurves = {}
     totalResources = {}
@@ -91,6 +87,12 @@ class Model:
     exportTree = {'year' : [], 'high' : []}
     exportPros = {'year' : [], 'high' : []}
 
+    nextServiceLife = -1
+    nextRecruitInterval = -1
+    nextRecruitMultiplier = -1
+
+
+
 
     #yrTreeRescources and yrARtResources are hierachical dictionaries.
     # First level: key is year since sim began, value is second level:
@@ -105,8 +107,10 @@ class Model:
     def __init__(self):
         self.year: int = 0
 
-        self.vis = VisualOut()
-        print(set.scenario)
+        
+        if set.VISCOUNT != 0:
+            self.vis = VisualOut()
+        #print(set.scenario)
 
         #rivX.extend(self.geo.riverPts[:,0])
         #rivY.extend(self.geo.riverPts[:,1])
@@ -115,7 +119,8 @@ class Model:
         for name in set.RESOURCES:
             self.artResources.update({name : []}) 
 
-        for i in range (round(self.size * self.density)):
+        #for i in range (round(self.size * self.density)):
+        for i in range (round(self.startNoTrees)):
             tree = TreeAgent()
             tree.yearborn = self.year
             self.trees.append(tree)
@@ -126,6 +131,10 @@ class Model:
         for j in range(self.timeperiod):
             self.Cycle()
             self.year += 1
+
+        self.nextServiceLife = self.GetNextServiceLife()
+        self.nextRecruitInterval = self.GetNextRecrutimentInterval()
+        self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()
 
     @Timer(name = "Year in {:.2f} seconds")
     def Cycle(self):
@@ -155,14 +164,19 @@ class Model:
        
 
 
-        if set.modelRecruit and self.year != 0 and self.year % set.INTERVAL == 0:
+        #if set.modelRecruit and self.year != 0 and self.year % set.INTERVAL == 0:
+        if set.modelRecruit and self.year != 0 and self.year % self.nextRecruitInterval == 0:
             isRecruit = True
             self.recruitMessage = self.Recruit()
-
-
-        if set.modelProsthetics and self.year % set.ARTINTERVAL == 0:
+            self.nextRecruitInterval = self.GetNextRecrutimentInterval()
+            self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()
+        
+        
+        #if set.modelProsthetics and self.year % set.ARTINTERVAL == 0:
+        if set.modelProsthetics and self.year % self.nextServiceLife == 0:
             isBuilt = True
             self.builtMesssage = self.Build()
+            self.nextServiceLife = self.GetNextServiceLife()
 
         self.treesAliveThisYear = 0
 
@@ -325,14 +339,17 @@ class Model:
 
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
         TextOut()
-        self.vis.Update()
+        
+        
+        if set.VISCOUNT != 0:
+            self.vis.Update()
     
         if self.year % set.INTERVAL == 00:
             self.noTreesAtKeyLifeStages.update({self.trees[0].dbh : self.treesAliveThisYear})
 
         
     def Recruit(self):
-        recruitment = round(random.uniform(2, 3) * set.AREA)
+        recruitment = self.nextRecruitMultiplier * self.startNoTrees
 
         for z in range (recruitment):
             tree = TreeAgent()
@@ -340,8 +357,26 @@ class Model:
             self.trees.append(tree)
 
         return(f"Last recruit Year: {self.year}, {recruitment} trees")
+        
 
     
+    def GetNextServiceLife(self):
+        serviceLife = set.GetVariation(set.ARTINTERVAL, set.ARTSERVICELIFEVARIATION)
+        print(f"next service life is {serviceLife}")
+        return serviceLife
+
+    def GetNextRecrutimentInterval(self):
+        pulse = set.GetVariation(set.INTERVAL, set.ARTSERVICELIFEVARIATION)
+        print(f"next recrutiment pulse is {pulse}")
+        return pulse
+
+    def GetNextRecruitmentMulti(self):
+        recruitNumber = set.GetVariation(set.RECRUITMULTIPLIER, set.ARTSERVICELIFEVARIATION)
+        print(f"next recruit multiplier is {recruitNumber}")
+        return recruitNumber
+    
+
+
     def Learn(self):
         if set.ARTIMPROVE > 0:
             self.artPerf += set.ARTIMPROVE
@@ -358,7 +393,7 @@ class Model:
             artagent.Upgrade(self.artPerf)
     
     def Build(self):
-        self.Learn()
+        #self.Learn()
         for a in range(set.ARTNUMBER):
             artificial = ArtificialAgent(self.artPerf)
             self.artificials.append(artificial)

@@ -13,7 +13,6 @@ import uuid
 class ArtificialAgent:
     
 
-
     def __init__(self, perf):
    
 
@@ -40,41 +39,28 @@ class ArtificialAgent:
         self.num = uuid.uuid1().hex
 
         self.GetResources()
+        self.GetCarrying()
 
+    def GetCarrying(self):
+        
+        #generate a probability density functition
 
+        pPred = SCENE['sMean']
+        pLow = SCENE['sLow']
+        pUpper = SCENE['sUp']
+        pSD = SCENE['sSD']
 
-                
-        """for resource in RESOURCES:
-                  
-            dbh = 100
+        distributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
 
-            pred = DPREDICTIONS[resource]
-            low = DLOWS[resource]
-            up = DUPS[resource]
-            standard = DSTANDARDS[resource]
-            
-            #generate a probability density functition  at this DBH for this resource
-            
-            pPred = pred(dbh)
-            pLow = low(dbh)
-            pUpper = up(dbh)
+        #need to sum meters as it returns a list, even though we are only finding for 1 artificial structure
+        capacity = sum(distributionFunction.rvs(1))
 
-            pSD = standard(dbh)/self.constrictor
+        if capacity < 0:
+            capacity = 0
 
-            distributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
+        print (f'capacity artificial is {capacity}')
 
-
-
-            #get how many trees there are and generate lengths via probbility density function
-            noOfTrees = 1
-
-            #need to sum meters as it returns a list, even though we are only finding for 1 artificial structure
-            meters = sum(distributionFunction.rvs(noOfTrees))
-
-            if meters < 0:
-                meters = 0
-
-            self.resourcesThisYear.update({resource : meters * self.performance})"""
+        self.resourcesThisYear.update({"carrySuit" : capacity})
 
     
     def GetResources(self):

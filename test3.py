@@ -1,24 +1,28 @@
-import math
-def GetStreamKey(value, append):
+from scenes import *
+import scipy.stats as stats
+
+
+def GetCarrying():
         
-    streamMax = 40
-    streamDivision = 5
-    if(value > streamMax):
-        value = streamMax
-    val = math.floor(value/streamDivision)
+        #generate a probability density functition
 
-    key = f'{val}+{append}'
-    return key
- 
-streamMax = 40
-streamDivision = 5
+        
 
-r = streamMax/streamDivision
+        pPred = SCENE['sMean']
+        pLow = SCENE['sLow']
+        pUpper = SCENE['sUp']
+        pSD = SCENE['sSD']
 
-for i in range(int(streamMax/streamDivision)+1):
-        key = f'{i}+t'
-        key2 = f'{i}+i'
-        print(key)
-        print(key2) 
+        distributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
 
+        #need to sum meters as it returns a list, even though we are only finding for 1 artificial structure
+        capacity = sum(distributionFunction.rvs(1))
 
+        if capacity < 0:
+            capacity = 0
+
+        print (f'capacity artificial is {capacity}')
+
+SCENE = GetArtificial(3)
+for i in range(0, 5):
+    GetCarrying()
