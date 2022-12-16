@@ -26,3 +26,6 @@ def GetCarrying():
 SCENE = GetArtificial(3)
 for i in range(0, 5):
     GetCarrying()
+
+
+

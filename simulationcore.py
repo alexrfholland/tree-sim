@@ -10,8 +10,6 @@ import yearlyOutput as yearLog
 from visuals import VisualOut
 from textout import TextOut
 
-from turtle import width
-from tabulate import tabulate
 
 import termplotlib as tpl
 
@@ -79,8 +77,6 @@ class Model:
     resourcesSortedByDBH = {}
 
 
-    artPerf = set.ARTPERFMIN
-
     recruitMessage = set.UPDATEMESSAGE
     builtMesssage = set.UPDATEMESSAGE
 
@@ -102,9 +98,19 @@ class Model:
     artResources = {}
 
     
+    #@Timer(name = "Finished running model in {:.2f} seconds")
+    def __init__(self, _run, _scenarioNo):
+       
     
-    @Timer(name = "Finished running model in {:.2f} seconds")
-    def __init__(self):
+        ###SET UP THIS RUN####
+        
+        self.thisRun = _run
+        self.thisScenarioNo = _scenarioNo
+
+        
+        ######################
+        
+    
         self.year: int = 0
 
         
@@ -119,6 +125,11 @@ class Model:
         for name in set.RESOURCES:
             self.artResources.update({name : []}) 
 
+        if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
+            self.startNoTrees = 5
+            set.MODELDEATH = False
+            set.modelRecruit = False
+    
         #for i in range (round(self.size * self.density)):
         for i in range (round(self.startNoTrees)):
             tree = TreeAgent()
@@ -136,7 +147,8 @@ class Model:
         self.nextRecruitInterval = self.GetNextRecrutimentInterval()
         self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()
 
-    @Timer(name = "Year in {:.2f} seconds")
+    #GOOD
+    #@Timer(name = "Year in {:.2f} seconds")
     def Cycle(self):
 
         #global trees
@@ -330,7 +342,7 @@ class Model:
 
         #print(f"Year: {self.year} \t Trees Alive: {self.treesAliveThisYear} \t Total: {sum(yrResources['total'])}")
 
-        yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage)
+        yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage, self.thisRun)
         self.AddHistoryStates()
         res = 'dead'
         #print(f'{res} is {self.trees[0].resourcesThisYear[res]}') ##TEST this is matching the generated values
@@ -338,7 +350,7 @@ class Model:
         self.GetJSONOut2()
 
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
-        TextOut()
+        TextOut(set.scenario)
         
         
         if set.VISCOUNT != 0:
@@ -350,6 +362,8 @@ class Model:
         
     def Recruit(self):
         recruitment = self.nextRecruitMultiplier * self.startNoTrees
+        if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
+            recruitment = 50
 
         for z in range (recruitment):
             tree = TreeAgent()
@@ -361,7 +375,7 @@ class Model:
 
     
     def GetNextServiceLife(self):
-        serviceLife = set.GetVariation(set.ARTINTERVAL, set.ARTSERVICELIFEVARIATION)
+        serviceLife = set.GetVariation(set.scene['serviceLife'], set.ARTSERVICELIFEVARIATION)
         print(f"next service life is {serviceLife}")
         return serviceLife
 
@@ -377,7 +391,7 @@ class Model:
     
 
 
-    def Learn(self):
+    """def Learn(self):
         if set.ARTIMPROVE > 0:
             self.artPerf += set.ARTIMPROVE
             if self.artPerf >= set.ARTPERFMAX:
@@ -390,16 +404,16 @@ class Model:
             self.artPerf = set.ARTPERFMAX
 
         for artagent in self.artificials:
-            artagent.Upgrade(self.artPerf)
+            artagent.Upgrade(self.artPerf)"""
     
     def Build(self):
         #self.Learn()
-        for a in range(set.ARTNUMBER):
-            artificial = ArtificialAgent(self.artPerf)
+        for a in range(set.scene["artNo"]):
+            artificial = ArtificialAgent(set.scene)
             self.artificials.append(artificial)
 
-        percent = "{:.2f}".format(self.artPerf)
-        return (f"Last built Year: {self.year}, {set.ARTNUMBER} prosthetics @{percent}")
+        percent = "{:.2f}".format(set.scene["performance"])
+        return (f"Last built Year: {self.year}, {set.scene['artNo']} prosthetics @{percent}")
 
     def GetExtraTrees(self):
         

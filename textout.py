@@ -7,7 +7,7 @@ import termplotlib as tpl
 import numpy as np
 
 
-def TextOut():
+def TextOut(scenarioName):
     
     
     #print(f'no trees alive this year is {yrLog.noTreesAliveThisYear}')
@@ -65,6 +65,8 @@ def TextOut():
     row6 = [yrLog.recruitMessage]
     row7 = [yrLog.builtMesssage]
 
+    row8 = [f"scenario is {scenarioName}"]
+
     heads = [f"Year: {yrLog.year}", 'Habitat Structures']
     heads.extend(RESOURCES)
     if yrLog.isRecruit:
@@ -73,13 +75,15 @@ def TextOut():
         row7 = [UPDATEMESSAGE]
 
     
-    #print([row1, row2, row2a, row3, row4, row5, row6, row7])
-    print(tabulate([row1, row2, row2a, row3, row4, row5, row6, row7],headers = heads))
+    ###GOOD
+    print(tabulate([row1, row2, row2a, row3, row4, row5, row6, row7, row8],headers = heads))
     print("")            
 
     sample = yrLog.yrDBHS
     sample.extend([0,145])
     counts, bin_edges = np.histogram(sample, bins=75)
+    
+    
     fig = tpl.figure()
     fig.hist(counts, dbhSpan, grid=[15, 25], force_ascii=False)
     fig.show()

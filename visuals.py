@@ -18,7 +18,6 @@ import termplotlib as tpl
 import plotext as tplt
 
 from signal import Sigmasks
-from this import d, s
 import numpy as np
 from pyparsing import dblSlashComment
 from scipy import rand

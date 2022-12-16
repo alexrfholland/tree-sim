@@ -1,5 +1,5 @@
 from datetime import *
-import sys, os
+import os
 from tokenize import Name
 import scenes
 import random
@@ -24,12 +24,13 @@ ISVISOUT = False
 
 RESOURCES = ["dead","lateral","total","low","medium","high","carrySuit"]
 TIMEPERIOD = int(input('How many years?' )) #240
-SCENENO = int(input('What Scenario?'))
+#SCENENO = int(input('What Scenario?'))
 BUDGETSPLIT = float(input('Budget Split?' )) #240
 VISCOUNT = int(input('Visuals?' ))
 
 BUDGET = 554400 * BUDGETSPLIT
 
+ISNOTREESAFTERFIRST = False
 
 
 
@@ -78,9 +79,40 @@ deathHigh = 0.010#.024
 RECRUITMULTIPLIER = 2
 
 
-################################SCENARIO
 
-SCENE = scenes.GetArtificial(SCENENO)
+
+################################SCENARIO
+ARTIFICIALINFOPATH = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/carrying-info-artificials.csv"
+scene = {}
+ARTLIFEVARIATION = 0.01
+ARTSERVICELIFEVARIATION = 0.01
+modelRecruit = True
+modelProsthetics = True
+existingTrees = False
+
+
+scenario = -1
+structureType = -1
+samplingType = -1
+design = -1
+
+def GetScenario(sceneNo):
+    global scene
+    global scenario
+    global structureType
+    global samplingType
+    global design
+
+    scene = scenes.GetArtificial(sceneNo, ARTIFICIALINFOPATH, BUDGET)
+    scenario = scene["id"]
+    structureType = scene["type"]
+    samplingType = scene["samplingType"]
+    design = scene["oldID"]
+
+    print(f'from settings scene is {scene["artNo"]}')
+
+
+"""SCENE = scenes.GetArtificial(SCENENO, ARTIFICIALINFOPATH)
 scenario = SCENE['id']
 print(f'scenario {scenario} loaded')
 
@@ -89,6 +121,7 @@ ARTNUMBER = round(BUDGET/SCENE['cost'])
 ARTINTERVAL = SCENE['service life']
 ARTPERFMIN = SCENE['performance']
 ARTLIFE = SCENE['service life']
+
 ARTLIFEVARIATION = 0.2
 ARTSERVICELIFEVARIATION = 0.2
 
@@ -96,15 +129,15 @@ ARTLENGTH = SCENE['totalLengths']
 ARTDEADLATERAL = SCENE['suitLengths']
 
 #CARRYING
-ARTUP = SCENE['sLow']
-ARTLOW = SCENE['sUp']
+ARTUP = SCENE['sUp']
+ARTLOW = SCENE['sLow']
 ARTMEAN = SCENE['sMean']
 ARTSD = SCENE['sSD']
 
 #OTHER SCENE STUFF
 modelRecruit = SCENE['isRecruit']
 modelProsthetics = SCENE['isArtificials']
-existingTrees = SCENE['isExistingTrees']
+existingTrees = SCENE['isExistingTrees']"""
 
 
 #not using
@@ -155,3 +188,5 @@ def GetVariation(mean, variation):
         min = round(mean - (mean * variation))
         prediction = random.randint(min, max)
         return prediction
+
+    

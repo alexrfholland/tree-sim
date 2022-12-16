@@ -1,6 +1,6 @@
 import pandas as pd
 
-artificialInfoPath = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/artificial-classes.csv"
+#artificialInfoPath = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/artificial-classes.csv"
 
 
 SCENARIOS = ['intact','existing','replanting','prosthetics']
@@ -9,13 +9,16 @@ SCENARIOS = ['intact','existing','replanting','prosthetics']
 
 
 
-def GetArtificial(i):
-    df = pd.read_csv(artificialInfoPath)
+def GetArtificial(i, path, budget):
+    df = pd.read_csv(path)
     dic = df.to_dict(orient='index')
     row = dic[i]
     row.update({"isRecruit" : True,
                 "isArtificials" : True,
-                "isExistingTrees" : False})
+                "isExistingTrees" : False,
+                "artNo" : round(budget/row['cost']),
+                "oldID" : row['id']})
+    row["id"] = f"{row['id']} - {row['samplingType']}"
     print(row)
     return(row)
 

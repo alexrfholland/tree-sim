@@ -9,7 +9,7 @@ import time
 
 
 treeFiles = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Input Data/fullBranchData.csv'
-snagFiles = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Input Data/snags/'
+artificialFiles = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/Input Data/snags/'
 
 out = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/carrying/'
 
@@ -88,15 +88,32 @@ def GetCapacities(min, size, da):
         _snagSuitFrames: List[pd.DataFrame] = []
 
         for name in snagEndings:
-            temp = pd.read_csv(snagFiles + name)
-            tempSnagFrame = temp[temp['type'] == 'all']
-            tempSuitSnagFrame = temp[temp['type'] == 'exposed']
+            temp = pd.read_csv(artificialFiles + name)
+            tempPoleFrame = temp[temp['type'] == 'all']
+            tempSuitPoleFrame = temp[temp['type'] == 'exposed']
 
-            _snagFrames.append(tempSnagFrame)
-            _snagSuitFrames.append(tempSuitSnagFrame)
+            _snagFrames.append(tempPoleFrame)
+            _snagSuitFrames.append(tempSuitPoleFrame)
 
         _frames.update({'snags' : _snagFrames})
         _suitFrames.update({'snags' : _snagSuitFrames})
+
+        #poles
+        poleEndings = ['pole1.csv','pole2.csv']
+        _poleFrames: List[pd.DataFrame] = []
+        _poleSuitFrames: List[pd.DataFrame] = []
+
+        for name in poleEndings:
+            temp = pd.read_csv(artificialFiles + name)
+            tempPoleFrame = temp[temp['type'] == 'all']
+            tempSuitPoleFrame = temp[temp['type'] == 'exposed']
+
+            _poleFrames.append(tempPoleFrame)
+            _poleSuitFrames.append(tempSuitPoleFrame)
+
+        _frames.update({'poles' : _poleFrames})
+        _suitFrames.update({'poles' : _poleSuitFrames})
+
 
         #print(_frames)
         #print(_suitFrames)
@@ -131,13 +148,9 @@ def GetCapacities(min, size, da):
 
 
             
-            colHeads = {'trees' : 'Branch.length', 'snags' : 'length'}
+            colHeads = {'trees' : 'Branch.length', 'snags' : 'length', 'poles' : 'length'}
             for i in range(len(_frames[type])):
-
-
-                
-
-            
+    
 
                 
                 #convert dataframes to arrays
@@ -159,6 +172,9 @@ def GetCapacities(min, size, da):
                 
                 if type == "snags":
                     col = np.array([0.7176,0.2824,0.4510])
+
+                if type == "poles":
+                    col = np.array([0.6,0.2,0.3])
                 
                 colSet = np.full((len(_frames[type][i]), 3), col)
                 branchPtCloud.colors = o3d.utility.Vector3dVector(colSet)
@@ -285,7 +301,11 @@ def GetCapacities(min, size, da):
                 vis.capture_screen_image(file)
 
 
-    MakeVisuals()
+    #MakeVisuals()
+
+
+
+
 
 for i in range(2,200):
     voxSize = i/10

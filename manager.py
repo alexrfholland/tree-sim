@@ -1,22 +1,19 @@
 import pandas
-import setting as settings
 #import settings.scenes as SCENARIO
 #SCENARIO.UpdateForSCENARIOs()
+import simulationcore as sim
 import resourcecurves as resources
 import geometry as geo
-import simulationcore as sim
+import setting as settings
 import pandas as pd
 from datetime import *
+
+from codetiming import Timer
 
 import yearlyOutput as yearLog
 
 import json
-
-print (f'death now is {settings.deathHigh}')
-print (f'allow prosthetics  is {settings.modelProsthetics}')
-print(f'art perf is {settings.ARTPERFMIN}')
-
-
+1
 
 resources.GetResourceCurves()
 geo.GetGeometry()
@@ -24,26 +21,55 @@ geo.GetGeometry()
 
 outputFilePath = settings.MakeFolderPath(settings.SUSTAINABILITY, f'model-outputs/{settings.scenario}-')
 
+@Timer(name = "Finished running model in {:.2f} seconds")
+def Go():
+    for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
+    #for sceneNo in range(0,1):
 
-for i in range(0,30):
+        df = pd.read_csv(settings.ARTIFICIALINFOPATH)
+        sampling = df['samplingType'][sceneNo]
+        design = df['id'][sceneNo]
+        print(design)
 
-    yearLog.Reset()
-    simulation = sim.Model()
-    #simulation.GetStats()
+        if sampling != "linear":
+            
+            settings.GetScenario(sceneNo)
+            #print(settings.scene)
+            for i in range(0,1):
+
+                yearLog.Reset()
+                simulation = sim.Model(i, sceneNo)
+
+                print(f'{settings.scenario} SCENARIO done')
+
+                timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                filePath = settings.WINDOWSOUT
+
+                #SUSTAINABILITY STUFF
+                yearLog.ExportYrLog(outputFilePath, i)
 
 
-    print(f'{settings.scenario} SCENARIO done')
+def Go2():
+    #for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
+    for sceneNo in range(0,1):
+            
+        #print(settings.scene)
+        for i in range(0,1):
 
-    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    #filePath = f'{settings.CSVOUT}{timestamp} - {settings.SCENARIO}'
-    filePath = settings.WINDOWSOUT
+            yearLog.Reset()
+            simulation = sim.Model(i, sceneNo)
 
-    #df = simulation.GetTreeDataFrame()
-    #df.to_pickle(filePath + 'treeDF.pk1')
-    #print(df)
+            print(f'{settings.scenario} SCENARIO done')
 
-    #SUSTAINABILITY STUFF
-    yearLog.ExportYrLog(outputFilePath, i)
+            timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            filePath = settings.WINDOWSOUT
+
+            #SUSTAINABILITY STUFF
+            yearLog.ExportYrLog(outputFilePath, i)
+
+
+Go()
+
 
 
 #df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')

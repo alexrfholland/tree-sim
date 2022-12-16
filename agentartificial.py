@@ -4,8 +4,6 @@ import random
 
 
 
-from setting import *
-from resourcecurves import *
 from geometry import *
 
 import uuid
@@ -13,11 +11,13 @@ import uuid
 class ArtificialAgent:
     
 
-    def __init__(self, perf):
+    def __init__(self, _scene):
    
 
-        max = round(ARTLIFE + (ARTLIFE * ARTLIFEVARIATION))
-        min = round(ARTLIFE - (ARTLIFE * ARTLIFEVARIATION))
+        self.scene = _scene
+        
+        max = round(self.scene['serviceLife'] + (self.scene['serviceLife'] * ARTLIFEVARIATION))
+        min = round(self.scene['serviceLife'] - (self.scene['serviceLife'] * ARTLIFEVARIATION))
 
         self.lifespan = random.randint(min, max)
         
@@ -34,7 +34,7 @@ class ArtificialAgent:
         self.hResources = {}
         self.hAge = {}
         self.hPerf = {}
-        self.performance = perf
+        self.performance = self.scene['performance']
         self.point = self.SetPoint()
         self.num = uuid.uuid1().hex
 
@@ -45,10 +45,11 @@ class ArtificialAgent:
         
         #generate a probability density functition
 
-        pPred = SCENE['sMean']
-        pLow = SCENE['sLow']
-        pUpper = SCENE['sUp']
-        pSD = SCENE['sSD']
+        pPred = self.scene['mean']
+        pLow = self.scene['low']
+        pUpper = self.scene['up']
+        pSD = self.scene['sd']
+
 
         distributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
 
@@ -58,7 +59,7 @@ class ArtificialAgent:
         if capacity < 0:
             capacity = 0
 
-        print (f'capacity artificial is {capacity}')
+        #print (f"mean is {pPred} for {self.scene['id']}, capacity artificial is {capacity}")
 
         self.resourcesThisYear.update({"carrySuit" : capacity})
 
@@ -66,9 +67,9 @@ class ArtificialAgent:
     def GetResources(self):
 
             self.resourcesThisYear.update({
-            'high' : ARTDEADLATERAL * self.performance,
-            'dead' : ARTDEADLATERAL,
-            'total' : ARTLENGTH,
+            'high' : self.scene["suitLengths"] * self.performance,
+            'dead' : self.scene["suitLengths"],
+            'total' : self.scene["totalLengths"],
             'lateral' : 0,
             'low' : 0,
             'medium' : 0})

@@ -25,15 +25,15 @@ for n in resources:
         }})
 
 globalYearlyTotals = {
-        'year' : [],
-        'resource' : [],
-        'trees' : [], 
-        'artificial' : [],
-        'm/tree' : [],
-        'm/artificial' : [],
-        'norm/tree' : [],
-        'norm/artificial' : []
-        }
+    "sampleType" : [],
+    "structureType" : [],
+    "scenario" : [],
+    "design" : [],
+    "run" : [],
+    "year" : [],
+    "type" : [],
+    "quantity" : [],
+    "treeQuantity" : []}
 
 ############## From Year of Sim
 
@@ -44,6 +44,7 @@ isRecruit = False
 isBuilt = False
 recruitMessage = ""
 builtMesssage = ""
+
 
 ############## calculated here
 
@@ -64,7 +65,6 @@ maxArtPerf = 0
 
 def Reset():
     global perStructureTotals
-    global globalYearlyTotals
     
     global year
     global trees
@@ -98,17 +98,6 @@ def Reset():
                 'type' : [],
             }})
 
-    globalYearlyTotals = {
-            'year' : [],
-            'resource' : [],
-            'trees' : [], 
-            'artificial' : [],
-            'm/tree' : [],
-            'm/artificial' : [],
-            'norm/tree' : [],
-            'norm/artificial' : []
-            }
-    
     
     year = 0
     trees.clear()
@@ -133,7 +122,7 @@ def Reset():
     maxArtPerf = 0 
 
 
-def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recruitMessage, _builtMessage):
+def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recruitMessage, _builtMessage, thisRun):
 
     #########
 
@@ -240,11 +229,11 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
         averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
         maxArtPerf = "{:.2f}".format(max(yrArtPerf))
 
-    ExportYrly()
+    ExportYrly(thisRun)
 
 
 
-def ExportYrly():
+def ExportYrly(_run):
 
     resThisYear = {}
 
@@ -276,38 +265,22 @@ def ExportYrly():
                 resThisYear[n]['trees'].append(agent.resourcesThisYear[n])
 
     for n in resources:
+        globalYearlyTotals['sampleType'].append(settings.samplingType)
+        globalYearlyTotals['structureType'].append(settings.structureType)
+        globalYearlyTotals['scenario'].append(settings.scenario)
+        globalYearlyTotals['design'].append(settings.design)
+        globalYearlyTotals['run'].append(_run)
         globalYearlyTotals['year'].append(year)
-        globalYearlyTotals['resource'].append(n)
-        globalYearlyTotals['artificial'].append(sum(resThisYear[n]['artificial']))
-        globalYearlyTotals['trees'].append(sum(resThisYear[n]['trees']))
+        globalYearlyTotals['type'].append(n)
+        globalYearlyTotals['quantity'].append(sum(resThisYear[n]['artificial']))
+        globalYearlyTotals['treeQuantity'].append(sum(resThisYear[n]['trees']))
 
-        
-        if len(resThisYear[n]['trees']) == 0:
-            mPerTree = 0
-        else:       
-            mPerTree = sum(resThisYear[n]['trees'])/len(resThisYear[n]['trees'])
-
-        if len(resThisYear[n]['artificial']) == 0:
-            mPerArt = 0
-        else:       
-            mPerArt = sum(resThisYear[n]['artificial'])/len(resThisYear[n]['artificial'])
-
-        globalYearlyTotals['m/tree'].append(mPerTree)
-        globalYearlyTotals['m/artificial'].append(mPerArt)
-
-        globalYearlyTotals['norm/tree'].append(mPerTree / settings.MAXRESOURCES[n])
-        globalYearlyTotals['norm/artificial'].append(mPerArt / settings.MAXRESOURCES[n])
-
-
-        #globalYearlyTotals[n]['artificial'].append(sum(resThisYear[n]['artificial']))
 
 
 def ExportYrLog(filePath, modelRun):
     dfTotals = pd.DataFrame(globalYearlyTotals)
     path = f'{filePath}{modelRun}.csv'
     print(f'model runn {modelRun} ended, saving {len(dfTotals)} structures to {path}')
-
-
     dfTotals.to_csv(path)
 
 
@@ -316,6 +289,12 @@ def ExportYrLog(filePath, modelRun):
     dfStructures = pd.DataFrame(perStructureTotals)
     dfStructures.to_csv(filePath)
     """
+
+
+def ExportModelRun():
+    return globalYearlyTotals.copy()
+    
+
 
             
 
