@@ -3,9 +3,10 @@ import numpy as np
 from setting import *
 from resourcecurves import *
 
-geoRandomPointsPath = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/spatial data/10k pts barrer2b.csv'
+#geoRandomPointsPath = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/spatial data/10k pts barrer2b.csv'
 
-river = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/spatial data/River Points.csv'
+geoRandomPointsPath = '/Users/alexholland/Coding/tree-sim/data/spatial/10k pts barrer2b.csv'
+#river = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/spatial data/River Points.csv'
 river = '/Users/alexholland/Coding/tree-sim/data/spatial/River Points.csv'
 
 

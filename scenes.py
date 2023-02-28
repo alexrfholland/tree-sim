@@ -1,7 +1,5 @@
 import pandas as pd
 
-#artificialInfoPath = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/artificial-classes.csv"
-
 
 SCENARIOS = ['intact','existing','replanting','prosthetics']
 

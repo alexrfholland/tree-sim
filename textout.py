@@ -2,6 +2,7 @@ import yearlyOutput as yrLog
 from setting import *
 
 from tabulate import tabulate
+
 import termplotlib as tpl
 
 import numpy as np
