@@ -28,7 +28,7 @@ TIMEPERIOD = int(input('How many years?' )) #240
 BUDGETSPLIT = float(input('Budget Split?' )) #240
 VISCOUNT = int(input('Visuals?' ))
 
-BUDGET = 554400 * BUDGETSPLIT
+BUDGET = 554400 * BUDGETSPLIT * 4
 
 ISNOTREESAFTERFIRST = False
 
@@ -71,8 +71,14 @@ BOUNDS = [-654.465282154,  2103.81760729, -1301.10671195, 1457.176178]
 
 
 # mortality rate of 0.006 to 0.024 per year - Gibbons (2009)
-deathLow = 0.003#.006
-deathHigh = 0.010#.024
+
+#HIGH
+#deathLow = 0.003#.006
+#deathHigh = 0.010#.024
+
+#LOW
+deathLow = 0.006
+deathHigh = 0.024
 
 
 #recruitment stats from Gibbons (2009)
@@ -86,7 +92,7 @@ ARTIFICIALINFOPATH = "/Users/alexholland/OneDrive - The University of Melbourne/
 scene = {}
 ARTLIFEVARIATION = 0.01
 ARTSERVICELIFEVARIATION = 0.01
-modelRecruit = True
+modelRecruit = False
 modelProsthetics = True
 existingTrees = False
 

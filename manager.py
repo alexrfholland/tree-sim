@@ -53,6 +53,8 @@ def Go2():
     #for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
     for sceneNo in range(0,1):
             
+        settings.GetScenario(sceneNo)
+
         #print(settings.scene)
         for i in range(0,1):
 
@@ -68,7 +70,7 @@ def Go2():
             yearLog.ExportYrLog(outputFilePath, i)
 
 
-Go()
+Go2()
 
 
 
