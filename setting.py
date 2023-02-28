@@ -6,15 +6,17 @@ import random
 
 #find DRAWINGOUTPUT to see where to enable images
 
-JSONOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/'
-#VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/images/'
-#CSVOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/csvs/'
-#CSVOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Data/'
+#JSONOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/'
+JSONOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/json/'
 
+#SUSTAINABILITY  = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/'
+SUSTAINABILITY = '/Users/alexholland/Coding/tree-sim/data/outputs/sustainability/'
 
-SUSTAINABILITY  = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/'
-VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Images'
-WINDOWSOUT = '/Users/alexholland/Documents/Windows Files/Sim Exports/'
+#VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Images'
+VISUALOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/images'
+
+#WINDOWSOUT = '/Users/alexholland/Documents/Windows Files/Sim Exports/'
+WINDOWSOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/windows/'
 #FIGURESIZE = [5,5]
 FIGURESIZE = [16,9]
 
@@ -88,7 +90,9 @@ RECRUITMULTIPLIER = 2
 
 
 ################################SCENARIO
-ARTIFICIALINFOPATH = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/carrying-info-artificials.csv"
+#ARTIFICIALINFOPATH = "/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/model-infos/carrying-info-artificials.csv"
+ARTIFICIALINFOPATH = "/Users/alexholland/Coding/tree-sim/data/model-infos/carrying-info-artificials.csv"
+
 scene = {}
 ARTLIFEVARIATION = 0.01
 ARTSERVICELIFEVARIATION = 0.01
@@ -164,7 +168,8 @@ CONSTRICTORDBHLOW = 75
 RESOURCEBELOW = 0.5
 
 #folderPath 
-FOLDERPATH= "/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/data/resources/"
+#FOLDERPATH= "/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/data/resources/"
+FOLDERPATH = "/Users/alexholland/Coding/tree-sim/data/resource-curves/"
 #filesDict 
 FILESDICT = {"dead":"dead-branch-loess", "lateral":"lateral-branch-loess", "total":"total-branch-loess", "low":"low-branch-loess", "medium":"medium-branch-loess", "high":"high-branch-loess", "carrySuit" : "carry-suit-loess"}
 #resourceGraph 

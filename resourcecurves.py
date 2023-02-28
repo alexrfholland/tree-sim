@@ -31,7 +31,7 @@ def GetResourceCurves():
             csvreader = csv.reader(file, quoting=csv.QUOTE_NONNUMERIC)
             header = next(csvreader)
             for row in csvreader:
-                #print(f'DBH: {row[1]} \t Prediction: {row[2]} \t lower: {row[3]} \t upper: {row[4]}'  )
+                print(f'DBH: {row[1]} \t Prediction: {row[2]} \t lower: {row[3]} \t upper: {row[4]}'  )
                 dbhwidth = row[1]
                 prediction = row[2]
                 lower = row[3]
