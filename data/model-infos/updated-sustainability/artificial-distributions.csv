@@ -1,0 +1,4 @@
+﻿no,mode,scenario,totalLow,totalHigh,perchLow,perchHigh,lifeLow,lifeHigh,costLow,costHigh
+1,pole,4-pole,12.603392,15.75424,2.6033752,3.254219,25,25,1524.06,16815
+2,pole,5-pole,12.603392,15.75424,2.6033752,3.254219,25,25,1524.06,2243.32
+3,snag,6-snag,51.777019,130.556532,9.666074,43.227827,25,25,12147,24294

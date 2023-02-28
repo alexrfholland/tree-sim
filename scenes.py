@@ -20,7 +20,15 @@ def GetArtificial(i, path, budget):
     print(row)
     return(row)
 
-    
+   
+
+
+
+
+
+
+
+
 def UpdateForScenarios():
     #INTACT
     #death  figures from 'our proposal' in Table 1 of Gibbons et al., “The Future of Scattered Trees in Agricultural Landscapes.”
