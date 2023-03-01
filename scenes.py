@@ -5,9 +5,61 @@ SCENARIOS = ['intact','existing','replanting','prosthetics']
 
 
 
+import numpy as np
+import pandas as pd
+import scipy.stats as stats
+from typing import List
+from typing import Dict
+import random
+import newArtificialPropabilityFunctions as probFunctions
+
+def GetModes(no, budget):
+
+    temp = pd.read_csv("/Users/alexholland/Coding/tree-sim/data/model-infos/updated-sustainability/artificial-distributions.csv")
+    stats =  temp.iloc[no].to_dict()
+    stats.update({"distributions" : probFunctions.GetProbabilityFunctions(),
+                "samplingType" : "notUsed"})
 
 
-def GetArtificial(i, path, budget):
+    if stats["mode"] != "tree":
+        treeStats = temp.iloc[2].to_dict()
+
+        stats.update({'treeCostLow' : treeStats["costLow"],
+                      'treeCostHigh' : treeStats["costHigh"]})
+        
+
+
+    else:
+        treeStats = temp.iloc[no].to_dict()
+
+        stats.update({'treeCostLow' : treeStats["costLow"],
+                      'treeCostHigh' : treeStats["costHigh"]})
+
+
+
+    
+
+    
+    print(stats)
+    return(stats)
+
+
+
+def GetNumberInBudget(budget, low, high):
+    noStructures = 0
+    while budget > 0:
+        noStructures = noStructures + 1
+        cost = random.uniform(low, high)
+        budget = budget - cost
+        print(f'cost is ${cost}')
+
+    print(f'no structures is {noStructures}')
+    return noStructures
+
+
+
+
+"""def GetArtificial(i, path, budget):
     df = pd.read_csv(path)
     dic = df.to_dict(orient='index')
     row = dic[i]
@@ -19,7 +71,7 @@ def GetArtificial(i, path, budget):
     row["id"] = f"{row['id']} - {row['samplingType']}"
     print(row)
     return(row)
-
+"""
    
 
 

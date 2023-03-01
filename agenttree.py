@@ -14,7 +14,6 @@ from geometry import *
 
 class TreeAgent:
 
-  
     def __init__(self):
 
         self.yearborn = -1
@@ -54,16 +53,26 @@ class TreeAgent:
             return grow
         
 
-    def ChanceDeath(self, year):
-        deathChance = random.uniform(settings.deathLow, settings.deathHigh)
+    def KillTree(self, year):
+        self.isAlive = False
+        self.yeardeath = year
+    
+    def CheckIfTooOld(self, year):
+        if self.age > self.lifespan:
+            self.KillTree
 
-        #print(settings.deathHigh)
+    
+
+    
+    """def ChanceDeath(self, year):
+        deathChance = random.uniform(settings.deathLow, settings.deathHigh)
             
         value = random.uniform(0, 1)
 
         if value <= deathChance:
             self.isAlive = False
             self.yeardeath = year
+        
         #print(f'tree alive is {self.isAlive} as value is {value}, death chance is {deathChance}')
 
 
@@ -73,7 +82,7 @@ class TreeAgent:
 
 
 
-        return deathChance
+        return deathChance"""
 
     def GrowRate(self):       
         growRate = randint(settings.TREEGROWRATE[0], settings.TREEGROWRATE[1]) / 100

@@ -24,16 +24,7 @@ for n in resources:
             'type' : [],
         }})
 
-globalYearlyTotals = {
-    "sampleType" : [],
-    "structureType" : [],
-    "scenario" : [],
-    "design" : [],
-    "run" : [],
-    "year" : [],
-    "type" : [],
-    "quantity" : [],
-    "treeQuantity" : []}
+globalYearlyTotals = {}
 
 ############## From Year of Sim
 
@@ -266,22 +257,33 @@ def ExportYrly(_run):
 
     for n in resources:
         globalYearlyTotals['sampleType'].append(settings.samplingType)
-        globalYearlyTotals['structureType'].append(settings.structureType)
-        globalYearlyTotals['scenario'].append(settings.scenario)
-        globalYearlyTotals['design'].append(settings.design)
+        globalYearlyTotals['structureType'].append(settings.mode)
+        globalYearlyTotals['scenario'].append(settings.samplingScenario)
+        globalYearlyTotals['design'].append(settings.scenario)
         globalYearlyTotals['run'].append(_run)
         globalYearlyTotals['year'].append(year)
         globalYearlyTotals['type'].append(n)
-        globalYearlyTotals['quantity'].append(sum(resThisYear[n]['artificial']))
         globalYearlyTotals['treeQuantity'].append(sum(resThisYear[n]['trees']))
+
+        if settings.mode == "tree":
+            globalYearlyTotals['quantity'].append(sum(resThisYear[n]['trees']))
+        else:
+            globalYearlyTotals['quantity'].append(sum(resThisYear[n]['artificial']))
+
+             
+             
 
 
 
 def ExportYrLog(filePath, modelRun):
     dfTotals = pd.DataFrame(globalYearlyTotals)
-    path = f'{filePath}{modelRun}.csv'
+    path = f'{filePath}-{settings.scenario}-{modelRun}.csv'
     print(f'model runn {modelRun} ended, saving {len(dfTotals)} structures to {path}')
     dfTotals.to_csv(path)
+
+    globalYearlyTotals.clear()
+
+    
 
 
     """filePath = f'{settings.SUSTAINABILITY}Stats/CSV/per structure resources/{settings.scenario}.csv'

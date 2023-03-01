@@ -58,9 +58,13 @@ class Model:
     trees: List[TreeAgent] = []
     artificials: List[ArtificialAgent] = []
 
-    size = set.AREA
-    density = (set.DENSITYHIGH + set.DENSITYLOW)/2 * (1 - set.BUDGETSPLIT)
-    startNoTrees = round(size * density)
+    #size = set.AREA
+    #density = (set.DENSITYHIGH + set.DENSITYLOW)/2 * (1 - set.BUDGETSPLIT)
+    
+    
+    #startNoTrees = round(size * density)
+    startNoTrees = -1
+    print(f'start number of trees is {startNoTrees}')
 
     year = 0
     timeperiod = set.TIMEPERIOD
@@ -76,7 +80,6 @@ class Model:
 
     resourcesSortedByDBH = {}
 
-
     recruitMessage = set.UPDATEMESSAGE
     builtMesssage = set.UPDATEMESSAGE
 
@@ -86,8 +89,6 @@ class Model:
     nextServiceLife = -1
     nextRecruitInterval = -1
     nextRecruitMultiplier = -1
-
-
 
 
     #yrTreeRescources and yrARtResources are hierachical dictionaries.
@@ -102,6 +103,13 @@ class Model:
     def __init__(self, _run, _scenarioNo):
        
     
+        set.modelRecruit = set.scene["isRecruit"]
+        set.modelProsthetics = set.scene["isArtificials"]
+        set.existingTrees = set.scene["isExistingTrees"]
+
+
+        yearLog.globalYearlyTotals = set._globalYearlyTotals.copy()
+        
         ###SET UP THIS RUN####
         
         self.thisRun = _run
@@ -123,12 +131,31 @@ class Model:
 
 
         for name in set.RESOURCES:
-            self.artResources.update({name : []}) 
+            self.artResources.update({name : []})
 
-        if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
+
+        ###SET UP RECRUIT####
+        self.startNoTrees = set.GetNumberInBudget(set.BUDGET * set.scene['split'], set.scene['treeCostLow'], set.scene['treeCostHigh'])
+
+        #print(f"{self.startNoTrees} trees planted between ${set.scene['treeCostLow']} and ${set.scene['treeCostHigh']}")
+
+
+
+
+             
+        #code to shut off trees
+        if set.ISNOTREESAFTERFIRST and set.scene["mode"] != "tree":
             self.startNoTrees = 5
             set.MODELDEATH = False
             set.modelRecruit = False
+
+
+
+
+        """ if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
+            self.startNoTrees = 5
+            set.MODELDEATH = False
+            set.modelRecruit = False"""
     
         #for i in range (round(self.size * self.density)):
         for i in range (round(self.startNoTrees)):
@@ -173,15 +200,19 @@ class Model:
         isRecruit = False
         isBuilt = False
 
-       
-
-
-        #if set.modelRecruit and self.year != 0 and self.year % set.INTERVAL == 0:
+        if set.modelRecruit and self.year != 0 and self.year % set.INTERVAL == 0:
+            isRecruit = True
+            self.recruitMessage = self.Recruit()
+        
+        
+        
+        """
+        
         if set.modelRecruit and self.year != 0 and self.year % self.nextRecruitInterval == 0:
             isRecruit = True
             self.recruitMessage = self.Recruit()
             self.nextRecruitInterval = self.GetNextRecrutimentInterval()
-            self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()
+            self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()"""
         
         
         #if set.modelProsthetics and self.year % set.ARTINTERVAL == 0:
@@ -190,13 +221,22 @@ class Model:
             self.builtMesssage = self.Build()
             self.nextServiceLife = self.GetNextServiceLife()
 
-        self.treesAliveThisYear = 0
+        
 
+        
+        if set.MODELDEATH:
+    
+            self.CullTrees()
+
+        
+        self.treesAliveThisYear = 0
+        
         for agent in self.trees:
             if agent.isAlive:
                 grow = agent.NextYear()
                 if set.MODELDEATH:
-                    death = agent.ChanceDeath(self.year)
+                    #death = agent.ChanceDeath(self.year)
+                    agent.CheckIfTooOld(self.year)
                 #print(f'Grow Rate: {grow} \t Death Rate: {death}')
 
         for artAgent in self.artificials:
@@ -313,10 +353,6 @@ class Model:
                     countb = countb + 1
                     ##END TESTING"""
 
-
-
-                
-
                 if len(resourceMetersAtThisDBH) > 0:
                     resourceMetersAcrossDBH.update({int(dbh) : resourceMetersAtThisDBH})
 
@@ -350,7 +386,7 @@ class Model:
         self.GetJSONOut2()
 
         #print(f'from sim core of the year log: {yearLog.noTreesAliveThisYear}')
-        TextOut(set.scenario)
+        TextOut(set.samplingScenario)
         
         
         if set.VISCOUNT != 0:
@@ -360,16 +396,56 @@ class Model:
             self.noTreesAtKeyLifeStages.update({self.trees[0].dbh : self.treesAliveThisYear})
 
         
+    def CullTrees(self):
+
+        treesAliveBeforeCull = 0
+
+        for agent in self.trees:
+            if agent.isAlive:
+                treesAliveBeforeCull = treesAliveBeforeCull + 1
+        
+        cutPercentage = random.uniform(set.scene["treeDeathLow"], set.scene["treeDeathHigh"])
+        treesToCut = round(treesAliveBeforeCull * cutPercentage)
+
+        print(f'trees to cut this year is {cutPercentage}% of {treesAliveBeforeCull} which is {treesToCut}')
+
+
+        for agent in self.trees:
+            
+            if agent.isAlive:
+                agent.isAlive = False
+                treesToCut = treesToCut - 1
+
+            if treesToCut < 1:
+                break
+        
+        if treesToCut >= 1:
+            0
+            print(f'didnt kill enough trees - need to kill this many more: {treesToCut}')
+                
+
+        
+        
+        
+    
+
     def Recruit(self):
-        recruitment = self.nextRecruitMultiplier * self.startNoTrees
-        if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
-            recruitment = 50
+        #recruitment = self.nextRecruitMultiplier * self.startNoTrees
+
+
+        
+        recruitment = 2 * set.GetNumberInBudget(set.BUDGET * set.scene['split'], set.scene['treeCostLow'], set.scene['treeCostHigh'])
+        
+        
+        """if set.ISNOTREESAFTERFIRST and self.thisScenarioNo > 0:
+            recruitment = 50"""
 
         for z in range (recruitment):
             tree = TreeAgent()
             tree.yearborn = self.year
             self.trees.append(tree)
 
+        random.shuffle(self.trees)
         return(f"Last recruit Year: {self.year}, {recruitment} trees")
         
 
@@ -380,7 +456,8 @@ class Model:
         return serviceLife
 
     def GetNextRecrutimentInterval(self):
-        pulse = set.GetVariation(set.INTERVAL, set.ARTSERVICELIFEVARIATION)
+        pulse = set.GetVariation(set.INTERVAL, .2)
+        #pulse = set.GetVariation(set.INTERVAL, set.ARTSERVICELIFEVARIATION)
         print(f"next recrutiment pulse is {pulse}")
         return pulse
 
@@ -408,12 +485,17 @@ class Model:
     
     def Build(self):
         #self.Learn()
-        for a in range(set.scene["artNo"]):
+        artificialsThisBuild = set.GetNumberInBudget(set.BUDGET * (1 - set.scene['split']), set.scene['costLow'], set.scene['costHigh'])
+        
+        
+        #for a in range(set.scene["artNo"]):
+        for a in range(artificialsThisBuild):
             artificial = ArtificialAgent(set.scene)
             self.artificials.append(artificial)
 
-        percent = "{:.2f}".format(set.scene["performance"])
-        return (f"Last built Year: {self.year}, {set.scene['artNo']} prosthetics @{percent}")
+        #percent = "{:.2f}".format(set.scene["performance"])
+        return (f"Last built Year: {self.year}, {artificialsThisBuild} {set.scene['mode']}s")
+        #return (f"Last built Year: {self.year}, {set.scene['artNo']} prosthetics @{percent}")
 
     def GetExtraTrees(self):
         
@@ -427,9 +509,6 @@ class Model:
                 tree.exactDbh = (treeDBHs[i])
                 
                 self.trees.append(tree)
-
-        
-        
     
     def GetConstrictor2(self, dbh):
         
@@ -512,8 +591,6 @@ class Model:
          for y in range(self.year):
             print (f'hResources of {resource} are {self.trees[0].hResources[y][resource]}') #now it works! here
 """
-
-
     def GetJSONOut2(self):
         
         count = 0

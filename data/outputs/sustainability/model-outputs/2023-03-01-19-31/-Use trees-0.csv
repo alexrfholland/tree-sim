@@ -1,0 +1,265 @@
+,sampleType,structureType,scenario,design,run,year,type,quantity,treeQuantity
+0,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,135659.43872177653,135659.43872177653
+1,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,940.0423273193825,940.0423273193825
+2,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+3,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+4,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,134912.21139924764,134912.21139924764
+5,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2568.9758105950086,2568.9758105950086
+6,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+7,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+8,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,132622.49214474004,132622.49214474004
+9,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2544.2065163104176,2544.2065163104176
+10,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+11,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+12,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,135749.87807865712,135749.87807865712
+13,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,943.9734880442813,943.9734880442813
+14,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+15,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+16,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,135125.7043557322,135125.7043557322
+17,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2584.9002346388415,2584.9002346388415
+18,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+19,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+20,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,134285.52847220827,134285.52847220827
+21,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2585.511228188592,2585.511228188592
+22,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+23,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+24,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,total,136246.7480456563,136246.7480456563
+25,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,dead,951.9010943959061,951.9010943959061
+26,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,high,0.0,0.0
+27,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,carrySuit,0.0,0.0
+28,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,total,136524.71574869027,136524.71574869027
+29,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,dead,2604.0565662264953,2604.0565662264953
+30,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,high,0.0,0.0
+31,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,carrySuit,0.0,0.0
+32,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,total,135452.97263241044,135452.97263241044
+33,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,dead,2595.7878556711735,2595.7878556711735
+34,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,high,0.0,0.0
+35,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,carrySuit,0.0,0.0
+36,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,136058.1970442098,136058.1970442098
+37,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,985.5957059729783,985.5957059729783
+38,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+39,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+40,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,134897.70461796544,134897.70461796544
+41,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2566.191969167614,2566.191969167614
+42,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+43,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+44,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,132616.68057185484,132616.68057185484
+45,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2553.538850092518,2553.538850092518
+46,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+47,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+48,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,total,137165.53755631077,137165.53755631077
+49,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,dead,971.18955806666,971.18955806666
+50,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,high,0.0,0.0
+51,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,carrySuit,0.0,0.0
+52,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,total,137526.18929868547,137526.18929868547
+53,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,dead,2617.863532585357,2617.863532585357
+54,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,high,0.0,0.0
+55,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,carrySuit,0.0,0.0
+56,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,total,136430.01254014482,136430.01254014482
+57,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,dead,2621.7313774469626,2621.7313774469626
+58,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,high,0.0,0.0
+59,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,carrySuit,0.0,0.0
+60,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,total,273305.0310779247,273305.0310779247
+61,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,dead,1971.7750490491046,1971.7750490491046
+62,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,high,0.0,0.0
+63,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,carrySuit,0.0,0.0
+64,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,total,272563.7935398061,272563.7935398061
+65,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,dead,5232.19118547031,5232.19118547031
+66,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,high,0.0,0.0
+67,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,carrySuit,0.0,0.0
+68,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,total,270043.28969203256,270043.28969203256
+69,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,dead,5162.9460177605915,5162.9460177605915
+70,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,high,0.0,0.0
+71,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,carrySuit,0.0,0.0
+72,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,134843.22855273052,134843.22855273052
+73,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,959.0058677414994,959.0058677414994
+74,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+75,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+76,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,134008.62705699788,134008.62705699788
+77,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2570.2919460590592,2570.2919460590592
+78,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+79,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+80,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,132022.01542889784,132022.01542889784
+81,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2536.7092866190283,2536.7092866190283
+82,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+83,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+84,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,total,136732.71603260114,136732.71603260114
+85,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,dead,994.2162312493423,994.2162312493423
+86,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,high,0.0,0.0
+87,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,carrySuit,0.0,0.0
+88,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,total,137106.57476740188,137106.57476740188
+89,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,dead,2614.4350981448783,2614.4350981448783
+90,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,high,0.0,0.0
+91,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,carrySuit,0.0,0.0
+92,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,total,135795.10197112508,135795.10197112508
+93,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,dead,2600.90031343485,2600.90031343485
+94,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,high,0.0,0.0
+95,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,carrySuit,0.0,0.0
+96,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,total,274285.8569789525,274285.8569789525
+97,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,dead,1934.249017590416,1934.249017590416
+98,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,high,0.0,0.0
+99,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,carrySuit,0.0,0.0
+100,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,total,274796.92681142385,274796.92681142385
+101,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,dead,5286.922952701071,5286.922952701071
+102,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,high,0.0,0.0
+103,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,carrySuit,0.0,0.0
+104,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,total,272982.9900588102,272982.9900588102
+105,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,dead,5207.563303345352,5207.563303345352
+106,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,high,0.0,0.0
+107,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,carrySuit,0.0,0.0
+108,notUsed,pole,Use poles - notUsed,Use poles,0,0,total,161.11722784018357,494.68333507581167
+109,notUsed,pole,Use poles - notUsed,Use poles,0,0,dead,0.0,1.2119139341559224
+110,notUsed,pole,Use poles - notUsed,Use poles,0,0,high,31.55616782342506,0.0
+111,notUsed,pole,Use poles - notUsed,Use poles,0,0,carrySuit,0.0,0.0
+112,notUsed,pole,Use poles - notUsed,Use poles,0,1,total,161.11722784018357,496.9542624792251
+113,notUsed,pole,Use poles - notUsed,Use poles,0,1,dead,0.0,9.087484014488266
+114,notUsed,pole,Use poles - notUsed,Use poles,0,1,high,31.55616782342506,0.0
+115,notUsed,pole,Use poles - notUsed,Use poles,0,1,carrySuit,0.0,0.0
+116,notUsed,pole,Use poles - notUsed,Use poles,0,2,total,161.11722784018357,498.60688805643724
+117,notUsed,pole,Use poles - notUsed,Use poles,0,2,dead,0.0,8.59339026058899
+118,notUsed,pole,Use poles - notUsed,Use poles,0,2,high,31.55616782342506,0.0
+119,notUsed,pole,Use poles - notUsed,Use poles,0,2,carrySuit,0.0,0.0
+120,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,137659.9072579784,137659.9072579784
+121,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,1020.839978339547,1020.839978339547
+122,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+123,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+124,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,138394.13494768954,138394.13494768954
+125,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2644.5480187355047,2644.5480187355047
+126,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+127,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+128,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,138382.82756515083,138382.82756515083
+129,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2659.138531614296,2659.138531614296
+130,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+131,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+132,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,total,137603.34323001493,137603.34323001493
+133,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,dead,1004.1207405901212,1004.1207405901212
+134,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,high,0.0,0.0
+135,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,carrySuit,0.0,0.0
+136,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,total,138410.0620806712,138410.0620806712
+137,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,dead,2641.8092333630307,2641.8092333630307
+138,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,high,0.0,0.0
+139,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,carrySuit,0.0,0.0
+140,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,total,138406.78682029722,138406.78682029722
+141,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,dead,2650.4188584236763,2650.4188584236763
+142,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,high,0.0,0.0
+143,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,carrySuit,0.0,0.0
+144,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,total,275251.29598059866,275251.29598059866
+145,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,dead,1965.6845481968141,1965.6845481968141
+146,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,high,0.0,0.0
+147,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,carrySuit,0.0,0.0
+148,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,total,276769.7443361278,276769.7443361278
+149,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,dead,5318.3289219503895,5318.3289219503895
+150,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,high,0.0,0.0
+151,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,carrySuit,0.0,0.0
+152,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,total,276799.78302456456,276799.78302456456
+153,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,dead,5288.8940038159335,5288.8940038159335
+154,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,high,0.0,0.0
+155,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,carrySuit,0.0,0.0
+156,notUsed,pole,Use poles - notUsed,Use poles,0,0,total,140.69527457237848,494.44095441033966
+157,notUsed,pole,Use poles - notUsed,Use poles,0,0,dead,0.0,3.908243771941236
+158,notUsed,pole,Use poles - notUsed,Use poles,0,0,high,29.282452221441513,0.0
+159,notUsed,pole,Use poles - notUsed,Use poles,0,0,carrySuit,0.0,0.0
+160,notUsed,pole,Use poles - notUsed,Use poles,0,1,total,140.69527457237848,497.69287199358916
+161,notUsed,pole,Use poles - notUsed,Use poles,0,1,dead,0.0,10.101600708119962
+162,notUsed,pole,Use poles - notUsed,Use poles,0,1,high,29.282452221441513,0.0
+163,notUsed,pole,Use poles - notUsed,Use poles,0,1,carrySuit,0.0,0.0
+164,notUsed,pole,Use poles - notUsed,Use poles,0,2,total,140.69527457237848,498.9882577941824
+165,notUsed,pole,Use poles - notUsed,Use poles,0,2,dead,0.0,8.828611845187057
+166,notUsed,pole,Use poles - notUsed,Use poles,0,2,high,29.282452221441513,0.0
+167,notUsed,pole,Use poles - notUsed,Use poles,0,2,carrySuit,0.0,0.0
+168,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,total,757.6716235833854,496.14125233378667
+169,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,dead,0.0,6.9056729724155925
+170,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,high,159.18500840910679,0.0
+171,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,carrySuit,0.0,0.0
+172,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,total,757.6716235833854,499.61144353709346
+173,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,dead,0.0,8.491363391674962
+174,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,high,159.18500840910679,0.0
+175,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,carrySuit,0.0,0.0
+176,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,total,757.6716235833854,496.5331472415804
+177,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,dead,0.0,10.091667601470006
+178,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,high,159.18500840910679,0.0
+179,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,carrySuit,0.0,0.0
+180,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,137649.06950470118,137649.06950470118
+181,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,1015.9085852098947,1015.9085852098947
+182,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+183,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+184,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,138367.87077303667,138367.87077303667
+185,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2659.2647973744024,2659.2647973744024
+186,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+187,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+188,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,138393.43009273353,138393.43009273353
+189,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2661.8889189293122,2661.8889189293122
+190,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+191,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0
+192,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,total,137641.12695462292,137641.12695462292
+193,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,dead,974.0237219315363,974.0237219315363
+194,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,high,0.0,0.0
+195,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,0,carrySuit,0.0,0.0
+196,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,total,138405.42342129757,138405.42342129757
+197,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,dead,2638.7900173635567,2638.7900173635567
+198,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,high,0.0,0.0
+199,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,1,carrySuit,0.0,0.0
+200,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,total,138413.47536231368,138413.47536231368
+201,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,dead,2639.3949047572964,2639.3949047572964
+202,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,high,0.0,0.0
+203,notUsed,tree,"Use trees, maintain trees, and renew trees in cycles - notUsed","Use trees, maintain trees, and renew trees in cycles",0,2,carrySuit,0.0,0.0
+204,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,total,275253.4687029237,275253.4687029237
+205,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,dead,2039.7209204086846,2039.7209204086846
+206,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,high,0.0,0.0
+207,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,0,carrySuit,0.0,0.0
+208,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,total,276784.9335952247,276784.9335952247
+209,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,dead,5283.408687676453,5283.408687676453
+210,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,high,0.0,0.0
+211,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,1,carrySuit,0.0,0.0
+212,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,total,276836.4453578074,276836.4453578074
+213,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,dead,5270.408469572407,5270.408469572407
+214,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,high,0.0,0.0
+215,notUsed,tree,"Use trees, maintain trees, renew trees, and source cheaply - notUsed","Use trees, maintain trees, renew trees, and source cheaply",0,2,carrySuit,0.0,0.0
+216,notUsed,pole,Use poles - notUsed,Use poles,0,0,total,124.38375101001637,495.65912285928835
+217,notUsed,pole,Use poles - notUsed,Use poles,0,0,dead,0.0,4.050289599620196
+218,notUsed,pole,Use poles - notUsed,Use poles,0,0,high,26.58141919468762,0.0
+219,notUsed,pole,Use poles - notUsed,Use poles,0,0,carrySuit,0.0,0.0
+220,notUsed,pole,Use poles - notUsed,Use poles,0,1,total,124.38375101001637,498.5327510887141
+221,notUsed,pole,Use poles - notUsed,Use poles,0,1,dead,0.0,9.583503682544793
+222,notUsed,pole,Use poles - notUsed,Use poles,0,1,high,26.58141919468762,0.0
+223,notUsed,pole,Use poles - notUsed,Use poles,0,1,carrySuit,0.0,0.0
+224,notUsed,pole,Use poles - notUsed,Use poles,0,2,total,124.38375101001637,496.6740916305167
+225,notUsed,pole,Use poles - notUsed,Use poles,0,2,dead,0.0,9.547393456178307
+226,notUsed,pole,Use poles - notUsed,Use poles,0,2,high,26.58141919468762,0.0
+227,notUsed,pole,Use poles - notUsed,Use poles,0,2,carrySuit,0.0,0.0
+228,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,total,749.0895860317291,495.8359417289839
+229,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,dead,0.0,5.082923213988725
+230,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,high,155.76428686898777,0.0
+231,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,0,carrySuit,0.0,0.0
+232,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,total,749.0895860317291,498.57225559406777
+233,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,dead,0.0,9.556153546135807
+234,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,high,155.76428686898777,0.0
+235,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,1,carrySuit,0.0,0.0
+236,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,total,749.0895860317291,497.9814608926876
+237,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,dead,0.0,10.001221009314724
+238,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,high,155.76428686898777,0.0
+239,notUsed,pole,"Use poles, source as cheaply as possible - notUsed","Use poles, source as cheaply as possible",0,2,carrySuit,0.0,0.0
+240,notUsed,snag,Use snags - notUsed,Use snags,0,0,total,462.4029658206588,496.9944988331962
+241,notUsed,snag,Use snags - notUsed,Use snags,0,0,dead,0.0,1.1942618381074417
+242,notUsed,snag,Use snags - notUsed,Use snags,0,0,high,169.68478011208816,0.0
+243,notUsed,snag,Use snags - notUsed,Use snags,0,0,carrySuit,0.0,0.0
+244,notUsed,snag,Use snags - notUsed,Use snags,0,1,total,462.4029658206588,497.1654895207835
+245,notUsed,snag,Use snags - notUsed,Use snags,0,1,dead,0.0,10.19573850919085
+246,notUsed,snag,Use snags - notUsed,Use snags,0,1,high,169.68478011208816,0.0
+247,notUsed,snag,Use snags - notUsed,Use snags,0,1,carrySuit,0.0,0.0
+248,notUsed,snag,Use snags - notUsed,Use snags,0,2,total,462.4029658206588,495.9469755560169
+249,notUsed,snag,Use snags - notUsed,Use snags,0,2,dead,0.0,8.418293497773133
+250,notUsed,snag,Use snags - notUsed,Use snags,0,2,high,169.68478011208816,0.0
+251,notUsed,snag,Use snags - notUsed,Use snags,0,2,carrySuit,0.0,0.0
+252,notUsed,tree,Use trees - notUsed,Use trees,0,0,total,137633.67245750735,137633.67245750735
+253,notUsed,tree,Use trees - notUsed,Use trees,0,0,dead,985.8477652321575,985.8477652321575
+254,notUsed,tree,Use trees - notUsed,Use trees,0,0,high,0.0,0.0
+255,notUsed,tree,Use trees - notUsed,Use trees,0,0,carrySuit,0.0,0.0
+256,notUsed,tree,Use trees - notUsed,Use trees,0,1,total,138428.45903223197,138428.45903223197
+257,notUsed,tree,Use trees - notUsed,Use trees,0,1,dead,2625.84839076659,2625.84839076659
+258,notUsed,tree,Use trees - notUsed,Use trees,0,1,high,0.0,0.0
+259,notUsed,tree,Use trees - notUsed,Use trees,0,1,carrySuit,0.0,0.0
+260,notUsed,tree,Use trees - notUsed,Use trees,0,2,total,138413.22253327124,138413.22253327124
+261,notUsed,tree,Use trees - notUsed,Use trees,0,2,dead,2635.4264259804045,2635.4264259804045
+262,notUsed,tree,Use trees - notUsed,Use trees,0,2,high,0.0,0.0
+263,notUsed,tree,Use trees - notUsed,Use trees,0,2,carrySuit,0.0,0.0

@@ -8,6 +8,9 @@ from geometry import *
 
 import uuid
 
+
+
+
 class ArtificialAgent:
     
 
@@ -34,12 +37,13 @@ class ArtificialAgent:
         self.hResources = {}
         self.hAge = {}
         self.hPerf = {}
-        self.performance = self.scene['performance']
+        #self.performance = self.scene['performance']
+        self.performance = 0
         self.point = self.SetPoint()
         self.num = uuid.uuid1().hex
 
         self.GetResources()
-        self.GetCarrying()
+        #self.GetCarrying()
 
     def GetCarrying(self):
         
@@ -64,15 +68,58 @@ class ArtificialAgent:
         self.resourcesThisYear.update({"carrySuit" : capacity})
 
     
+    
     def GetResources(self):
 
-            self.resourcesThisYear.update({
-            'high' : self.scene["suitLengths"] * self.performance,
-            'dead' : self.scene["suitLengths"],
-            'total' : self.scene["totalLengths"],
-            'lateral' : 0,
-            'low' : 0,
-            'medium' : 0})
+        high = 0
+        total = 0
+
+        if self.scene["mode"] == "pole":
+            high = random.uniform(self.scene["perchLow"], self.scene["perchHigh"])
+            total = random.uniform(self.scene["totalLow"], self.scene["totalHigh"])
+
+
+        #use snags
+        elif self.scene["mode"] == "snag":
+            branchFunction = -1
+            perchFunction = -1 
+
+            if self.scene["no"] == 6:
+                branchFunction = self.scene["distributions"]["branchDist"]
+                perchFunction = self.scene["distributions"]["perchDist"]
+            
+            #use snags but retain branches
+            elif self.scene["no"] == 7 or self.scene["no"] == 8:
+                branchFunction = self.scene["distributions"]["weightedBranchDist"]
+                perchFunction = self.scene["distributions"]["weightedPerchDist"]
+
+            
+            total = sum(branchFunction.rvs(1))
+            high = sum(perchFunction.rvs(1))
+
+        self.resourcesThisYear.update({
+        'high' : high,
+        'dead' : 0,
+        'total' : total,
+        'lateral' : 0,
+        'low' : 0,
+        'medium' : 0,
+        'carrySuit' : 0})
+
+        print(f"artificial agent with {self.resourcesThisYear['high']}m perches and {self.resourcesThisYear['total']}m total branches")
+
+
+
+    
+    """def GetResources(self):
+
+        self.resourcesThisYear.update({
+        'high' : self.scene["suitLengths"] * self.performance,
+        'dead' : self.scene["suitLengths"],
+        'total' : self.scene["totalLengths"],
+        'lateral' : 0,
+        'low' : 0,
+        'medium' : 0})"""
 
 
     def GrowOld(self):

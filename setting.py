@@ -4,6 +4,21 @@ from tokenize import Name
 import scenes
 import random
 
+
+
+###OUTPUTS
+_globalYearlyTotals = {
+    "sampleType" : [],
+    "structureType" : [],
+    "scenario" : [],
+    "design" : [],
+    "run" : [],
+    "year" : [],
+    "type" : [],
+    "quantity" : [],
+    "treeQuantity" : []}
+
+
 #find DRAWINGOUTPUT to see where to enable images
 
 #JSONOUT = '/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/outputs/'
@@ -13,7 +28,7 @@ JSONOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/json/'
 SUSTAINABILITY = '/Users/alexholland/Coding/tree-sim/data/outputs/sustainability/'
 
 #VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Images'
-VISUALOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/images'
+VISUALOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/images/'
 
 #WINDOWSOUT = '/Users/alexholland/Documents/Windows Files/Sim Exports/'
 WINDOWSOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/windows/'
@@ -27,12 +42,15 @@ ISVISOUT = False
 RESOURCES = ["dead","lateral","total","low","medium","high","carrySuit"]
 TIMEPERIOD = int(input('How many years?' )) #240
 #SCENENO = int(input('What Scenario?'))
-BUDGETSPLIT = float(input('Budget Split?' )) #240
+#BUDGETSPLIT = float(input('Budget Split?' )) #240
 VISCOUNT = int(input('Visuals?' ))
 
-BUDGET = 554400 * BUDGETSPLIT * 4
+#BUDGET = 554400 * BUDGETSPLIT
 
-ISNOTREESAFTERFIRST = False
+BUDGET = 200000
+
+
+ISNOTREESAFTERFIRST = True
 
 
 
@@ -74,14 +92,20 @@ BOUNDS = [-654.465282154,  2103.81760729, -1301.10671195, 1457.176178]
 
 # mortality rate of 0.006 to 0.024 per year - Gibbons (2009)
 
-#HIGH
-#deathLow = 0.003#.006
-#deathHigh = 0.010#.024
-
 #LOW
-deathLow = 0.006
-deathHigh = 0.024
+deathLow = 0.003
+deathHigh = 0.010
 
+#High
+#deathLow = 0.006
+#deathHigh = 0.024
+
+"""
+#low
+deathLow = 0.003
+deathHigh = 0.010
+
+"""
 
 #recruitment stats from Gibbons (2009)
 RECRUITMULTIPLIER = 2
@@ -95,18 +119,51 @@ ARTIFICIALINFOPATH = "/Users/alexholland/Coding/tree-sim/data/model-infos/carryi
 
 scene = {}
 ARTLIFEVARIATION = 0.01
-ARTSERVICELIFEVARIATION = 0.01
-modelRecruit = False
+#ARTSERVICELIFEVARIATION = 0.01
+ARTSERVICELIFEVARIATION = 0.00
+modelRecruit = True
 modelProsthetics = True
 existingTrees = False
 
 
-scenario = -1
-structureType = -1
+samplingScenario = -1
+mode = -1
 samplingType = -1
-design = -1
+scenario = -1
 
 def GetScenario(sceneNo):
+    global scene
+    global samplingScenario
+    global mode
+    global samplingType
+    global scenario
+
+    scene = scenes.GetModes(sceneNo, BUDGET)
+    mode = scene["mode"]
+    samplingType = scene["samplingType"]
+
+    
+    scenario = scene["scenario"]
+    samplingScenario = f"{scenario} - {samplingType}"
+
+    print(f'from settings scene is {mode}')
+
+
+    
+def GetNumberInBudget(budget, low, high):
+    noStructures = 0
+    while budget > 0:
+        noStructures = noStructures + 1
+        cost = random.uniform(low, high)
+        budget = budget - cost
+        #print(f'cost is ${cost}')
+
+    print(f'no structures is {noStructures}')
+    return noStructures
+
+
+
+"""def GetScenario(sceneNo):
     global scene
     global scenario
     global structureType
@@ -120,34 +177,7 @@ def GetScenario(sceneNo):
     design = scene["oldID"]
 
     print(f'from settings scene is {scene["artNo"]}')
-
-
-"""SCENE = scenes.GetArtificial(SCENENO, ARTIFICIALINFOPATH)
-scenario = SCENE['id']
-print(f'scenario {scenario} loaded')
-
-#ARTIFICIALS
-ARTNUMBER = round(BUDGET/SCENE['cost'])
-ARTINTERVAL = SCENE['service life']
-ARTPERFMIN = SCENE['performance']
-ARTLIFE = SCENE['service life']
-
-ARTLIFEVARIATION = 0.2
-ARTSERVICELIFEVARIATION = 0.2
-
-ARTLENGTH = SCENE['totalLengths']
-ARTDEADLATERAL = SCENE['suitLengths']
-
-#CARRYING
-ARTUP = SCENE['sUp']
-ARTLOW = SCENE['sLow']
-ARTMEAN = SCENE['sMean']
-ARTSD = SCENE['sSD']
-
-#OTHER SCENE STUFF
-modelRecruit = SCENE['isRecruit']
-modelProsthetics = SCENE['isArtificials']
-existingTrees = SCENE['isExistingTrees']"""
+"""
 
 
 #not using
@@ -165,7 +195,7 @@ UPDATEMESSAGE = '######### \t ######### \t ########'
 
 
 CONSTRICTORDBHLOW = 75
-RESOURCEBELOW = 0.5
+RESOURCEBELOW = 1
 
 #folderPath 
 #FOLDERPATH= "/Users/alexholland/OneDrive - The University of Melbourne/Stanislav/00 PhD/_Thesis/1 - Ethics/simulation/data/resources/"

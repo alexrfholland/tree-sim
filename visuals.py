@@ -119,7 +119,7 @@ class VisualOut:
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         #print(timestamp)
 
-        self.outPath = set.VISUALOUT + f'{set.scenario} - {timestamp}/'
+        self.outPath = set.VISUALOUT + f'{set.samplingScenario} - {timestamp}/'
         
         if not os.path.isdir(self.outPath):
             os.makedirs(self.outPath)
@@ -176,7 +176,7 @@ class VisualOut:
         #axes[name].set_xticks(np.linspace(-4,4,9)) # Force this to what I want - for consistency with histogram below !
         axMap.set_yticklabels([]) # Force this empty !
 
-        axMap.set_title(set.scenario)
+        axMap.set_title(set.samplingScenario)
 
         axMap.set_facecolor('#440154')
         
@@ -387,7 +387,7 @@ class VisualOut:
             ax.axes.yaxis.set_visible(False)
             ax.axes.set_facecolor('#440154')    
 
-            plt.savefig(self.outPath + f'{yrLog.year} - {name} - {set.scenario}.jpg', bbox_inches='tight')
+            plt.savefig(self.outPath + f'{yrLog.year} - {name} - {set.samplingScenario}.jpg', bbox_inches='tight')
 
     def Make_Stream(self):
 
@@ -614,7 +614,7 @@ class VisualOut:
         #print(f'saved fig {self.outPath}')
         
         if set.ISVISOUT: 
-            plt.savefig(self.outPath + f'{yrLog.year} - {set.scenario}.png', bbox_inches='tight', dpi = 150)
+            plt.savefig(self.outPath + f'{yrLog.year} - {set.samplingScenario}.png', bbox_inches='tight', dpi = 150)
             print(f'saved fig {self.outPath}')
 
     def GetStreamKey(self, value, append):

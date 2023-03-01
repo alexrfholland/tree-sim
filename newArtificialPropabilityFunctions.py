@@ -6,6 +6,7 @@ from typing import Dict
 import random
 
 
+
 def GetWeights(value, weight):
     return (value - (value * weight))
 
@@ -51,7 +52,7 @@ def GetProbabilityFunctions():
         pSD = perches['sd']/2
         
         weightedPerchDistributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
-        densityfunctions.update({'perchDistWeighted' : weightedPerchDistributionFunction})
+        densityfunctions.update({'weightedPerchDist' : weightedPerchDistributionFunction})
 
 
         #generate a probability density functition for branches
@@ -77,39 +78,13 @@ def GetProbabilityFunctions():
 
         return densityfunctions
 
-def GetArtificials(no):
-    #pole 1, pole2, snag
 
-    temp = pd.read_csv("/Users/alexholland/Coding/tree-sim/data/model-infos/updated-sustainability/artificial-distributions.csv")
-    return temp.iloc[no].to_dict()
+
+    
 
 
 
-functions = GetProbabilityFunctions()
 
 
-for key in functions:
-    vals = GetVals(functions[key], 10)
-    print(f'function is {key}, total predicted lengths are {sum(vals)}')
-
-for i in range(0, 3):
-    artStats = GetArtificials(i)
-    print(artStats)
-
-
-budget = 554400
-artInfos = GetArtificials(0)
-noStructures = 0
-
-low = round(artInfos['costLow'])
-high = round(artInfos['costHigh'])
-
-while budget > 0:
-    noStructures = noStructures + 1
-    cost = random.randint(low, high)
-    budget = budget - cost
-    print(f'cost is ${cost}')
-
-print(f'no structures is {noStructures}')
 
 

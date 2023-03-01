@@ -1,4 +1,10 @@
-﻿no,mode,scenario,totalLow,totalHigh,perchLow,perchHigh,lifeLow,lifeHigh,costLow,costHigh
-1,pole,4-pole,12.603392,15.75424,2.6033752,3.254219,25,25,1524.06,16815
-2,pole,5-pole,12.603392,15.75424,2.6033752,3.254219,25,25,1524.06,2243.32
-3,snag,6-snag,51.777019,130.556532,9.666074,43.227827,25,25,12147,24294
+﻿no,mode,scenario,split,totalLow,totalHigh,perchLow,perchHigh,serviceLife,costLow,costHigh,isRecruit,isArtificials,isExistingTrees,treeDeathLow,treeDeathHigh
+0,tree,Baseline woodland,1,0,0,0,0,0,0,0,TRUE,FALSE,TRUE,0.003,0.01
+1,tree,Use trees,1,0,0,0,0,0,144,144,FALSE,FALSE,FALSE,0.006,0.024
+2,tree,"Use trees, maintain trees, and renew trees in cycles",1,0,0,0,0,0,144,144,TRUE,FALSE,FALSE,0.003,0.01
+3,tree,"Use trees, maintain trees, renew trees, and source cheaply",1,0,0,0,0,0,72,72,TRUE,FALSE,FALSE,0.003,0.01
+4,pole,Use poles,0.5,12.603392,15.75424,2.6033752,3.254219,25,1524.06,16815,TRUE,TRUE,FALSE,0.003,0.01
+5,pole,"Use poles, source as cheaply as possible",0.5,12.603392,15.75424,2.6033752,3.254219,25,1524.06,2243.32,TRUE,TRUE,FALSE,0.003,0.01
+6,snag,Use snags,0.5,0,0,0,0,25,12147,24294,TRUE,TRUE,FALSE,0.003,0.01
+7,snag,Use snags but retain branches,0.5,0,0,0,0,25,12147,24294,TRUE,TRUE,FALSE,0.003,0.01
+8,snag,"Use snags, retain branches, and source cheaply",0.5,0,0,0,0,25,12147,0,TRUE,TRUE,FALSE,0.003,0.01
