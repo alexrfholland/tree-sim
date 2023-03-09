@@ -1,6 +1,3 @@
-import pandas
-#import settings.scenes as SCENARIO
-#SCENARIO.UpdateForSCENARIOs()
 import simulationcore as sim
 import resourcecurves as resources
 import geometry as geo
@@ -12,8 +9,6 @@ from codetiming import Timer
 
 import yearlyOutput as yearLog
 
-import json
-1
 
 resources.GetResourceCurves()
 geo.GetGeometry()
@@ -21,62 +16,26 @@ geo.GetGeometry()
 
 outputFilePath = settings.MakeFolderPath(settings.SUSTAINABILITY, f'model-outputs/')
 
+
+
+def ExportYrLog2(filePath, modelRun, exporter):
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
+
+    dfTotals = pd.DataFrame(exporter)
+    path = f'{filePath}-{timestamp}-{settings.scenario}-{modelRun}.csv'
+    print(f'model runn {modelRun} ended, saving {len(dfTotals)} structures to {path}')
+    dfTotals.to_csv(path)
+
 @Timer(name = "Finished running model in {:.2f} seconds")
-def Go():
-    for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
-    #for sceneNo in range(0,1):
-
-        df = pd.read_csv(settings.ARTIFICIALINFOPATH)
-        sampling = df['samplingType'][sceneNo]
-        design = df['id'][sceneNo]
-        print(design)
-
-        if sampling != "linear":
-            
-            settings.GetScenario(sceneNo)
-            #print(settings.scene)
-            for i in range(0,1):
-
-                yearLog.Reset()
-                simulation = sim.Model(i, sceneNo)
-
-                print(f'{settings.samplingScenario} SCENARIO done')
-
-                timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-                filePath = settings.WINDOWSOUT
-
-                #SUSTAINABILITY STUFF
-                yearLog.ExportYrLog(outputFilePath, i)
-
-
-def Go2():
-    #for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
-    for sceneNo in range(0,1):
-            
-        settings.GetScenario(sceneNo)
-
-        #print(settings.scene)
-        for i in range(0,1):
-
-            yearLog.Reset()
-            simulation = sim.Model(i, sceneNo)
-
-            print(f'{settings.samplingScenario} SCENARIO done')
-
-            timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-            filePath = settings.WINDOWSOUT
-
-            #SUSTAINABILITY STUFF
-            yearLog.ExportYrLog(outputFilePath, i)
-
-def Go3(maxScene):
+def Go(runThese):
     #for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
         
-        for sceneNo in range (1, maxScene):
+        for sceneNo in runThese:
             settings.GetScenario(sceneNo)
 
             #print(settings.scene)
-            for i in range(0,1):
+            for i in range(0,25):
+            #for i in range(0,23):
 
                 yearLog.Reset()
                 simulation = sim.Model(i, sceneNo)
@@ -88,36 +47,35 @@ def Go3(maxScene):
 
                 "exported!"
                 #SUSTAINABILITY STUFF
-                yearLog.ExportYrLog(outputFilePath, i)
+                #yearLog.ExportYrLog(outputFilePath, i)
+                ExportYrLog2(f'{outputFilePath}', i, simulation.sustainabilityExports)
 
 
-#Go3(int(input("scene number?")))
+def GoWithSpatial(strategy):
+    #for sceneNo in range(0,len(pd.read_csv(settings.ARTIFICIALINFOPATH))):
+        
+        settings.GetScenario(strategy)
 
-for i in range (1,9):
-    Go3(i)
+        yearLog.Reset()
+        simulation = sim.Model(1,strategy)
 
+        print(f'{settings.samplingScenario} STRATEGY done')
 
-
-#df.to_parquet(filePath + 'treeDF.parquet', engine='fastparquet')
-#print(f'saved {df}')
-
-"""with open(f'{filePath}trees.json', 'w') as file:
-    json.dump(simulation.logAllTrees2, file, indent = 4)
-
-with open(f'{filePath}artificials.json', 'w') as file:
-    json.dump(simulation.logAllArtificials2, file, indent = 4)
-
-"""
-
-"""filePath = settings.MakeFolderPath(settings.CSVOUT, f'total resources stats per year - {settings.SCENARIO}')
-dfTree = pd.DataFrame(simulation.vis.streamDicTree)240
-
-dfArticial = pd.DataFrame(simulation.vis.streamDicArt)
-
-print('done')
-print(dfTree)
-print(dfArticial)
+        simulation.spatials.ExportFrame(settings.SPATIALDATAPATH)
 
 
-dfTree.to_csv(filePath + f"tree total resources - {settings.SCENARIO}.csv")
-dfArticial.to_csv(filePath + f"artificial total resources - {settings.SCENARIO}.csv")"""
+
+
+#order = [8,7,6,5,4,1,2,3]
+#order = [1]
+#order = [2] ## only got 2
+order = [3]
+#order = [4] ##
+#order = [5] ##
+#order = [6] ##
+#order = [7] #current
+#order = [8] #may have aleady been done?
+
+
+#Go(order)
+GoWithSpatial(int(input('What Scenario?')))∏

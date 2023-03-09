@@ -5,6 +5,8 @@ import scenes
 import random
 
 
+SHUTOFFFTREESINOTHERMODES = False
+
 
 ###OUTPUTS
 _globalYearlyTotals = {
@@ -18,6 +20,16 @@ _globalYearlyTotals = {
     "quantity" : [],
     "treeQuantity" : []}
 
+_perStructureTotals = {}
+resources = ['total', 'dead', 'high', 'carrySuit']
+for n in resources:
+        _perStructureTotals.update({n : {
+            'year' : [],
+            'id' : [],
+            'resources' : [],
+            'type' : [],
+        }})
+
 
 #find DRAWINGOUTPUT to see where to enable images
 
@@ -26,6 +38,9 @@ JSONOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/json/'
 
 #SUSTAINABILITY  = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Dissemination/Sustainability/Stats/'
 SUSTAINABILITY = '/Users/alexholland/Coding/tree-sim/data/outputs/sustainability/'
+
+SPATIALDATAPATH = '/Users/alexholland/Coding/tree-sim/data/outputs/parquet/spatial_data/'
+SPATIALDATAINTERVAL = 30
 
 #VISUALOUT = '/Users/alexholland/OneDrive - The University of Melbourne/_PhD Private/Source FIles/Chapter 1 Ethics/Sim/Outputs/Images'
 VISUALOUT = '/Users/alexholland/Coding/tree-sim/data/outputs/images/'
@@ -50,7 +65,6 @@ VISCOUNT = int(input('Visuals?' ))
 BUDGET = 200000
 
 
-ISNOTREESAFTERFIRST = True
 
 
 

@@ -4,6 +4,7 @@ from agentartificial import ArtificialAgent
 from agenttree import TreeAgent
 import setting as set
 import resourcecurves as curves
+import kdeExporter
 
 #from settings.setting import set
 import yearlyOutput as yearLog
@@ -43,6 +44,7 @@ from matplotlib.colorbar import Colorbar # For dealing with Colorbars the proper
 
 import seaborn as sns
 import pandas as pd
+
 
 
 class Model:
@@ -98,9 +100,25 @@ class Model:
     treeResources = {}
     artResources = {}
 
+
+
+    
+
+
     
     #@Timer(name = "Finished running model in {:.2f} seconds")
     def __init__(self, _run, _scenarioNo):
+
+        self.sustainabilityExports = {
+        "sampleType" : [],
+        "structureType" : [],
+        "scenario" : [],
+        "design" : [],
+        "run" : [],
+        "year" : [],
+        "type" : [],
+        "quantity" : [],
+        "treeQuantity" : []}
        
     
         set.modelRecruit = set.scene["isRecruit"]
@@ -109,6 +127,7 @@ class Model:
 
 
         yearLog.globalYearlyTotals = set._globalYearlyTotals.copy()
+        yearLog.perStructureTotals = set._perStructureTotals.copy()
         
         ###SET UP THIS RUN####
         
@@ -144,10 +163,15 @@ class Model:
 
              
         #code to shut off trees
-        if set.ISNOTREESAFTERFIRST and set.scene["mode"] != "tree":
+        if set.SHUTOFFFTREESINOTHERMODES and set.scene["mode"] != "tree":
             self.startNoTrees = 5
             set.MODELDEATH = False
             set.modelRecruit = False
+
+        
+        ###code to export kde stuff
+        
+        self.spatials = kdeExporter.spatialExporter(set.scene)
 
 
 
@@ -173,6 +197,8 @@ class Model:
         self.nextServiceLife = self.GetNextServiceLife()
         self.nextRecruitInterval = self.GetNextRecrutimentInterval()
         self.nextRecruitMultiplier = self.GetNextRecruitmentMulti()
+
+        
 
     #GOOD
     #@Timer(name = "Year in {:.2f} seconds")
@@ -379,6 +405,16 @@ class Model:
         #print(f"Year: {self.year} \t Trees Alive: {self.treesAliveThisYear} \t Total: {sum(yrResources['total'])}")
 
         yearLog.TransferYearStats(self.year, self.trees, self.artificials, isRecruit, isBuilt, self.recruitMessage, self.builtMesssage, self.thisRun)
+        self.GetYearlyTotalsSustain(self.sustainabilityExports)
+
+
+        if self.year % set.SPATIALDATAINTERVAL == 0:
+            self.spatials.GetYearlyTotalsSustain(self.trees, self.artificials, self.year)
+
+
+
+
+
         self.AddHistoryStates()
         res = 'dead'
         #print(f'{res} is {self.trees[0].resourcesThisYear[res]}') ##TEST this is matching the generated values
@@ -422,6 +458,48 @@ class Model:
         if treesToCut >= 1:
             0
             print(f'didnt kill enough trees - need to kill this many more: {treesToCut}')
+
+    
+    def GetYearlyTotalsSustain(self, _exportDic):
+        resources = ['total', 'dead', 'high', 'carrySuit']        
+        resThisYear = {}
+        for n in resources:
+                resThisYear.update({ n : {
+                        'trees' : [], 
+                        'artificial' : []
+                        }})
+                
+        for agent in self.artificials:
+            if agent.isAlive:
+                for n in resources:
+                    resThisYear[n]['artificial'].append(agent.resourcesThisYear[n])
+
+                
+        for agent in self.trees:
+            if agent.isAlive:
+                for n in resources:
+                    resThisYear[n]['trees'].append(agent.resourcesThisYear[n])
+
+        for n in resources:
+            _exportDic['sampleType'].append(set.samplingType)
+            _exportDic['structureType'].append(set.mode)
+            _exportDic['scenario'].append(set.samplingScenario)
+            _exportDic['design'].append(set.scenario)
+            _exportDic['run'].append(self.thisRun)
+            _exportDic['year'].append(self.year)
+            _exportDic['type'].append(n)
+            _exportDic['treeQuantity'].append(sum(resThisYear[n]['trees']))
+
+            if set.mode == "tree":
+                _exportDic['quantity'].append(sum(resThisYear[n]['trees']))
+            else:
+                _exportDic['quantity'].append(sum(resThisYear[n]['artificial']))
+
+        def GetFinalStats(self, exportDic):
+            return exportDic
+
+
+
                 
 
         

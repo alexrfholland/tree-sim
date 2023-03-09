@@ -20,7 +20,6 @@ def TextOut(scenarioName):
 
     #print(noTree)
 
-
     row1 = []
     row2 = []
     row2a = []

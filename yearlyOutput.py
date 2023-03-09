@@ -16,13 +16,13 @@ from typing import Dict
 ##exportStates
 perStructureTotals = {}
 resources = ['total', 'dead', 'high', 'carrySuit']
-for n in resources:
+"""for n in resources:
         perStructureTotals.update({n : {
             'year' : [],
             'id' : [],
             'resources' : [],
             'type' : [],
-        }})
+        }})"""
 
 globalYearlyTotals = {}
 
@@ -220,8 +220,58 @@ def TransferYearStats(_year, _trees, _artificials, _isRecruit, _isBuilt, _recrui
         averageArtPerf = "{:.2f}".format(sum(yrArtPerf)/len(yrArtPerf))
         maxArtPerf = "{:.2f}".format(max(yrArtPerf))
 
-    ExportYrly(thisRun)
+    #ExportYrly(thisRun)
 
+
+
+def ExportYrly2(_run, exportDic):
+    
+    resThisYear = {}
+    perStructureExports = settings._perStructureTotals.copy()
+
+    for n in resources:
+            resThisYear.update({ n : {
+                    'trees' : [], 
+                    'artificial' : []
+                    }})
+
+    for agent in artificials:   
+        if agent.isAlive:
+            for n in resources:
+                perStructureExports[n]['year'].append(year)
+                perStructureExports[n]['type'].append('artificial')
+                perStructureExports[n]['id'].append(agent.num)
+                perStructureExports[n]['resources'].append(agent.resourcesThisYear[n])
+
+                resThisYear[n]['artificial'].append(agent.resourcesThisYear[n])
+
+            
+    for agent in trees:
+        if agent.isAlive:
+            for n in resources:
+                perStructureExports[n]['year'].append(year)
+                perStructureExports[n]['type'].append('trees')
+                perStructureExports[n]['id'].append(agent.num)
+                perStructureExports[n]['resources'].append(agent.resourcesThisYear[n])
+
+                resThisYear[n]['trees'].append(agent.resourcesThisYear[n])
+
+    for n in resources:
+        exportDic['sampleType'].append(settings.samplingType)
+        exportDic['structureType'].append(settings.mode)
+        exportDic['scenario'].append(settings.samplingScenario)
+        exportDic['design'].append(settings.scenario)
+        exportDic['run'].append(_run)
+        exportDic['year'].append(year)
+        exportDic['type'].append(n)
+        exportDic['treeQuantity'].append(sum(resThisYear[n]['trees']))
+
+        if settings.mode == "tree":
+            exportDic['quantity'].append(sum(resThisYear[n]['trees']))
+        else:
+            exportDic['quantity'].append(sum(resThisYear[n]['artificial']))
+
+             
 
 
 def ExportYrly(_run):
@@ -282,6 +332,7 @@ def ExportYrLog(filePath, modelRun):
     dfTotals.to_csv(path)
 
     globalYearlyTotals.clear()
+    perStructureTotals.clear()
 
     
 
