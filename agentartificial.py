@@ -45,6 +45,19 @@ class ArtificialAgent:
         self.GetResources()
         #self.GetCarrying()
 
+    #find a distribution based on a meanv value and the 95% confidence interval
+    def GetCarryingNew(self, mean, lower, upper):
+        #find a distribution based on a meanv value and the 95% confidence interval
+        #generate a probability density functition 
+        pPred = mean
+        pLow = lower
+        pUpper = upper
+        pSD = (pUpper - pPred) / 1.96
+        
+
+
+
+    
     def GetCarrying(self):
         
         #generate a probability density functition
@@ -56,6 +69,7 @@ class ArtificialAgent:
 
 
         distributionFunction = stats.truncnorm((pLow - pPred) / pSD, (pUpper - pPred) / pSD, loc = pPred, scale = pSD)
+
 
         #need to sum meters as it returns a list, even though we are only finding for 1 artificial structure
         capacity = sum(distributionFunction.rvs(1))

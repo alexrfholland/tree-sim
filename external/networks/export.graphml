@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+    <key attr.name="label" attr.type="string" for="node" id="label"/>
+    <key attr.name="Edge Label" attr.type="string" for="edge" id="edgelabel"/>
+    <key attr.name="weight" attr.type="double" for="edge" id="weight"/>
+    <key attr.name="r" attr.type="int" for="node" id="r"/>
+    <key attr.name="g" attr.type="int" for="node" id="g"/>
+    <key attr.name="b" attr.type="int" for="node" id="b"/>
+    <key attr.name="x" attr.type="float" for="node" id="x"/>
+    <key attr.name="y" attr.type="float" for="node" id="y"/>
+    <key attr.name="size" attr.type="float" for="node" id="size"/>
+    <key attr.name="Mode" attr.type="string" for="node" id="mode"/>
+    <key attr.name="type" attr.type="string" for="node" id="type"/>
+    <key attr.name="polygon" attr.type="int" for="node" id="polygon"/>
+    <graph edgedefault="directed">
+        <node id="12">
+            <data key="label">useable perch</data>
+            <data key="mode">perch</data>
+            <data key="type">supply</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">13</data>
+            <data key="b">40</data>
+            <data key="x">-279.64752</data>
+            <data key="y">-250.45122</data>
+        </node>
+        <node id="13">
+            <data key="label">collapse and decay</data>
+            <data key="mode">tree</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-326.30707</data>
+            <data key="y">10.296463</data>
+        </node>
+        <node id="14">
+            <data key="label">regeneration</data>
+            <data key="mode">tree</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-714.0526</data>
+            <data key="y">271.5271</data>
+        </node>
+        <node id="15">
+            <data key="label">regrowth</data>
+            <data key="mode">tree</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-879.64874</data>
+            <data key="y">85.70924</data>
+        </node>
+        <node id="16">
+            <data key="label">disturbances</data>
+            <data key="mode">tree</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-630.44666</data>
+            <data key="y">-126.53299</data>
+        </node>
+        <node id="17">
+            <data key="label">decomissioning</data>
+            <data key="mode">pole</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">218</data>
+            <data key="g">0</data>
+            <data key="b">208</data>
+            <data key="x">-179.27626</data>
+            <data key="y">-27.84935</data>
+        </node>
+        <node id="18">
+            <data key="label">recomissioning</data>
+            <data key="mode">pole</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">218</data>
+            <data key="g">0</data>
+            <data key="b">208</data>
+            <data key="x">224.54091</data>
+            <data key="y">53.543564</data>
+        </node>
+        <node id="19">
+            <data key="label">fabrication</data>
+            <data key="mode">pole</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">218</data>
+            <data key="g">0</data>
+            <data key="b">208</data>
+            <data key="x">263.6358</data>
+            <data key="y">-209.36427</data>
+        </node>
+        <node id="20">
+            <data key="label">installation</data>
+            <data key="mode">pole</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">218</data>
+            <data key="g">0</data>
+            <data key="b">208</data>
+            <data key="x">62.807693</data>
+            <data key="y">-262.46512</data>
+        </node>
+        <node id="21">
+            <data key="label">decomissioning2</data>
+            <data key="mode">snag</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-164.87355</data>
+            <data key="y">-523.9999</data>
+        </node>
+        <node id="22">
+            <data key="label">recomissioning2</data>
+            <data key="mode">snag</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-268.81586</data>
+            <data key="y">-707.55</data>
+        </node>
+        <node id="23">
+            <data key="label">removal</data>
+            <data key="mode">snag</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-594.8215</data>
+            <data key="y">-654.5715</data>
+        </node>
+        <node id="24">
+            <data key="label">installation2</data>
+            <data key="mode">snag</data>
+            <data key="type">event</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-520.69977</data>
+            <data key="y">-465.8897</data>
+        </node>
+        <node id="25">
+            <data key="label">ecological trap</data>
+            <data key="mode">perch</data>
+            <data key="type">supply</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">13</data>
+            <data key="b">40</data>
+            <data key="x">-400.7834</data>
+            <data key="y">-258.57428</data>
+        </node>
+        <node id="26">
+            <data key="label">unrecognised structure</data>
+            <data key="mode">perch</data>
+            <data key="type">supply</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">13</data>
+            <data key="b">40</data>
+            <data key="x">-181.75943</data>
+            <data key="y">-309.7055</data>
+        </node>
+        <node id="28">
+            <data key="label">bird recognises an unsuitable perch</data>
+            <data key="mode">snag</data>
+            <data key="type">redirection</data>
+            <data key="polygon">3</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-432.92108</data>
+            <data key="y">-343.43622</data>
+        </node>
+        <node id="29">
+            <data key="label">humans can retain more branches during transport</data>
+            <data key="mode">snag</data>
+            <data key="type">secondary</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">96</data>
+            <data key="g">143</data>
+            <data key="b">255</data>
+            <data key="x">-544.7817</data>
+            <data key="y">-835.9787</data>
+        </node>
+        <node id="37">
+            <data key="label">structure not recognised as a perch</data>
+            <data key="mode">pole</data>
+            <data key="type">redirection</data>
+            <data key="polygon">3</data>
+            <data key="size">10.0</data>
+            <data key="r">218</data>
+            <data key="g">0</data>
+            <data key="b">208</data>
+            <data key="x">-39.86107</data>
+            <data key="y">-343.72156</data>
+        </node>
+        <node id="32">
+            <data key="label">tree mortality</data>
+            <data key="mode">tree</data>
+            <data key="type">redirection</data>
+            <data key="polygon">3</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-759.3782</data>
+            <data key="y">-35.29312</data>
+        </node>
+        <node id="35">
+            <data key="label">reduced recruitment</data>
+            <data key="mode">tree</data>
+            <data key="type">redirection</data>
+            <data key="polygon">3</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-466.2466</data>
+            <data key="y">93.62132</data>
+        </node>
+        <node id="36">
+            <data key="label">woodland transitions into grassland</data>
+            <data key="mode">tree</data>
+            <data key="type">secondary</data>
+            <data key="polygon">0</data>
+            <data key="size">10.0</data>
+            <data key="r">255</data>
+            <data key="g">152</data>
+            <data key="b">114</data>
+            <data key="x">-382.6087</data>
+            <data key="y">304.24625</data>
+        </node>
+        <edge id="6" source="12" target="13">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="34" source="13" target="35">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="8" source="14" target="15">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="18" source="20" target="12">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="13" source="16" target="12">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="43" source="15" target="32">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="24" source="12" target="21">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="19" source="12" target="17">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="20" source="17" target="18">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="21" source="18" target="19">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="25" source="21" target="22">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="23" source="19" target="20">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="48" source="24" target="28">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="27" source="22" target="23">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="28" source="23" target="24">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="41" source="28" target="12">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="46" source="20" target="37">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="32" source="16" target="23">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="33" source="29" target="23">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="35" source="35" target="14">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="44" source="32" target="16">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="49" source="28" target="25">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="39" source="35" target="36">
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="45" source="32" target="35">
+            <data key="edgelabel">young woodland without old trees</data>
+            <data key="weight">1.0</data>
+        </edge>
+        <edge id="47" source="37" target="26">
+            <data key="weight">1.0</data>
+        </edge>
+    </graph>
+</graphml>
